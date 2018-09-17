@@ -338,6 +338,7 @@ $(function(){
     };
     routepop = app.ui.autoform(routeObj);
     function addEvt(){
+        console.log(page.getGrid().tableIns.config.page.curr);//获取当前分页
         optFlag=1;
         var layerCfg={
             title:'添加用户' /* ,
