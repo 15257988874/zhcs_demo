@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>统计图整理</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        #bar {
+            width: 100%;
+            height:400px;
+        }
+    </style>
+</head>
+<body>
+    <div id="bar">
+    </div>
+    <script src="../res/js/lib/jquery-1.8.0.min.js"></script>
+    <script src="../res/js/lib/echarts.min.js"></script>
+    <script>
+
+        var
+            //获取统计图容器
+            YMStatistical = document.getElementById('bar'),
+            // 统计默认类型
+            statisticalStyle='bar',//bar 柱状图 line 折线图
+            // 柱状图柱子宽度
+            YGbarwidth = 20 //最小值为12 当12不能显示时 出滚动轴    
+            //统计图颜色
+            colorList = ['#ff2600', '#ffc000', '#00ad4e', '#0073c2', '#165868', '#e76f00', '#316194', '#723761', '#00b2f1', '#4d6022', '#4b83bf', '#f9c813', '#0176c0'],
+            //统计图背景色
+            stbackgrond = ['#fff'],
+            //数据题目
+            datalName = ['接入率', '在线率', '完好率', 'jing', 'light', 'test', 'one', 'two', 'three'],
+            // 各统计注解
+            YMlegend = {
+                lshow: true,//是否显示
+                lalign: "center",//注解位置 center：居中  left：左 right：右
+                lcolor: '#444', //字体颜色
+                lorient: 'horizontal',//注解显示格式 horizontal,水平分布 vertical，垂直分布
+                licon: 'circle',//注解前面图形 circle：园，triangle：三角形，diamond：菱形，rect：矩形,roundRect:圆角矩形
+            },
+            //题目
+            YMtitle = {
+                tshow: true,// 是否显示
+                ttext: '暂无',//一级标题
+                ttcolor: '#000',//一级标题颜色
+                ttfontsize: 16,//一级标题大小
+                tsubtext: '我们',//二级标题
+                tstcolor: '#333',//二级标题颜色
+                tstfontsize: 14,//二级标题字号
+                txalign: 'left'//位置 center 居中 left 局左 right 局右
+            }            
+            // x轴name
+            dataxName = ['喀什市', '疏附县', '疏勒县', '英吉沙县', '泽普县',/*  '岳普湖县', '巴楚县', '伽师县', '叶城县', '莎车县 ' */],
+         
+            //鼠标提示
+            YMTtooltip = "<div></div>",//加在头部
+            YMBtooltip = "",//加在尾部
+            //修改x、y轴线的颜色
+            xaxisClocr = ['#333', '#666', '#444', '#f6f6f6', '#f6f6f6', '#fff'],//顺序为: 具体数值、坐标轴小标记、坐标轴、分割区域线 、间隔颜色
+            yaxisClocr = ['#333', '#666', '#444', '#f6f6f6', '#f6f6f6', '#fff'], //顺序为: 具体数值、坐标轴小标记、坐标轴、分割区域线 、间隔颜色
+            //X轴设置
+            YMxaxis = {
+                xrotate: 30,//字体倾斜角度
+                xaxisLine: true,//坐标轴线
+                xaxisTick: false,//坐标轴小标记
+                xsplitLine: false,//分割区域线
+                xaxisLabel: true, //y轴具体数值
+                xmargin: 10,//标题与轴线距离
+                xsplitArea: false,//间隔区域
+            }
+            //Y轴设置
+            YMyaxis = {
+                yminInterval: 20, //最小刻度值
+                yrotate: 60,//字体倾斜角度
+                yaxisLine: true,//坐标轴线
+                yaxisTick: false,//坐标轴小标记
+                ysplitLine: false,//分割区域线
+                yaxisLabel: true, //y轴具体数值
+                ytextStyle: '#444',//y轴数值颜色
+                yvalue: 'value',//y轴值
+                ysplitArea: false,//间隔区域
+                ymargin: 10,//标题与轴线距离
+                yname:'（单位：元）',//y轴提示
+            }
+            // 多个y轴情况下（最多3个）第二根y轴
+             YMsyaxis = {
+                syshow:false,//是否显示
+                syminInterval: 40, //最小刻度值
+                syrotate: 60,//字体倾斜角度
+                syaxisLine: true,//坐标轴线
+                syaxisTick: true,//坐标轴小标记
+                sysplitLine: false,//分割区域线
+                syaxisLabel: true, //y轴具体数值
+                sytextStyle: '#444',//y轴数值颜色
+                syvalue: 'value',//y轴值
+                sysplitArea: false,//间隔区域
+                symargin: 10,//标题与轴线距离
+                syname:'（单位：元）',//y轴提示
+            }
+            // 多个y轴情况下（最多3个）第三根y轴
+             YMtyaxis = {
+                tyshow:false,//是否显示
+                tyminInterval: 20, //最小刻度值
+                tyrotate: 60,//字体倾斜角度
+                tyaxisLine: true,//坐标轴线
+                tyaxisTick: false,//坐标轴小标记
+                tysplitLine: false,//分割区域线
+                tyaxisLabel: true, //y轴具体数值
+                tytextStyle: '#444',//y轴数值颜色
+                tyvalue: 'value',//y轴值
+                tysplitArea: false,//间隔区域
+                tymargin: 10,//标题与轴线距离
+                tyname:'（单位：元）',//y轴提示
+            }
+            //统计图位置
+            YMgrid={
+                // 左、右、下、上 值可取0~100% 也可直接取数字
+                gleft: '3%',
+                gright: '4%',
+                gbottom: '3%',
+                gtop:'10%',
+            }
+
+            // 工具栏
+            YMtoolbar = {
+                itemSize: 14,   // 工具栏图标大小
+                toorshow: true, //工具栏是否显示 true  false
+                magicType: true, //统计类型切换是否显示 true false
+                restore: true,    //刷新是否显示  true false
+                saveAsImage: true, //保存是否显示 true false
+                dataView: true, //是否显示数据视图
+                type: ['line', 'bar', 'stack', 'tiled']  //统计图切换类型 line：折线  bar 柱状图 stack：堆砌显示 tited：分类显示 必须在magicType为true时使用
+            };
+            //当数据多时的控制滚  
+            if (dataxName.length > 8) {
+                var dataZoom_end = 100 - (1 / dataxName.length) * 100;
+            } else {
+                var dataZoom_end = 100;
+            }
+            // var YMdataZoom={
+            //     dzshow:true, //是否出现
+            //     dzend:dataZoom_end,//滑块开始位置
+            //     dzheight:26,//高度
+            //     dzfillerColor:'rgba(167,183,204,0.4)',//选中区域颜色
+            //     dzbackgroundColor:'rgba(47,69,84,0)',//整体的背景色
+            // };
+        function YMstbar() {
+            var myChart = echarts.init(YMStatistical);
+            //转换
+            var YMgleft=YMgrid.gleft,
+                YMgright=YMgrid.gright,
+                YMgbottom=YMgrid.gbottom,
+                YMgtop=YMgrid.gtop,
+                //多数据显示
+                // YMdzshow=YMdataZoom.dzshow,
+                // YMdzend=YMdataZoom.dzend,
+                // YMdzheight=YMdataZoom.dzheight,
+                // YMdzfillerColor=YMdataZoom.dzfillerColor,
+                // YMdzbackgroundColor=YMdataZoom.dzbackgroundColor,
+                //标题设置
+                YMtshow = YMtitle.tshow,
+                YMttext = YMtitle.ttext,
+                YMttcolor = YMtitle.ttcolor,
+                YMttfontsize = YMtitle.ttfontsize,
+                YMtsubtext = YMtitle.tsubtext,
+                YMtstcolor = YMtitle.tstcolor,
+                YMtstfontsize = YMtitle.tstfontsize,
+                YMtxalign = YMtitle.txalign,
+                // 工具栏取值
+                YMmagicType = YMtoolbar.magicType,
+                YMrestore = YMtoolbar.restore,
+                YMitemSize = YMtoolbar.itemSize,
+                YMsaveAsImage = YMtoolbar.saveAsImage,
+                YMtype = YMtoolbar.type,
+                YMdataView = YMtoolbar.dataView,
+                // y轴
+                YMymax = YMyaxis.ymax,
+                YMyminInterval = YMyaxis.yminInterval,
+                YMyaxisLine = YMyaxis.yaxisLine,
+                YMyaxisTick = YMyaxis.yaxisTick,
+                YMysplitLine = YMyaxis.ysplitLine,
+                YMyaxisLabel = YMyaxis.yaxisLabel,
+                YMyvalue = YMyaxis.yvalue,
+                YMysplitArea = YMyaxis.ysplitArea,
+                YMyrotate = YMyaxis.yrotate,
+                YMymarin = YMyaxis.ymargin,
+                YMyname=YMyaxis.yname,
+                // 第二根y轴
+                YMsshow=YMsyaxis.syshow,
+                YMsyminInterval = YMsyaxis.syminInterval,
+                YMsyaxisLine = YMsyaxis.syaxisLine,
+                YMsyaxisTick = YMsyaxis.syaxisTick,
+                YMsysplitLine = YMsyaxis.sysplitLine,
+                YMsyaxisLabel = YMsyaxis.syaxisLabel,
+                YMsyvalue = YMsyaxis.syvalue,
+                YMsysplitArea = YMsyaxis.sysplitArea,
+                YMsyrotate = YMsyaxis.syrotate,
+                YMsymarin = YMsyaxis.symargin, 
+                YMsyname = YMsyaxis.syname
+                // //第三根y轴
+                YMtyshow=YMtyaxis.tyshow,
+                YMtyminInterval = YMtyaxis.tyminInterval,
+                YMtyaxisLine = YMtyaxis.tyaxisLine,
+                YMtyaxisTick = YMtyaxis.tyaxisTick,
+                YMtysplitLine = YMtyaxis.tysplitLine,
+                YMtyaxisLabel = YMtyaxis.tyaxisLabel,
+                YMtyvalue = YMtyaxis.tyvalue,
+                YMtysplitArea = YMtyaxis.tysplitArea,
+                YMtyrotate = YMtyaxis.tyrotate,
+                YMtymarin = YMtyaxis.tymargin, 
+                YMtyname = YMtyaxis.tyname
+                // x轴
+                YMxaxisLine = YMxaxis.xaxisLine,
+                YMxaxisTick = YMxaxis.xaxisTick,
+                YMxsplitLine = YMxaxis.xsplitLine,
+                YMxaxisLabel = YMxaxis.xaxisLabel,
+                YMxrotate = YMxaxis.xrotate,
+                YMxmarin = YMxaxis.xmargin,
+                YMxsplitArea = YMxaxis.xsplitArea;
+                // 注解条
+                YMlshow = YMlegend.lshow,
+                YMlalign = YMlegend.lalign,
+                YMlorient = YMlegend.lorient,
+                YMltcolor=YMlegend.lcolor,
+                YMlicon = YMlegend.licon;
+                // console.log(YMlshow);
+           
+            option = {
+                 // 各统计注解
+                 legend: {
+                     show: YMlshow,
+                    type: 'scroll',
+                     orient: YMlorient,
+                     icon: YMlicon,
+                    data: datalName,
+                    align: 'left',
+                     x:YMlalign,
+                    textStyle: {
+                        color: YMltcolor,
+                        fontSize: 14,
+                    },
+                    itemWidth: 20,
+                    itemHeight: 10,
+                },
+                // 统计图背景色
+                backgroundColor: stbackgrond,
+                //统计图名称
+                title: {
+                    x: YMtxalign,
+                    show: YMtshow,
+                    text: YMttext,
+                    textStyle: {
+                        fontSize: YMttfontsize,
+                        color: YMttcolor,
+                    },
+                    subtext: YMtsubtext,
+                    subtextStyle: {
+                        fontSize: YMtstfontsize,
+                        color: YMtstcolor,
+                    },
+
+                },
+                // 各统计颜色
+                color: colorList,
+                // 鼠标移入显示
+                tooltip: {
+                    trigger: 'axis',
+                    backgroundColor: '#fff',
+                    borderWidth: 1,
+                    borderColor: '#ccc',
+                    padding: 10,
+                    textStyle: {
+                        color: '#000'
+                    },
+                    axisPointer: {
+                        type: 'shadow'
+                    },
+                    formatter: function (params) {
+                        {
+                            var relVal = YMTtooltip + params[0].name + "<br/>";
+                            for (j = 0; j < params.length; j++) {
+                                relVal += params[j].seriesName + ' : ' + params[j].value + "<br/>";
+                            }
+                            return relVal+YMBtooltip;
+                        }
+                    }
+                },
+                // 工具栏视图
+                toolbox: {
+                    itemSize: YMitemSize,
+                    feature: {
+                        dataView: { show: YMdataView },
+                        magicType: {
+                            show: YMmagicType,
+                            //    icon:{
+                            //     line :'image://../res/img/iconimg/carin.png',
+                            //     bar :"path://aw.svg"
+                            //     },   // 更改工具栏图标 可引图与字体图标
+                            type: YMtype, //折线图与柱状图转化 堆砌与分散
+                        },
+                        restore: {
+                            show: YMrestore  //刷新
+                        },
+                        saveAsImage: {
+                            show: YMsaveAsImage, //保存
+                        }
+                    }
+                },
+                // 控制显示个数
+                // dataZoom: [
+                //     {
+                //         height:YMdzheight,
+                //         type: 'slider',
+                //         show:YMdzshow,
+                //         fillerColor:YMdzfillerColor,
+                //         // realtime: true,
+                //         start: 0,
+                //         end: YMdzend,
+                //         handleSize: 0,
+                //         backgroundColor:YMdzbackgroundColor,//背景色
+                //     },
+                // ],
+               
+                //统计图位置
+                grid: {
+                    left: YMgleft,
+                    right: YMgright,
+                    bottom: YMgbottom,
+                    top: YMgtop,
+                    containLabel: true
+                },
+                xAxis: [{
+                    type: 'category',
+                    data: dataxName,
+                    axisLine: {
+                        show: YMxaxisLine,
+                        lineStyle: {
+                            color: xaxisClocr[0],
+                            width: 1,
+                            type: "solid"
+                        }
+                    },
+                    axisTick: {
+                        show: YMxaxisTick,
+                        lineStyle: {
+                            color: xaxisClocr[1],
+                        }
+                    },
+                    axisLabel: {
+                        show: YMxaxisLabel,
+                        margin: YMxmarin,
+                        rotate: YMxrotate,
+                        textStyle: {
+                            color: xaxisClocr[2],
+                        }
+                    },
+                    splitLine: {
+                        show: YMxsplitLine,
+                        textStyle: {
+                            color: xaxisClocr[3],
+                        }
+                    },
+                    splitArea: {
+                        show: YMxsplitArea,
+                        areaStyle: {
+                            color: [xaxisClocr[4],xaxisClocr[5]],
+                        }
+                    }
+                }],
+                yAxis: [
+                    {
+                    min: 0,
+                    minInterval: YMyminInterval,
+                    type:YMyvalue,
+                    name:YMyname,
+                    axisLabel: {
+                        margin: YMymarin,
+                        rotate: YMyrotate,
+                        textStyle: {
+                            color: yaxisClocr[0],
+                        }
+
+                    },
+                    axisTick: {
+                        show: YMyaxisTick,
+                        lineStyle: {
+                            color: yaxisClocr[1],
+                        }
+                    },
+                    axisLine: {
+                        show: YMyaxisLine,
+                        lineStyle: {
+                            color: yaxisClocr[2],
+                        },
+                    },
+                    splitLine: {
+                        show: YMysplitLine,
+                        lineStyle: {
+                            color: yaxisClocr[3],
+                        },
+                    },
+                    splitArea: {
+                            show: YMysplitArea,
+                            areaStyle: {
+                                color: [yaxisClocr[4], yaxisClocr[5]]
+                            }
+                        }
+
+                    
+                },
+                // 第二根坐标轴
+                {
+                    show:YMsshow,
+                    name:YMsyname,
+                    min: 0,
+                    minInterval: YMsyminInterval,
+                    type: YMsyvalue,
+                    position:'right',
+                    axisLabel: {
+                        margin: YMsymarin,
+                        rotate: YMsyrotate,
+                        textStyle: {
+                            color: yaxisClocr[0],
+                        }
+
+                    },
+                    axisTick: {
+                        show: YMsyaxisTick,
+                        lineStyle: {
+                            color: yaxisClocr[1],
+                        }
+                    },
+                    axisLine: {
+                        show: YMsyaxisLine,
+                        lineStyle: {
+                            color: yaxisClocr[2],
+                        },
+                    },
+                    splitLine: {
+                        show: YMsysplitLine,
+                        lineStyle: {
+                            color: yaxisClocr[3],
+                        },
+                    },
+                    splitArea: {
+                            show: YMsysplitArea,
+                            areaStyle: {
+                                color: [yaxisClocr[4], yaxisClocr[5]]
+                            }
+                        }
+
+                    
+                },
+                  // 第三根坐标轴
+                  {
+                    show:YMtyshow,
+                    minInterval: YMtyminInterval,
+                    type: YMtyvalue,
+                    position:'right',
+                    name:YMtyname,
+                    offset: 80,
+                    axisLabel: {
+                        margin: YMtymarin,
+                        rotate: YMtyrotate,
+                        textStyle: {
+                            color: yaxisClocr[0],
+                        }
+
+                    },
+                    axisTick: {
+                        show: YMtyaxisTick,
+                        lineStyle: {
+                            color: yaxisClocr[1],
+                        }
+                    },
+                    axisLine: {
+                        show: YMtyaxisLine,
+                        lineStyle: {
+                            color: yaxisClocr[2],
+                        },
+                    },
+                    splitLine: {
+                        show: YMtysplitLine,
+                        lineStyle: {
+                            color: yaxisClocr[3],
+                        },
+                    },
+                    splitArea: {
+                            show: YMtysplitArea,
+                            areaStyle: {
+                                color: [yaxisClocr[4], yaxisClocr[5]]
+                            }
+                        }
+
+                    
+                },
+                ],
+                // 具体数值
+                series: [
+                    {
+                        name: datalName[0],
+                        yAxisIndex: 1,
+                        type: statisticalStyle,
+                        data: [20, 50, 80, 58, 83, 68, 57, 80, 42, 66],
+                        barWidth: YGbarwidth, //柱子宽度
+                    }, {
+                        name: datalName[1],
+                        yAxisIndex: 1,
+                        type: statisticalStyle,
+                        data: [50, 51, 53, 61, 75, 87, 60, 62, 86, 46],
+                        barWidth: YGbarwidth,
+                    }, {
+                        name: datalName[2],
+                        yAxisIndex: 1,
+                        type: statisticalStyle,
+                        data: [70, 48, 73, 68, 53, 47, 50, 72, 96, 86],
+                        barWidth: YGbarwidth,
+                    }, {
+                        name: datalName[3],
+                        yAxisIndex: 1,
+                        type: statisticalStyle,
+                        data: [44, 70, 60, 61, 75, 87, 60, 62, 86, 46],
+                        barWidth: YGbarwidth,
+                    }
+                    // , {
+                    //     name: datalName[4],
+                    //     type: statisticalStyle,
+                    //     data: [28, 70, 60, 61, 75, 87, 60,],
+                    //     barWidth: YGbarwidth,
+                    // }
+                    // , {
+                    //     name: datalName[5],
+                    //     type: statisticalStyle,
+                    //     data: [32, 70, 60, 61, 75, 87, 60, 62, 86, 46],
+                    //     barWidth: YGbarwidth,
+                    // }
+                    // , {
+                    //     name: datalName[6],
+                    //     type:statisticalStyle,
+                    //     data: [66, 70, 60, 61, 75, 87, 60, 62, 86, 46],
+                    //     barWidth: YGbarwidth,
+                    // }
+                    // , {
+                    //     name: datalName[7],
+                    //     type: statisticalStyle,
+                    //     data: [75, 70, 60, 61, 75, 87, 60, 62, 86, 46],
+                    //     barWidth: YGbarwidth,
+                    // }
+                ]
+            };
+    
+            myChart.setOption(option);
+        }
+
+        $(function () {
+            YMstbar();
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>环形图与饼状图</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        #pie {
+            width: 100%;
+            height: 600px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="pie">
+    </div>
+    <script src="../res/js/lib/jquery-1.8.0.min.js"></script>
+    <script src="../res/js/lib/echarts.min.js"></script>
+    <script>
+        var
+            //获取统计图容器
+            YMPStatistical = document.getElementById('pie'),
+            //统计图颜色
+            YMPcolorList = ['#ffc000', '#ffc000', '#00ad4e', '#0073c2', '#165868', '#e76f00', '#316194', '#723761', '#00b2f1', '#4d6022', '#4b83bf', '#f9c813', '#0176c0'],
+            //统计图背景色
+            YMPstbackgrond = ['#fff'],
+            // 各统计注解
+            YMPlegend = {
+                lshow: true,//是否显示
+                lalign: $('#pie').width() - 100,//注解位置 center：居中  left：左 right：右
+                lcolor: '#444', //字体颜色
+                lorient: 'vertical',//注解显示格式 horizontal,水平分布 vertical，垂直分布
+                licon: 'circle',//注解前面图形 circle：园，triangle：三角形，diamond：菱形，rect：矩形,roundRect:圆角矩形
+                // ldata: ['视频广告', '百度', '谷歌', '必应', '其他'],
+                lyalign: 'center',//垂直位置
+            },
+            //题目
+            YMPtitle = {
+                tshow: true,// 是否显示
+                ttext: '暂无',//一级标题
+                ttcolor: '#444',//一级标题颜色
+                ttfontsize: 16,//一级标题大小
+                tsubtext: '我们',//二级标题
+                tstcolor: '#666',//二级标题颜色
+                tstfontsize: 14,//二级标题字号
+                txalign: 'left'//位置 center 居中 left 局左 right 局右
+            },
+
+            // 需要居中显示具体数据与题目 环形图可以使用 饼状图不建议使用
+            YMPtotaltitle = {
+                totalshow: false,
+                totalnshow: false,
+                totaltext: '我们',  //题目
+                totaltextsize: 14, //题目大小
+                totalnumber: '8888', //总数值
+                totalnumbersize: 26, //数值大小
+                totalColor: ["#999", '#333'], //居中值颜色设置 前为标题 后为数值
+            }
+            //鼠标提示
+            YMPtooltip = {
+                YMPTtooltip: "",//加在头部
+                YMPBtooltip: "",//加在尾部
+                YMPcontent: '{b}:{c}({d}%)',
+            }
+
+            //控制图形
+            YMPseries = {
+                sname: '当我',
+                sradius: ["0%", "80%"], //控制图形类型 取值0~100%（控制0~80%） 当前值为0%时 为饼状图 其他为环形图（推荐取值在前后差20）页可为具体数值
+                slabelshow: true, //是否需要外部显示
+                sastyle: ['', '16'], //百分比数值的颜色与字号行高 颜色传空时 字体颜色对应每部分颜色
+                sbstyle: ['', '14'], //数值标题的颜色与字号行高 颜色传空时 字体颜色对应每部分颜色
+                scstyle: ['', '18'], //具体数值标题的颜色与字号行高 颜色传空时 字体颜色对应每部分颜色
+                scontent: '{a}{c}{a|{d}%}\n{b|{b}}', //外围显示值'{c}{a|{d}%}\n{b|{b}}' c 选项具体数值 d 百分比 b 选项 a 为标题(sname)
+            },
+            // 工具栏
+            YMPtoolbar = {
+                itemSize: 14,   // 工具栏图标大小
+                toorshow: true, //工具栏是否显示 true  false
+                restore: true,    //刷新是否显示  true false
+                saveAsImage: true, //保存是否显示 true false
+                dataView: true, //是否显示数据视图
+            },
+            // 具体数据来源
+            dataNumber=[
+                {'value':135,"name":"视频广告",},
+                {'value':135,"name":"视频广告",},
+                {'value':135,"name":"视频广告",},
+                {'value':135,"name":"视频广告",}
+               ] ;
+            var dataNumberkey=[],
+                dataNumbervalue=[];
+                for(var key in dataNumber){
+                    dataNumberkey.push(key);
+                    dataNumbervalue.push(dataNumber[key]);
+                }            
+        function YMstpie() {
+            var myChart = echarts.init(YMPStatistical);
+            //转换
+            var
+                option = {
+                     // 各统计颜色
+                     color: YMPcolorList,
+                    // 各统计注解
+                    legend: {
+                        show: YMPlegend.lshow,
+                        type: 'scroll',
+                        orient: YMPlegend.lorient,
+                        icon: YMPlegend.licon,
+                        data: dataNumberkey,
+                        align: 'left',
+                        x: YMPlegend.lalign,
+                        y: YMPlegend.lyalign,
+                        textStyle: {
+                            color: YMPlegend.lcolor,
+                            fontSize: 14,
+                        },
+                        itemWidth: 20,
+                        itemHeight: 10,
+                    },
+                    // 统计图背景色
+                    backgroundColor: YMPstbackgrond,
+                    //统计图名称
+                    title: [
+                        {
+                            show: YMPtitle.tshow,
+                            x: YMPtitle.txalign,
+                            text: YMPtitle.ttext,
+                            textStyle: {
+                                fontSize: YMPtitle.ttfontsize,
+                                color: YMPtitle.ttcolor,
+                            },
+                            subtext: YMPtitle.tsubtext,
+                            subtextStyle: {
+                                fontSize: YMPtitle.tstfontsize,
+                                color: YMPtitle.tstcolor,
+                            },
+
+                        },
+                        // 需要中间出现值
+                        {
+                            show: YMPtotaltitle.totalshow,
+                            text: YMPtotaltitle.totaltext,
+                            left: '49%',
+                            top: '46%',
+                            textAlign: 'center',
+                            textBaseline: 'middle',
+                            textStyle: {
+                                color: YMPtotaltitle.totalColor[0],
+                                fontWeight: 'normal',
+                                fontSize: YMPtotaltitle.totaltextsize
+                            }
+                        },
+                        {
+                            show: YMPtotaltitle.totalnshow,
+                            text: YMPtotaltitle.totalnumber,
+                            left: '49%',
+                            top: '51%',
+                            textAlign: 'center',
+                            textBaseline: 'middle',
+                            textStyle: {
+                                color: YMPtotaltitle.totalColor[1],
+                                fontWeight: 'normal',
+                                fontSize: YMPtotaltitle.totalnumbersize
+                            }
+                        }
+                    ],
+                   
+                    // 鼠标移入显示
+                    tooltip: {
+                        trigger: 'axis',
+                        backgroundColor: '#fff',
+                        borderWidth: 1,
+                        borderColor: '#ccc',
+                        padding: 10,
+                        textStyle: {
+                            color: '#000'
+                        },
+                        axisPointer: {
+                            type: 'shadow'
+                        },
+                        trigger: 'item',
+                        formatter: YMPtooltip.YMPTtooltip + YMPtooltip.YMPcontent + YMPtooltip.YMPBtooltip,
+                    },
+                    // 工具栏视图
+                    toolbox: {
+                        itemSize: YMPtoolbar.itemSize,
+                        feature: {
+                            dataView: { show: YMPtoolbar.dataView },
+                            restore: {
+                                show: YMPtoolbar.restore  //刷新
+                            },
+                            saveAsImage: {
+                                show: YMPtoolbar.saveAsImage, //保存
+                            }
+                        }
+                    },
+                    series: [
+                        {
+                            name: YMPseries.sname,
+                            type: 'pie',
+                            radius: YMPseries.sradius,
+                            labelLine: {
+                                normal: {
+                                    length: 20,
+                                    length2: 80,
+                                    lineStyle: {
+                                        color: '#333'
+                                    }
+                                }
+
+                            },
+                            label: {
+                                normal: {
+                                    show: YMPseries.slabelshow,
+                                    formatter: YMPseries.scontent,
+                                    borderWidth: 0,
+                                    borderRadius: 4,
+                                    padding: [0, 12],
+                                    textStyle: {
+                                        color: YMPseries.scstyle[0],
+                                        fontSize: YMPseries.scstyle[1],
+                                    },
+                                    rich: {
+                                        a: {
+                                            color: YMPseries.sastyle[0],
+                                            fontSize: YMPseries.sastyle[1],
+                                            padding: [0, 0, 0, 6]
+                                        },
+
+                                        b: {
+                                            fontSize: YMPseries.sbstyle[1],
+                                            padding: 4,
+                                            color: YMPseries.sbstyle[0]
+                                        }
+
+                                    }
+                                }
+                            },
+                            data:dataNumber,
+
+                            // data: [{
+                            //     value: 135,
+                            //     name: '视频广告',
+                            // }, {
+                            //     value: 1048,
+                            //     name: '百度'
+                            // }, {
+                            //     value: 251,
+                            //     name: '谷歌'
+                            // }, {
+                            //     value: 147,
+                            //     name: '必应'
+                            // }, {
+                            //     value: 102,
+                            //     name: '其他'
+                            // }]
+                        }
+                    ]
+
+                };
+
+            myChart.setOption(option);
+        }
+
+        $(function () {
+            YMstpie();
+        })
+    </script>
+</body>
+
+</html>

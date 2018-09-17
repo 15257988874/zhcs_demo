@@ -1,0 +1,221 @@
+/* css reset */
+body,p,ul,h6,h5,h4{
+    padding:0;
+    margin: 0;
+}
+body{
+    background: #f6f6f6;
+}
+/* global css */
+.yy-lf{
+    float:left;
+}
+.yy-height-all{
+    height: 100%;
+}
+.yy-width-all{
+    width: 100%;
+}
+.yy-box-sizing{
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.yy-padding-all-15{
+    padding: 15px;
+}
+.yy-padding-all-8{
+    padding: 8px;
+}
+.yy-padding-r-8{
+    padding-right: 8px;
+}
+.yy-padding-l-8{
+    padding-left: 8px;
+}
+.yy-padding-t-8{
+    padding-top: 8px;
+}
+.yy-padding-b-8{
+    padding-bottom: 8px;
+}
+.yy-overflow-hidden{
+    overflow: hidden;
+}
+/* page css */
+.yy-p-summary{
+    height: 260px;;
+}
+.yy-p-list{
+    height: 370px;
+}
+.yy-p-entry{
+    height: 1080px;
+}
+.yy-p-echart{
+    height: 380px;
+}
+.height-210{
+    height: 210px;
+}
+.height-58{
+    height: 58px;
+}
+.height-80{
+    height: 80px;
+}
+.height-380{
+    height: 380px;
+}
+.height-1006{
+    height: 1006px;
+}
+.yy-no-padding{
+    padding: 0;
+}
+.yy-gradient-blue{
+    color:#fff;
+    background: -webkit-gradient(linear, left top, left bottom, from(#409aff),to(#2d70f8)  );
+    background: linear-gradient(to bottom, #409aff,#2d70f8  ); 
+}
+.yy-p-summary-num{
+    font-size: 36px;
+    margin: 0 auto;
+    text-align: center;
+}
+.yy-border-left{
+    border-left: 2px solid #2d70f8;
+    padding-left: 6px;
+}
+.yy-item-bg{
+    background-color: #f6f6f6;
+}
+/* icon */
+.yy-icon-inlineblcok{
+    display: inline-block;
+}
+.yy-icon-blcok{
+    display: block;
+}
+.yy-icon-total-size{
+    width: 70px;
+    height: 70px;
+}
+.yy-icon-total{
+    margin: 15px auto;
+    background: url('css/hbpage/total.png') no-repeat 0 0;
+}
+.yy-icon-item-size{
+    width: 30px;
+    height: 30px;
+    border-radius: 2px;
+}
+.yy-icon-item-box{
+    width: 46px;
+    height: 44px;
+    margin: 8px;
+    border-radius: 2px;
+}
+.yy-parking-no-position {
+    position: relative;
+    top: 3px;
+    margin-right: 6px;
+}
+.yy-no {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    text-align: center;
+}
+.yy-no0 {
+    background: url(css/hbpage/no1.png) no-repeat 0 0;
+}
+.yy-no1 {
+    background: url(css/hbpage/no2.png) no-repeat 0 0;
+}
+.yy-no2 {
+    background: url(css/hbpage/no3.png) no-repeat 0 0;
+}
+.yy-icon-else{/* 其他 */
+    background: url(css/hbpage/icon_else.png) no-repeat 0 0;
+}
+.yy-icon-ljd{/* 垃圾袋 */
+    background: url(css/hbpage/icon_ljd.png) no-repeat 0 0;
+}
+.yy-icon-ljt{/* 垃圾桶 */
+    background: url(css/hbpage/icon_ljt.png) no-repeat 0 0;
+}
+.yy-icon-mb{/* 抹布 */
+    background: url(css/hbpage/icon_mb.png) no-repeat 0 0;
+}
+.yy-icon-mt{/* 马桶 */
+    background: url(css/hbpage/icon_mt.png) no-repeat 0 0;
+}
+.yy-icon-qjj{/* 清洁剂 */
+    background: url(css/hbpage/icon_qjj.png) no-repeat 0 0;
+}
+.yy-icon-sb{/* 扫把 */
+    background: url(css/hbpage/icon_sb.png) no-repeat 0 0;
+}
+.yy-icon-slt{/* 塑料桶 */
+    background: url(css/hbpage/icon_slt.png) no-repeat 0 0;
+}
+.yy-icon-st{/* 手套 */
+    background: url(css/hbpage/icon_st.png) no-repeat 0 0;
+}
+.yy-icon-tb{/* 拖把 */
+    background: url(css/hbpage/icon_tb.png) no-repeat 0 0;
+}
+.yy-icon-add{/* 新增入库 */
+    background: url(css/hbpage/entry_add.png) no-repeat 0 0;
+}
+.yy-icon-storage{/* 入库记录 */
+    background: url(css/hbpage/entry_storage.png) no-repeat 0 0;
+}
+.yy-icon-goods{/* 物资情况 */
+    background: url(css/hbpage/entry_goods.png) no-repeat 0 0;
+}
+.yy-icon-return{/* 新增退料 */
+    background: url(css/hbpage/entry_return.png) no-repeat 0 0;
+}
+.yy-icon-compare{/* 对比分析 */
+    background: url(css/hbpage/entry_compare.png) no-repeat 0 0;
+}
+.yy-icon-receive{/* 领用统计 */
+    background: url(css/hbpage/entry_receive.png) no-repeat 0 0;
+}
+/* background */
+.yy-bg-1{
+    background-color: #16c167;
+}
+.yy-bg-2{
+    background-color: #02b9a0;
+}
+.yy-bg-3{
+    background-color: #f93535;
+}
+.yy-bg-4{
+    background-color: #ff9c00;
+}
+.yy-bg-5{
+    background-color: #4f80fa;
+}
+.yy-bg-6{
+    background-color: #fe722d;
+}
+.yy-bg-7{
+    background-color: #ac6efa;
+}
+.yy-bg-8{
+    background-color: #12a3f9;
+}
+.yy-bg-9{
+    background-color: #1ad1dc;
+}
+
+.yy-item-title{
+    color:#777;
+    cursor: pointer;
+}
+.yy-item-num{
+    font-size: 24px;
+}

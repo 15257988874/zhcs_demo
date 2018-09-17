@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html class="height-all">
+<head>
+  <meta charset="utf-8">
+  <title>监控管理</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="stylesheet" href="../../../../res/dep/layer/layuiadmin/layui/css/layui.css" media="all">
+  <link rel="stylesheet" href="../../../../res/dep/layer/layuiadmin/style/admin.css" media="all">
+  <link rel="stylesheet" href="../../../../res/css/reset/reset.css">
+  <link rel="stylesheet" href="../../../../res/dep/fontIcon/iconfont.css">
+  <link rel="stylesheet" href="../../../../res/css/sysSetting/setting.css" media="all">
+  <link rel="stylesheet" href="../../../../res/css/monitor/monitor.css">
+  <link rel="stylesheet" href="../../../../res/dep/zTree/css/zTreeStyle/zTreeStyle.css">
+  <script src="../../../../res/js/lib/jquery-1.8.0.min.js"></script>
+  <script src="../../../../res/js/lib/ycya.js"></script>
+  <script src="../../../../res/js/lib/global.js"></script>
+  <script src="../../../../res/js/lib/base.js"></script>
+  <script src="../../../../res/dep/ycyaMap/YcyaMap.js"></script>
+  <script src="../../../../res/dep/zTree/js/jquery.ztree.core.min.js"></script>
+</head>
+<body class="height-all">
+  <div class="layui-fluid height-all box-sizing p-bottom-15">
+      <div class="map-wrap">
+            <!-- 地图 -->
+            <div id="ycyaMap" class="height-all width-all"></div>
+            <!-- 右上功能列表 -->
+            <ul class="function-list">
+                <li class="cursor-point" id="deptLi"><span>成都井盖办</span><i class="iconfont icon-zhankai1 m-left-4 font-small"></i></li>
+                <li><i class="iconfont icon-louyutubiaobaojing m-right-4"></i>报警<!-- <div class="msg-num">99+</div> --></li>
+                <li><i class="iconfont icon-icon--1 m-right-4"></i>上报</li>
+                <li class="cursor-point" id="searchBox" data-link-close="right-top"><i class="iconfont icon-sousuo_sousuo m-right-4"></i>搜索</li>
+                <li class="cursor-point" id="toolBox" data-link-close="right-top"><i class="iconfont icon-icon-- m-right-4"></i>工具箱<i class="iconfont icon-zhankai1 m-left-4 font-small"></i>
+                  <ul class="master-list tool-list">
+                      <li id="measure"><i class="iconfont icon-sousuo_sousuo m-right-4 icon-green positon-adjust-middle"></i>测距</li>
+                      <li><i class="iconfont icon-fanxiang m-right-4 icon-blue"></i>测面</li>
+                      <li><i class="iconfont icon-add m-right-4 icon-yellow"></i>全屏</li>
+                      <li><i class="iconfont icon-jiandujiancha m-right-4 icon-blueess positon-adjust-middle"></i>卫星</li>
+                    </ul>
+                    <div class="up-triangle master-list-triangle tool-list-triangle ycya-hide"></div>
+                </li>
+            </ul>
+            <!-- 搜索框 -->
+            <div class="map-search">
+              <span class="cursor-point" id="seniorSearchBtn"><i class="iconfont icon-gaojisousuo2"></i></span>
+              <span> 
+                <i class="iconfont icon-sousuo_sousuo cursor-point"></i>
+                <strong>
+                    <input type="text" placeholder="请输入设备编号">
+                </strong>
+              </span>
+             
+            </div>
+            <!-- 右上功能图标 -->
+            <div class="master-btn cursor-point" id="masterBtn" data-link-close="right-top">
+              <i class="iconfont icon-zonganniu"></i>
+              <ul class="master-list" id="masterList">
+                <li><i class="iconfont icon-sousuo_sousuo m-right-4 icon-green positon-adjust-middle"></i>查询</li>
+                <li><i class="iconfont icon-fanxiang m-right-4 icon-blue"></i>反向查询</li>
+                <li><i class="iconfont icon-add m-right-4 icon-yellow"></i>添加设施</li>
+                <li id="selectShow"><i class="iconfont icon-jiandujiancha m-right-4 icon-blueess positon-adjust-middle"></i>地图显示</li>
+              </ul>
+              <div class="up-triangle master-list-triangle ycya-hide"></div>
+            </div>
+            <!-- 左下运行情况 -->
+            <div class="run-status-box">
+                <p class="title">平台井盖运行情况</p>
+                <ul class="run-status-list">
+                  <li data-title="设备列表" data-status="0">
+                      <p class="status-num icon-blue t-left">244125</p>
+                      <p>总数</p>
+                  </li>
+                  <li  data-title="报警列表" data-status="1">
+                      <p class="status-num icon-red">244125</p>
+                      <p>报警</p>
+                  </li>
+                  <li  data-title="维护列表" data-status="2">
+                      <p class="status-num icon-yellow">244125</p>
+                      <p>维护</p>
+                  </li>
+                  <li  data-title="离线列表" data-status="3">
+                      <p class="status-num icon-gray">244125</p>
+                      <p>离线</p>
+                  </li>
+                </ul>
+                <p class="t-align cursor-point" id="checkWell">查看各类井盖运行情况>></p>
+            </div>
+            <div class="run-status-box-toggle cursor-point" id="runToggle">运行情况>></div>
+            <!-- 地图层级缩放 -->
+            <div class="zomm-wrap">
+              <p class="zoom-in" id="zoomIn" title="放大一级">+</p>
+              <p class="zoom-out" id="zoomOut" title="缩小一级">-</p>
+            </div>
+      </div>
+  </div>
+  <!-- 高级查询(设施查询) -->
+  <div id="seniorSearch" class="ycya-hide">
+    <div class="popup-panel layui-form" style="padding-top:8px;">
+      <div class="layui-form-item">
+        <label class="layui-form-label">选择分类：</label>
+        <div class="layui-input-block" style="width:170px">
+          <select name="city">
+            <option value="-1">请选择</option>
+            <option value="0">污水井盖1</option>
+            <option value="1">污水井盖2</option>
+            <option value="2">污水井盖3</option>
+            <option value="3">污水井盖4</option>
+            <option value="4">污水井盖5</option>
+          </select>
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">设施状态：</label>
+        <div class="layui-input-block ">
+          <input type="checkbox" name="" title="全部" lay-skin="primary" >
+          <input type="checkbox" name="" title="在线" lay-skin="primary" >
+          <input type="checkbox" name="" title="维护" lay-skin="primary" >
+          <input type="checkbox" name="" title="离线" lay-skin="primary" >
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">编号查询：</label>
+        <div class="layui-input-block " style="width:94px">
+          <select name="1">
+              <option value="-1">请选择</option>
+              <option value="0">设施编号</option>
+              <option value="1">设施编号</option>
+          </select>
+          <input type="text" name="title" autocomplete="off" class="layui-input search-input">  
+        </div>
+      
+      </div>
+    </div>
+  </div>
+  <!-- 选择部门 -->
+  <div id="deptBox" class="ycya-hide">
+    <div class="dept-box popup-panel">
+      <div class="ztree" id="deptTree"></div>
+    </div>
+  </div>
+  <!-- 地图显示设置 -->
+  <div id="mapShow" class="ycya-hide">
+    <div class="popup-panel show-box">
+      <div class="sub-title p-left-16">当前选择</div>
+      <div class="choosed-type">
+       <!--  <span class="choosed-type-item">污水井盖<i class="choosed-type-item-close"></i></span> -->
+      </div>
+      <div id="chooseTypeAll" class="p-left-16">
+        <p class="to-choose-type-all">全部<i class="item-choosed"></i></p>
+      </div>
+      <ul class="to-choose-type clear p-left-16">
+        <!-- <li class="to-choose-type-item active">污水井盖<i class="item-choosed"></i></li> -->
+      </ul>
+    </div>
+  </div>
+  <!-- 井盖实施运行情况 -->
+  <div id="wellCoverOperation" class="ycya-hide">
+    <div class="well-box clear">
+      <div class="well-box-left">
+          <div class="well-box-left-top">
+            <p class="title">平台井盖</p>
+            <p class="num"><span><i class="iconfont icon-pingjiaxingxing"></i>2015422</span><span class="rt"><i class="iconfont icon-fuwuleixing"></i>20</span></p>
+            <div class="well-box-item">
+              <span>维护</span><strong class="rt">2451215</strong>
+              <div class="layui-progress">
+                <div class="layui-progress-bar layui-bg-orange" style="width: 50%;"></div>
+              </div>
+            </div>
+            <div class="well-box-item">
+              <span>离线</span><strong class="rt">2451215</strong>
+              <div class="layui-progress">
+                <div class="layui-progress-bar layui-bg-gray" style="width: 50%;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="well-box-left-bottom">
+            <p>报警:</p>
+            <p class="alarm">251245</p>
+          </div>
+      </div>
+      <div class="well-box-right">
+        <ul class="well-box-list">
+          <li>
+            <span>上水井盖：</span>
+            <span><i class="iconfont icon-jinggai icon-blue"></i>214521</span>
+            <span><i class="iconfont icon-jinggai icon-red"></i>214521</span>
+            <span><i class="iconfont icon-jinggai icon-yellow"></i>214521</span>
+            <span><i class="iconfont icon-jinggai icon-gray"></i>214521</span>
+          </li>
+          <li>
+            <span>上水井盖：</span>
+            <span><i class="iconfont icon-jinggai icon-blue"></i>214521</span>
+            <span><i class="iconfont icon-jinggai icon-red"></i>214521</span>
+            <span><i class="iconfont icon-jinggai icon-yellow"></i>214521</span>
+            <span><i class="iconfont icon-jinggai icon-gray"></i>214521</span>
+          </li>
+          <li>
+            <span>上水井盖：</span>
+            <span><i class="iconfont icon-jinggai icon-blue"></i>214521</span>
+            <span><i class="iconfont icon-jinggai icon-red"></i>214521</span>
+            <span><i class="iconfont icon-jinggai icon-yellow"></i>214521</span>
+            <span><i class="iconfont icon-jinggai icon-gray"></i>214521</span>
+          </li>
+          <li>
+            <span>上水井盖：</span>
+            <span><i class="iconfont icon-jinggai icon-blue"></i>214521</span>
+            <span><i class="iconfont icon-jinggai icon-red"></i>214521</span>
+            <span><i class="iconfont icon-jinggai icon-yellow"></i>214521</span>
+            <span><i class="iconfont icon-jinggai icon-gray"></i>214521</span>
+          </li>
+          <li>
+            <span>上水井盖：</span>
+            <span><i class="iconfont icon-jinggai icon-blue"></i>214521</span>
+            <span><i class="iconfont icon-jinggai icon-red"></i>214521</span>
+            <span><i class="iconfont icon-jinggai icon-yellow"></i>214521</span>
+            <span><i class="iconfont icon-jinggai icon-gray"></i>214521</span>
+          </li>
+          <li>
+            <span>上水井盖：</span>
+            <span><i class="iconfont icon-jinggai icon-blue"></i>214521</span>
+            <span><i class="iconfont icon-jinggai icon-red"></i>214521</span>
+            <span><i class="iconfont icon-jinggai icon-yellow"></i>214521</span>
+            <span><i class="iconfont icon-jinggai icon-gray"></i>214521</span>
+          </li>
+          <li>
+            <span>上水井盖：</span>
+            <span><i class="iconfont icon-jinggai icon-blue"></i>214521</span>
+            <span><i class="iconfont icon-jinggai icon-red"></i>214521</span>
+            <span><i class="iconfont icon-jinggai icon-yellow"></i>214521</span>
+            <span><i class="iconfont icon-jinggai icon-gray"></i>214521</span>
+          </li>
+          <li>
+            <span>上水井盖：</span>
+            <span><i class="iconfont icon-jinggai icon-blue"></i>214521</span>
+            <span><i class="iconfont icon-jinggai icon-red"></i>214521</span>
+            <span><i class="iconfont icon-jinggai icon-yellow"></i>214521</span>
+            <span><i class="iconfont icon-jinggai icon-gray"></i>214521</span>
+          </li>
+          <li>
+            <span>上水井盖：</span>
+            <span><i class="iconfont icon-jinggai icon-blue"></i>214521</span>
+            <span><i class="iconfont icon-jinggai icon-red"></i>214521</span>
+            <span><i class="iconfont icon-jinggai icon-yellow"></i>214521</span>
+            <span><i class="iconfont icon-jinggai icon-gray"></i>214521</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- 各类状态具体信息 -->
+  <div id="toConditionList" class="ycya-hide">
+    <div class="condition-list">
+      <div class="layui-form">
+            <select name="status">
+              <option value="-1">请选择</option>
+              <option value="0" selected>全部</option>
+              <option value="1">报警</option>
+              <option value="2">维护</option>
+              <option value="3">离线</option>
+            </select>
+            <select name="wellType">
+              <option value="-1">请选择</option>
+              <option value="0">污水井盖1</option>
+              <option value="1">污水井盖222</option>
+              <option value="2">污水井盖3</option>
+              <option value="3">污水井盖4</option>
+            </select>
+            <select name="type">
+              <option value="-1">请选择</option>
+              <option value="0" selected>设施编号</option>
+              <option value="1">设备编号</option>
+            </select>
+            <input type="text" name="" autocomplete="off" class="layui-input search-input">
+            <button id="alarmBtn" class="alarm-btn"><i class="iconfont icon-sousuo_sousuo " ></i></button>
+      </div>
+     <div class="table-list">
+        <table class="layui-hide" id="grid" lay-filter="grid"></table>
+     </div>
+    </div>
+  </div>
+  <script src="../../../../res/dep/layer/layuiadmin/layui/layui.js"></script>
+  <script src="../../../../res/js/monitor/monitor.js"></script>
+</body>
+</html>

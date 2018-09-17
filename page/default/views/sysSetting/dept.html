@@ -1,0 +1,63 @@
+
+
+<!DOCTYPE html>
+<html class="height-all">
+<head>
+  <meta charset="utf-8">
+  <title>角色管理</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="stylesheet" href="../../../../res/dep/layer/layuiadmin/layui/css/layui.css" media="all">
+  <link rel="stylesheet" href="../../../../res/dep/layer/layuiadmin/style/admin.css" media="all">
+  <link rel="stylesheet" href="../../../../res/css/advancedQuery/advancedQuery.css">
+  <link rel="stylesheet" href="../../../../res/css/sysSetting/setting.css" media="all">
+  <link rel="stylesheet" href="../../../../res/css/layui-custom/layui-custom.css">
+  <link rel="stylesheet" href="../../../../res/dep/zTree/css/zTreeStyle/zTreeStyle.css">
+</head>
+<body class="height-all">
+  <div class="layui-fluid height-all box-sizing">
+    <div class="layui-row layui-col-space15 height-all">
+      <div class="layui-col-sm4 layui-col-md4 height-all box-sizing">
+        <div class="layui-card height-all">
+          <div class="layui-card-header">
+            <button id="btnAdd" class="layui-btn layui-btn-sm layui-btn-normal tool-btn">新增</button>
+            <button id="btnMod" class="layui-btn layui-btn-sm layui-btn-warm tool-btn">修改</button>
+            <button id="btnDel" class="layui-btn layui-btn-sm layui-btn-danger tool-btn">删除</button>
+          </div>
+          <div class="layui-card-body height-all box-sizing patch">
+              <ul class="ztree tree-style" id="deptTree"></ul>
+          </div>
+        </div>
+      </div>
+      <div class=" layui-col-sm8 layui-col-md8 height-all box-sizing">
+        <div class="layui-card height-all">
+          <div class="layui-card-header">基本信息</div>
+          <div class="layui-card-body height-all box-sizing patch">
+            <ul class="dept-info" id="nodeInfo">
+                <li><span class="gray">部门名称:</span><strong id="chooseDeptName">未选择部门</strong></li>
+                <li><span class="gray">上级部门:</span><strong id="prevDeptName">无上级部门</strong></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 添加/修改 -->
+  <div id="addPopupWrap" class="m-none">
+      <form id="addPopup" lay-filter="addAndMod" autocomplete="off"></form>
+  </div>
+  <!-- 部门树 -->
+  <div id="deptTreeWrap" class="m-none">
+    <ul id="deptTreePop" class="ztree"></ul>
+  </div>
+  <script src="../../../../res/js/lib/jquery-1.8.0.min.js"></script>
+  <script src="../../../../res/js/lib/ycya.js"></script>
+  <script src="../../../../res/js/lib/base.js"></script>
+  <script src="../../../../res/js/lib/global.js"></script>
+  <script src="../../../../res/dep/zTree/js/jquery.ztree.core.min.js"></script>
+  <script src="../../../../res/dep/zTree/js/jquery.ztree.excheck.min.js"></script>
+  <script src="../../../../res/dep/layer/layuiadmin/layui/layui.js"></script>  
+  <script src="../../../../res/js/sysSetting/dept.js"></script>
+</body>
+</html>

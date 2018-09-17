@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html class="yy-height-all">
+<head>
+    <meta charset="utf-8">
+    <title>监控管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../../res/dep/layui/css/layui.css">
+    <link rel="stylesheet" href="../../../res/hbpage.css">
+    <script src="../../../res/js/lib/jquery-1.8.0.min.js"></script>
+    <script src="../../../res/dep/echart/echarts.min.js"></script>
+    <script src="../../../res/js/lib/ycya.js"></script>
+    <script src="../../../res/js/lib/base.js"></script>
+    <script src="../../../res/js/lib/ycyaui.js"></script>
+    <script src="../../../res/js/lib/hbpage.js"></script>
+</head>
+<body class="yy-height-all">
+    <div class="layui-fluid yy-height-all yy-box-sizing yy-padding-all-15">    
+        <div class="layui-col-sm9 layui-col-md9 yy-p-entry yy-padding-r-8">
+            <!-- 汇总数据 -->
+            <div class="yy-p-summary yy-padding-b-8 yy-padding-r-8 layui-card  yy-box-sizing">
+                <div class="layui-card-header"></div>
+                <div class="layui card-body  height-210" id="yySummary">
+                    <div class="layui-col-sm2 layui-col-md2 yy-height-all  left  yy-padding-r-8 yy-padding-t-8"></div>
+                    <div class="layui-col-sm10 layui-col-md10 yy-height-all yy-padding-r-8 right  yy-overflow-hidden"></div>
+                </div>
+            </div>
+            <!-- 列表 -->
+            <div class="yy-p-list yy-padding-t-8 yy-padding-b-8">
+                <div class="layui-col-sm4 layui-col-md4 yy-height-all yy-padding-r-8 ">
+                   <div class="layui-card" id="yyDeptSort">
+                        <div class="layui-card-header"></div>
+                        <div class="layui-card-body">
+                            <table class="layui-table thead" lay-even lay-skin="nob" style="margin: 0;"></table>
+                            <div style="height:275px;overflow-y: hidden;">
+                                <table class="layui-table tbody"  lay-skin="nob" style="margin: 0;"></table>
+                            </div>
+                        </div>
+                   </div>
+                </div>
+                <div class="layui-col-sm4 layui-col-md4 yy-height-all yy-padding-r-8 yy-padding-l-8" >
+                    <div class="layui-card" id="yyClassSort">
+                        <div class="layui-card-header"></div>
+                        <div class="layui-card-body">
+                            <table class="layui-table thead" lay-even lay-skin="nob" style="margin: 0;"></table>
+                            <div style="height:275px;overflow-y: hidden;">
+                                <table class="layui-table tbody"  lay-skin="nob" style="margin: 0;"></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-sm4 layui-col-md4 yy-height-all yy-padding-l-8">
+                    <div class="layui-card" id="goodsApply">
+                        <div class="layui-card-header"></div>
+                        <div class="layui-card-body">
+                            <table class="layui-table thead" lay-even lay-skin="nob" style="margin: 0;"></table>
+                            <div style="height:275px;overflow-y: auto;">
+                            <table class="layui-table tbody" lay-even lay-skin="nob" style="margin: 0;"></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 曲线 -->
+            <div class="yy-p-echart yy-padding-t-8">
+                    <div class="layui-card height-380" id="bodyCurve">
+                        <div class="layui-card-header"></div>
+                        <div class="layui-card-body"></div>
+                    </div>
+            </div>
+        </div>  
+        <!-- 快捷入口 -->
+        <div class="layui-col-sm3 layui-col-md3 yy-p-entry yy-padding-l-8">
+            <div class="layui-card" id="entry">
+                <div class="layui-card-header"></div>
+                <div class="layui-card-body height-1006 yy-no-padding"></div>
+            </div>
+        </div>  
+    </div>
+    <script src="../../../res/dep/layui/layui.all.js"></script>
+    <script>
+        //page init
+        var page=app.ui.hbpage.init({
+            summary:{//汇总
+                title:'汇总数据',
+                left:{
+                    title:'当前汇总数据',
+                    icon:'yy-icon-total',
+                    num:0
+                },
+                right:{
+                    nameKey:'parkName',//名字字段,必传,与后台对应
+                    numKey:'parkNum', //数量字段,必传,与后台对应
+                    iconList:['yy-icon-ljd'], //图标列表,须手动指定
+                    cfg:{
+                        url:'item.js',
+                        type:'get',
+                        data:{},//额外数据
+                        beforeSuccess:function(data){//过滤数据
+                            return data.data.data;
+                        }    
+                    },
+                    item:[]
+
+                }
+            },
+            deptSort:{ //当月物资消耗排名
+                title:'当月物资消耗部门排名',
+                name:[//title :表格列标题,field:'表格列字段(与后台对应)'
+                    {title:"部门名称",field:'parkName'},
+                    {title:"当月消耗量",field:'parkPort'},
+                    {title:"上月消耗量",field:'parkNum'}
+                ],
+                numberKey:"parkName", //序号字段
+                cfg:[{
+                    url:'parkList2.js',//后台地址
+                    data:{},        //额外数据
+                    type:'get',
+                    beforeSuccess:function(data){//过滤数据
+                        return data.data.data;
+                    }
+                }]
+            },
+            classSort:{//当月物资消耗品类排名
+                title:'当月物资消耗品类排名',
+                name:[//title :表格列标题,field:'表格列字段(与后台对应)'
+                    {title:"品类名称",field:'parkName'},
+                    {title:"当月消耗量",field:'parkPort'},
+                    {title:"上月消耗量",field:'parkNum'}
+                ],
+                numberKey:"parkName", //序号字段
+                cfg:[{
+                    url:'parkList2.js',//后台地址
+                    data:{},        //额外数据
+                    type:'get',
+                    beforeSuccess:function(data){//过滤数据
+                        return data.data.data;
+                    }
+                }]
+            },
+            goodsApply:{
+                title:'设备运行情况',
+                name:[//title :表格列标题,class:'字体颜色',field:'表格列字段(与后台对应)'
+                    {title:"申请人",class:"black",field:'type'},
+                    {title:"当前状态",class:"blue",field:'all'},
+                    {title:"申请时间",class:"green",field:'on'}
+                ],
+                cfg:{
+                    url:'parkList.js',//后台地址
+                    data:{},        //额外数据
+                    type:'get',
+                    beforeSuccess:function(data){//过滤数据
+                        return data.data.data;
+                    }
+                }
+            },
+            curve:{//当前物资消耗曲线
+                type:'line', //必传
+                title:'当日停车曲线',
+                YMgrid:{//统计图位置
+                    gleft:10// 左、右、下、上 值可取0~100% 也可直接取数字
+                },
+                xaxisClocr:['#e1e3e5', '#666', '#444', '#f6f6f6', '#f6f6f6', '#fff'], //x轴线颜色 顺序为: 具体数值、坐标轴小标记、坐标轴、分割区域线 、间隔颜色
+                yaxisClocr:['#333', '#666', '#e1e3e5', '#f6f6f6', '#f6f6f6', '#fff'],
+                YMyaxis:{
+                    ysplitLine:true
+                }
+            },
+            entry:{
+                title:'快捷入口',
+                items:[
+                    {
+                        icon:'yy-icon-add',
+                        title:'新增入库',
+                        href:''
+                    },
+                    {
+                        icon:'yy-icon-storage',
+                        title:'入库记录',
+                        href:''
+                    },
+                    {
+                        icon:'yy-icon-goods',
+                        title:'物资情况',
+                        href:''
+                    },
+                    {
+                        icon:'yy-icon-return',
+                        title:'新增退料',
+                        href:''
+                    },
+                    {
+                        icon:'yy-icon-compare',
+                        title:'对比分析',
+                        href:''
+                    },
+                    {
+                        icon:'yy-icon-receive',
+                        title:'领用统计',
+                        href:''
+                    }
+                ]
+            }
+        });
+        /*ajax请求获取停车场分类数据*/
+        //备注:barlineSet方法须传入2个形参,第一个参数为x轴待显示的名称list
+        page.curve.barlineSet( 
+            [
+                '喀什市', '疏附县', '疏勒县', '英吉沙县' , '泽普县', '岳普湖县'
+            ],
+            { 
+                '接入率':[20, 50, 80, 58, 83, 68, 57, 80, 42, 66,12,25,36,45,25,65],
+                '接入1率':[50, 55, 85, 55, 85, 62, 51, 80, 42, 66,19,25,36,45,29,60]
+            }
+        );
+        //设置左上角数值(当前库存总数)
+    page.summary.leftNum.text(20);
+    </script>
+</body>
+</html>

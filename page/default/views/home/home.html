@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+
+<html class="height-all">
+
+<head>
+    <meta charset="utf-8">
+    <title>首页</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../../../res/css/reset/reset.css">
+    <link rel="stylesheet" href="../../../../res/dep/layer/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../../../res/dep/layer/layuiadmin/style/admin.css" media="all">
+    <link rel="stylesheet" href="../../../../res/css/layui-custom/layui-custom.css">
+    <link rel="stylesheet" href="../../../../res/css/home/home.css">
+
+    <body class="height-all">
+        <div class="layui-fluid">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md8">
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-col-md6">
+                            <div class="layui-card">
+                                <div class="layui-card-header">运行情况</div>
+                                <div class="layui-card-body">
+                                    <div class="layui-carousel layadmin-carousel layadmin-shortcut" id="runStatus"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-col-md6">
+                            <div class="layui-card">
+                                <div class="layui-card-header">异常情况</div>
+                                <div class="layui-card-body" style="padding:16px 10px 0">
+                                    <div class="layui-carousel layadmin-carousel layadmin-shortcut">
+                                        <div class="width-half height-all font-small">
+                                            <p>当日报警数:</p>
+                                            <p class="alarm-total-wrap">
+                                                <span class="font-large">54125</span>
+                                                <strong class="percent percent-green">
+                                                    <i></i>0.2%</strong>
+                                            </p>
+                                            <ul class="num-list">
+                                                <li>
+                                                    <p class="">2542</p>
+                                                    <p>处理中</p>
+                                                </li>
+                                                <li>
+                                                    <p>2542</p>
+                                                    <p>待处理</p>
+                                                </li>
+                                                <li>
+                                                    <p>2542</p>
+                                                    <p>已完成</p>
+                                                </li>
+                                            </ul>
+                                            <p class="alarm-total-wrap">
+                                                <i class="m-right-4">当月累积:</i>
+                                                <span class="alarm-total font-middle">54125</span>
+                                                <strong class="percent percent-green">
+                                                    <i></i>0.2%</strong>
+                                            </p>
+                                        </div>
+                                        <div class="width-half height-all font-small border-left p-left-15">
+                                            <p>当日上报数:</p>
+                                            <p class="alarm-total-wrap">
+                                                <span class="font-large">54125</span>
+                                                <strong class="percent percent-red">
+                                                    <i></i>0.2%</strong>
+                                            </p>
+                                            <ul class="num-list">
+                                                <li>
+                                                    <p class="">2542</p>
+                                                    <p>处理中</p>
+                                                </li>
+                                                <li>
+                                                    <p>2542</p>
+                                                    <p>待处理</p>
+                                                </li>
+                                                <li>
+                                                    <p>2542</p>
+                                                    <p>已完成</p>
+                                                </li>
+                                            </ul>
+                                            <p class="alarm-total-wrap">
+                                                <i class="m-right-4">当月累积:</i>
+                                                <span class="alarm-total font-middle">54125</span>
+                                                <strong class="percent percent-red">
+                                                    <i></i>0.2%</strong>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-col-md12">
+                            <div class="layui-card">
+                                <div class="layui-card-header">当日故障分析</div>
+                                <div class="layui-card-body">
+                                    <div class="layadmin-shortcut height-360" id="failAnalysis"></div>
+                                </div>
+                            </div>
+                            <!-- <div class="layui-card">
+                                <div class="layui-card-header">实时报警</div>
+                                <div class="layui-card-body">
+                                    <div class="layadmin-carousel layadmin-shortcut height-220" id="realtimeAlarm"></div>
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md4">
+                    <div class="layui-card">
+                        <div class="layui-card-header">报警信息</div>
+                        <div class="layui-card-body layui-text">
+                            <div class="layui-carousel layadmin-carousel layadmin-shortcut" id="alarmInfo"></div>
+                        </div>
+                    </div>
+                    <div class="layui-card">
+                        <div class="layui-card-header">故障分布</div>
+                        <div class="layui-card-body  height-360" id="failLocation"></div>
+                    </div>
+                    <!-- <div class="layui-card">
+                        <div class="layui-card-header">巡查上报</div>
+                        <div class="layui-card-body">
+                            <div class="layadmin-carousel layadmin-shortcut height-220" id="inspectReport"></div>
+                        </div>
+                    </div> -->
+                </div>
+
+                <div class="layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">实时报警</div>
+                        <div class="layui-card-body">
+                            <div class="layadmin-carousel layadmin-shortcut height-220" >
+                                <table id="realtimeAlarm"></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">巡查上报</div>
+                        <div class="layui-card-body">
+                            <div class="layadmin-carousel layadmin-shortcut height-220">
+                                <table id="inspectReport"></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/html" id="realtimeAlarmBar">
+            <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="edit">修改</a>
+            <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="allot">分配</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        </script>
+        <script type="text/html" id="inspectReportbar">
+            <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="edit">修改</a>
+            <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="allot">分配</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        </script>
+        <script src="../../../../res/js/lib/jquery-1.8.0.min.js"></script>
+        <script src="../../../../res/js/lib/ycya.js"></script>
+        <script src="../../../../res/js/lib/global.js"></script>
+        <script src="../../../../res/dep/echart/echarts.min.js"></script>
+        <script src="../../../../res/dep/layer/layuiadmin/layui/layui.js"></script>
+        <script src="../../../../res/js/home/home.js"></script>
+    </body>
+
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html class="yy-height-all" style="background-color: #f2f2f2">
+<head>
+  <meta charset="utf-8">
+  <title>监控管理</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="stylesheet" href="../../../res/dep/layui/css/layui.css" media="all">
+  <link rel="stylesheet" href="../../../res/css/ycyaui.css" media="all">
+  <link rel="stylesheet" href="../../../res/dep/fontIcon/iconfont.css">
+  <script src="../../../res/js/lib/jquery-1.8.0.min.js"></script>
+  <script src="../../../res/dep/layui/layui.all.js"></script>
+  <script src="../../../res/dep/echart/echarts.min.js"></script>
+  <script src="../../../res/js/lib/ycya.js"></script>
+  <script src="../../../res/js/lib/base.js"></script>
+  <script src="../../../res/js/lib/ycyaui.js"></script>
+  <script src="../../../res/dep/ycyaMap/YcyaMap.js"></script>
+</head>
+<body class="yy-height-all">
+  <div class="layui-fluid yy-height-all yy-box-sizing yy-p-parking-padding15">
+    <!-- 头 -->
+    <div class="yy-titles" id="bodyHeader"></div>
+    <div class="layui-row yy-m-bottom-15">
+      <!-- 地图 -->
+      <div class="layui-col-xs9 layui-col-sm9 layui-col-md9 yy-p-parking-height526">
+        <div class="yy-height-all yy-width-all yy-box-sizing yy-p-all-8 yy-bg-white" id="bodyMap">
+          <div id="ycyaMap" class="yy-height-all yy-width-all"></div>
+          <div class="yy-parking-iconinfo">
+              <p> <b>设备分布</b> </p>
+              <ul>
+                <li><i class="yy-parking-icon yy-parking-icon-park"></i>停车场</li>
+                <li><i class="yy-parking-icon yy-parking-icon-pile"></i>充电桩</li>
+              </ul>
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs3 layui-col-sm3 layui-col-md3 yy-p-left-8">
+        <!-- 设备运行 -->
+        <div class="layui-card yy-p-parking-height255 yy-p-parking-marginBottom15" id="bodyDevRun">
+          <div class="layui-card-header"></div>
+          <div class="layui-card-body">
+            <table class="layui-table thead" lay-even lay-skin="nob" style="margin: 0;"></table>
+            <div style="height:165px;overflow-y: auto;">
+              <table class="layui-table tbody" lay-even lay-skin="nob" style="margin: 0;"></table>
+            </div>
+          </div>
+        </div>
+        <!-- 停车场分类 -->
+        <div class="layui-card yy-p-parking-height255" id="bodyParkSort">
+          <div class="layui-card-header"></div>
+          <div class="layui-card-body"></div>
+        </div>
+      </div>
+    </div>
+    <div class="layui-row">
+      <div class="layui-col-xs3 layui-col-sm3 layui-col-md3  yy-p-right-8">
+        <!-- 停车排名 -->
+        <div class="layui-card yy-p-parking-height360" id="bodyParkRank" >
+          <div class="layui-card-header">
+              <ul class="yy-rt yy-parking-rank-ul">
+                <li data-evevt="" class="active">停车率</li>
+                <li data-evevt="" >停车数</li>
+              </ul>
+          </div>
+          <div class="layui-card-body">
+              <table class="layui-table thead" lay-even lay-skin="nob" style="margin: 0;"></table>
+              <div style="height:262px;overflow-y: hidden;">
+                <table class="layui-table tbody"  lay-skin="nob" style="margin: 0;"></table>
+              </div>
+          </div>
+        </div>
+      </div>
+      <!-- 当日停车曲线 -->
+      <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">
+          <div class="layui-card yy-p-parking-height360" id="bodyParkCurve">
+              <div class="layui-card-header"></div>
+              <div class="layui-card-body"></div>
+          </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
