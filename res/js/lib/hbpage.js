@@ -89,7 +89,7 @@ app.ui.summary={//汇总
         this.leftNum=$('.yy-p-summary-num',this._cfg.id);
     }
 };
-(function(a){
+(function(au){
     var  CardList=function(){};
     CardList.prototype={
         init:function(cfg){
@@ -148,7 +148,8 @@ app.ui.summary={//汇总
             });
         }
     };
-    a.cardList={
+    
+    au.cardList={
         init:function(cfg){
             return new CardList().init(cfg);
         }

@@ -1558,7 +1558,7 @@ app.ui.util={
             }
         }
     }
-}
+};
 app.ui.form={
     _cfg:{win:null},
     init:function(cfg){
@@ -1606,7 +1606,7 @@ app.ui.form={
     setData:function(data){
         return this._cfg.win.setData(data);
     }
-}
+};
 app.ui.search = {
     _cfg:{
         id:'',              //容器ID
@@ -1671,7 +1671,7 @@ app.ui.search = {
 
         }
     }
-}
+};
 app.ui.tree = {
     _cfg:{
         data:{
@@ -1718,7 +1718,7 @@ app.ui.tree = {
     getTree:function(){
         return this.tree;
     }
-}
+};
 app.ui.left = {
     _cfg:{
         id:'',              //容器ID
@@ -1823,88 +1823,102 @@ app.ui.left = {
             }) ; 
         } 
     }
-}
-app.ui.grid = {
-    _cfg:{
-        id:'ycyaGrid',   
-        page:true,
-        height:'full-104',
-        request: {
-            pageName: 'pageNo', //页码的参数名称，默认：page
-            limitName: 'pageSize' //每页数据量的参数名，默认：limit
-        },
-        text: {none: '暂无相关数据'},
-        limit: 20, //每页显示的条数
-        limits: [10, 20, 50],
-        method: 'post',
-        where:{},
-        hover:false //是否开启鼠标悬浮图片放大
-    },
-    init:function(cfg){
-        var that=this;
-        $.extend(this._cfg,cfg);
-        var table = layui.table;
-        if(cfg.btns){
-            //捕获done事件
-            this._cfg.done=function(){
-                ycyaTableBtn(cfg.btns,cfg.parent);
-                cfg.hover && that.hoverOpenImg();
+};
+(function(au){
+    var Grid=function(cfg){
+        this._cfg={
+            id:'ycyaGrid',   
+            page:true,
+            height:'full-104',
+            request: {
+                pageName: 'pageNo', //页码的参数名称，默认：page
+                limitName: 'pageSize' //每页数据量的参数名，默认：limit
+            },
+            text: {none: '暂无相关数据'},
+            limit: 20, //每页显示的条数
+            limits: [10, 20, 50],
+            method: 'post',
+            where:{}
+        };
+    }
+    Grid.prototype={
+        init:function(cfg){
+            var that=this;
+            $.extend(this._cfg,cfg);
+            var table = layui.table;
+            if(cfg.btns){
+                //捕获done事件
+                this._cfg.done=function(res){
+                    ycyaTableBtn(res,cfg.btns,cfg.parent);
+                    cfg.hover && that.hoverOpenImg();
+                }
             }
-        }
-        this.tableIns =table.render(this._cfg);
-        return this;
-    },
-    qry:function(qryCfg,extraPara){
-        this._cfg.where = {};
-        $.extend(this._cfg.where || {},qryCfg);
-        var table = layui.table,
-            aliasCfg=$.extend(true,{},this._cfg,extraPara);
-        // table.render(aliasCfg);
-        this.tableIns .reload(aliasCfg);
-    },
-    rowBtn:function(rowBtnCfg){
-        var cssArr = app.ui.util.cssMerge(rowBtnCfg,['layui-btn','layui-btn-xs']);
-        return '<a class="'+cssArr.join(' ')+'" lay-event="'+rowBtnCfg.event+'">'+rowBtnCfg.title+'</a>';
-    },
-    getRows:function(flag){//flag boolean ,true返回数据id集合
-        if(!flag){
-            return layui.table.checkStatus(this._cfg.id);
-        }
-        var ids=[];
-        $.each(layui.table.checkStatus(this._cfg.id).data,function(i,item){
-            item.id && ids.push(item.id);
-        });
-        return ids.join(',');
-    },
-    delRows:function(callback){
-        var rows=layui.table.checkStatus(this._cfg.id);
-        if(rows.data.length==0){
-            return layer.msg('请勾选要删除的数据',{time:2000});
-        }else{
+            this.tableIns =table.render(this._cfg);
+            return this;
+        },
+        qry:function(qryCfg,extraPara){
+            this._cfg.where = {};
+            $.extend(this._cfg.where || {},qryCfg);
+            var table = layui.table,
+                aliasCfg=$.extend(true,{},this._cfg,extraPara);
+            // table.render(aliasCfg);
+            this.tableIns .reload(aliasCfg);
+        },
+        rowBtn:function(rowBtnCfg){
+            var cssArr = app.ui.util.cssMerge(rowBtnCfg,['layui-btn','layui-btn-xs']);
+            return '<a class="'+cssArr.join(' ')+'" lay-event="'+rowBtnCfg.event+'">'+rowBtnCfg.title+'</a>';
+        },
+        getRows:function(flag){//flag boolean ,true返回数据id集合
+            if(!flag){
+                return layui.table.checkStatus(this._cfg.id);
+            }
             var ids=[];
-            $.each(rows.data,function(i,item){
+            $.each(layui.table.checkStatus(this._cfg.id).data,function(i,item){
                 item.id && ids.push(item.id);
             });
-            layer.confirm('确定删除?',function(index){
-                callback && callback(ids.join(','),index);
+            return ids.join(',');
+        },
+        delRows:function(callback){
+            var rows=layui.table.checkStatus(this._cfg.id);
+            if(rows.data.length==0){
+                return layer.msg('请勾选要删除的数据',{time:2000});
+            }else{
+                var ids=[];
+                $.each(rows.data,function(i,item){
+                    item.id && ids.push(item.id);
+                });
+                layer.confirm('确定删除?',function(index){
+                    callback && callback(ids.join(','),index);
+                });
+            }
+        },
+        hoverOpenImg:function(){
+            var img_show = null; // tips提示
+            $('td img').hover(function(){
+                var img = "<img class='img_msg' src='"+$(this).attr('src')+"' style='width:130px;' />";
+                img_show = layer.tips(img, this,{
+                    tips:[2, 'rgba(41,41,41,.5)']
+                    ,area: ['160px']
+                    ,time:80000
+                });
+            },function(){
+                layer.close(img_show);
             });
+            // $('td img').attr('style','max-width:70px');
         }
-    },
-    hoverOpenImg:function(){
-        var img_show = null; // tips提示
-        $('td img').hover(function(){
-            var img = "<img class='img_msg' src='"+$(this).attr('src')+"' style='width:130px;' />";
-            img_show = layer.tips(img, this,{
-                tips:[2, 'rgba(41,41,41,.5)']
-                ,area: ['160px']
-                ,time:80000
-            });
-        },function(){
-            layer.close(img_show);
-        });
-        // $('td img').attr('style','max-width:70px');
-    }
-}
+    };
+    au.grid= {
+        init:function(cfg){
+            return new Grid().init(cfg);
+        }
+    };
+    au.grid.qry= Grid.prototype.qry;
+    au.grid.rowBtn= Grid.prototype.rowBtn;
+    au.grid.getRows= Grid.prototype.getRows;
+    au.grid.delRows= Grid.prototype.delRows;
+    au.grid.hoverOpenImg= Grid.prototype.hoverOpenImg;
+})(app.ui);
+
 app.ui.page.list={
     init:function(cfg){
         if(cfg.title)document.title = cfg.title;//初始化title
@@ -1931,7 +1945,7 @@ app.ui.selected={
         this.name=cfg.item;
         return this;
     }
-}
+};
 app.ui.selectedItem={
     init:function(cfg){
         if(!cfg || !cfg.sel || !cfg.row ){
@@ -1966,7 +1980,7 @@ app.ui.selectedItem={
             })
         return _span.append(_i);
     }
-}
+};
 app.ui.bindRail={//一对一绑定,无显示选中部分
     open:function(cfg){
         if(!cfg.url){
@@ -1993,7 +2007,7 @@ app.ui.bindRail={//一对一绑定,无显示选中部分
         });
         return this;
     }
-}
+};
 app.ui.bindFalt={//一对多绑定,显示选中部分
     open:function(cfg){
         if(!cfg.url || !cfg.selected){
@@ -2025,7 +2039,7 @@ app.ui.bindFalt={//一对多绑定,显示选中部分
             }
         })
     }
-}
+};
 app.ui.page.bindpopup={
     init:function(cfg){
         this.cfg=cfg;
@@ -2037,7 +2051,7 @@ app.ui.page.bindpopup={
     getGrid:function(){return this.tableGrid},
     getSearch:function(){return this.search},
     getSelected:function(){return this.selected},
-}
+};
 //report
 app.ui.reportTitle={
     _cfg:{
@@ -2084,7 +2098,7 @@ app.ui.reportTitle={
             $('#'+item).text(cfg[i]);
         });
     }
-}
+};
 app.ui.echarts={
     barlineCfg:{
         id:'yui-report-echart',              //容器ID
@@ -2796,7 +2810,7 @@ app.ui.echarts={
         });
         this.pieChart.hideLoading();
     }
-}
+};
 app.ui.reportSearch={
     _cfg:{
         yearNum:2,          //显示的年的个数
@@ -3257,7 +3271,7 @@ app.ui.reportSearch={
             });
         }
     }
-}
+};
 app.ui.report={
     init:function(cfg){
         if(cfg.title){this.title=app.ui.reportTitle.init(cfg.title)}
@@ -3294,7 +3308,7 @@ app.ui.report={
     getGrid:function(){
         return this.grid;
     }
-}
+};
 //monitor
 app.ui.data={//此函数用于根据后台多变的数据结构，返回最终list
     get:function(da,format){//da 后台返回的一级数据 format 除一级结构以外至最终list的数据结构,例如 data.data.data
@@ -3310,7 +3324,7 @@ app.ui.data={//此函数用于根据后台多变的数据结构，返回最终li
         return d;
     }
 
-}
+};
 app.ui.monitorPopup={
     open:function(cfg){
         var ind=layer.open({
@@ -3328,7 +3342,7 @@ app.ui.monitorPopup={
         });
         return ind;
     }
-}
+};
 app.ui.status={
     _cfg:{
         title:'平台运行情况',
@@ -3405,7 +3419,7 @@ app.ui.status={
             }
         });
     }
-}
+};
 app.ui.tool={
     /**
      * @param {*} cfg
@@ -3533,7 +3547,7 @@ app.ui.tool={
             }else{}
         });
     }
-}
+};
 app.ui.deptTree={
     _cfg:{
         //view: {dblClickExpand: false,showLine: true,selectedMulti: false},
@@ -3577,7 +3591,7 @@ app.ui.deptTree={
         }
         return this;
     }
-}
+};
 app.ui.searchBar={
     init:function(cfg){
         var boxId='mapSearch',
@@ -3591,8 +3605,8 @@ app.ui.searchBar={
         this.boxElm=$('#'+boxId);
         return this;
     }
-}
-app.ui.mapHighSearch={}
+};
+app.ui.mapHighSearch={};
 app.ui.master={
     init:function(cfg){
         var _this=this;
@@ -3659,7 +3673,7 @@ app.ui.master={
 
         });
     }
-}
+};
 app.ui.mapShow={
     init:function(cfg){
         var _this=this;
@@ -3796,7 +3810,7 @@ app.ui.mapShow={
             }
         });
     }
-}
+};
 app.ui.zoom={
     _cfg:{
         id:'ycyaZoom'
@@ -3814,7 +3828,7 @@ app.ui.zoom={
             $('#mapWrap').length>0 ?$('#mapWrap').append(zwrap) : layer.msg('box id is not exist');
         return this;
     }
-}
+};
 app.ui.map={
     _cfg:{
         id:'ycyaMap' 
@@ -3823,7 +3837,7 @@ app.ui.map={
         $.extend(this._cfg,cfg);
         return new YcyaMap(this._cfg.id);
     }
-}
+};
 app.ui.statusList={
     init:function(cfg){
         var  _this=this,
@@ -3931,7 +3945,7 @@ app.ui.statusList={
             }
         });
     }
-}
+};
 app.ui.page.monitor={
     init:function(cfg){
         var _this=this;
@@ -3947,7 +3961,7 @@ app.ui.page.monitor={
     },
     getMap:function(){return this.map},
     getStatus:function(){return this.status}
-}
+};
 //screen
 app.ui.screen={
     fullScreen:function(el){
@@ -3990,7 +4004,7 @@ app.ui.screen={
     isFull: function () {
         return !!(document.webkitIsFullScreen || this.fullele());
     }
-}
+};
 //parking
 app.ui.title={
     _cfg:{
@@ -4036,7 +4050,7 @@ app.ui.title={
         }
         return t.split("").reverse().join("");
     }
-}
+};
 app.ui.devRun={
     _cfg:{
         // parent:'#bodyDevRun'
@@ -4080,7 +4094,7 @@ app.ui.devRun={
             }
         });
     }
-}
+};
 app.ui.parkRank={
     _cfg:{
         // parent:'#bodyParkRank'
@@ -4186,7 +4200,7 @@ app.ui.page.parking={
     getParkRank:function(){return this.parkRank},
     getParkSort:function(){return this.parkSort},
     getParkCurve:function(){return this.parkCurve}
-}
+};
 $(function(){
     var page = GetQueryString('p');
     if(page){
