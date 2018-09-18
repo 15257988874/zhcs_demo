@@ -1,9 +1,10 @@
+var ycya=ycya || {};
 var app = ycya.page || {};
 app.ui = {
     version:'0.8.5',
     anim:4,
     formSelectsCfg:{
-        type:"get",
+        type:'get',
         data: {},                   //自定义除搜索内容外的其他数据
         searchUrl: '',    //搜索地址, 默认使用xm-select-search的值, 此参数优先级高
         searchName: '',      //自定义搜索内容的key值
@@ -29,7 +30,6 @@ app.ui = {
 };
 app.ui.page={};
 //表单元素
-var IFormItem = new Interface('IFormItem', ['get','getJson','getArray', 'set', 'reset', 'init']);
 (function (win) {           
     var YInput = function (pdom,cfg) {
         this.pdom = pdom;
@@ -121,7 +121,7 @@ var IFormItem = new Interface('IFormItem', ['get','getJson','getArray', 'set', '
             // if (cfg.qt == 'btw') { //范围查询
             //     this.id = ['qry_' + this.cfg.name + '_gt', 'qry_' + this.cfg.name + '_lt'];
             // } else {
-                this.id = ['qry_' + this.cfg.name + '_' + cfg.qt];
+            this.id = ['qry_' + this.cfg.name + '_' + cfg.qt];
             // }
         }
         if(cfg.handle){
@@ -150,14 +150,14 @@ var IFormItem = new Interface('IFormItem', ['get','getJson','getArray', 'set', '
                     iVerity=this.cfg.verify ? 'lay-verify="'+this.cfg.verify+'"':'',
                     placeholder=this.cfg.placeholder? 'placeholder="'+this.cfg.placeholder+'"':'',
                     readonly=this.cfg.isReadonly?'readonly':'';
-                    html += '<input type="'+iType+'"  name="'+this.id[0]+'" autocomplete="off"  '+lenCss+'  '+readonly+' '+iVerity+ ' class="'+iClass+'" lay-verType="'+vType+'" '+placeholder+'>';
+                html += '<input type="'+iType+'"  name="'+this.id[0]+'" autocomplete="off"  '+lenCss+'  '+readonly+' '+iVerity+ ' class="'+iClass+'" lay-verType="'+vType+'" '+placeholder+'>';
             }else if(dt=='switch'){
                 if(shortc.values.length!=3 || shortc.text.length!=3){
                     return new TypeError();
                 }
                 var arr = shortc.values.split('|'), 
-                chk = shortc.checked !==undefined &&  shortc.checked==arr[0]?'checked=""':'',
-                value = shortc.checked !==undefined &&  shortc.checked==arr[0]?arr[0]:arr[1];
+                    chk = shortc.checked !==undefined &&  shortc.checked==arr[0]?'checked=""':'',
+                    value = shortc.checked !==undefined &&  shortc.checked==arr[0]?arr[0]:arr[1];
                 html+= '<input type="checkbox" '+chk+'  value="'+value+'" name="'+this.cfg.name
                 +'"  lay-skin="switch" lay-text="'+shortc.text+'" data-value="'+shortc.values+'">';
                 this.switch=this.cfg.name;
@@ -246,22 +246,21 @@ var IFormItem = new Interface('IFormItem', ['get','getJson','getArray', 'set', '
         },
         createSel:function(obj,requireAll){
             var _option=requireAll!==undefined?['<option value='+requireAll+'>全部</option>']:[],_this=this;
-                $.each(obj,function(i,item){
-                    _option.push( $('<option value='+item[_this.cfg["keyName"]]+'>'+item[_this.cfg["valName"]]+'</option>')[0].outerHTML);
-                });
-                var _divItem=$("<div/>",{class:'yy-m-search-item'}),
-                    _lab=$('<label/>',{text:this.cfg.label}),
-                    _div=$('<div/>'),
-                    _sel=$('<select/>',{
+            $.each(obj,function(i,item){
+                _option.push( $('<option value='+item[_this.cfg["keyName"]]+'>'+item[_this.cfg["valName"]]+'</option>')[0].outerHTML);
+            });
+            var _divItem=$("<div/>",{class:'yy-m-search-item'}),
+                _lab=$('<label/>',{text:this.cfg.label}),
+                _div=$('<div/>'),
+                _sel=$('<select/>',{
                     id:this.id[0],   
                     // name:this.cfg.name, 
                     html:_option.join(''),
-                    width:this.cfg.len?this.cfg.len:auto
+                    width:this.cfg.len?this.cfg.len:'auto'
                 });
-                _div.append(_sel);
-                _divItem.append(_lab).append(_div);
-               
-                $('.yy-m-search',this.pdom).prepend(_divItem);
+            _div.append(_sel);
+            _divItem.append(_lab).append(_div);   
+            $('.yy-m-search',this.pdom).prepend(_divItem);
         }
     };
     win.Yselect = Yselect;
@@ -336,7 +335,7 @@ var IFormItem = new Interface('IFormItem', ['get','getJson','getArray', 'set', '
             submitFn:function(){},    //提交函数 
             verType:'tips', //用于定义异常提示层模式。 tips（吸附层,默认）alert（对话框） msg           
             item: [] //表单元素列表
-    /* 渲染选项{label:'姓名',elmType:'input',name:"userName",'isBlock':true}
+            /* 渲染选项{label:'姓名',elmType:'input',name:"userName",'isBlock':true}
             elmType:            input、textarea、select
             inputType:''        input元素的预留 password
             isReadonly:booloean 
@@ -431,68 +430,67 @@ var IFormItem = new Interface('IFormItem', ['get','getJson','getArray', 'set', '
                     _li=$('<li class="'+itemBlcok+'"><label>' + req + con.label + ': </label></li>'),
                     divStyle = 'm-inline-block w-all',
                     inputType = con.inputType ? con.inputType : 'text';
-                    elmType=con.elmType || 'input',
-                    verType=cfg.verType?cfg.verType:'tips';
+                elmType=con.elmType || 'input',
+                verType=cfg.verType?cfg.verType:'tips';
                 switch (elmType) {
-                    case 'input':
-                        if(inputType=='text'){
-                            var formItem = new AQInput(con,cfg.verType); 
-                            if(formItem.date.length>0){
-                                this.dateList.push(formItem.date);
-                                this.dateCfgList.push(formItem.dateCfg);
-                            }
-                            if(formItem.handle  || con.eventName){
-                                this.bindElm.push(formItem.id[0]);
-                                this.eventName.push(formItem.eventName);
-                                this.eventFn.push(formItem.handle || function(){});
-                                this.cfgFn.push(formItem.cfgFn);
-                            }
-                             formItem.switch && this.switchList.push(formItem.switch);
-                             formItem.radioInitVal && this.radioList.push(formItem.radioInitVal);
-                             formItem.checkInitVal && this.checkList.push(formItem.checkInitVal);
-                             if(formItem.html){
-                                  _li.append($('<div class="' + divStyle + '">'+formItem.html+'</div>'));
-                             }else{
-                                 (function(con,_li){
-                                    var rersult='',
-                                        skin=con.cfg.skin?'lay-skin="primary"':'',
-                                        aliasCon=con.cfg.cfg;
-                                    ycya.http.ajax(con.cfg.url,{
-                                        data:aliasCon.data,
-                                        type:aliasCon.type || 'post',
-                                        success:function(data){
-                                            var _name=aliasCon.keyName || 'name',
-                                                _val=aliasCon.keyVal || 'id';
-                                            var d=aliasCon.beforeSuccess?aliasCon.beforeSuccess(data):(data.data || []);
-                                            $.each(d,function(i,item){
-                                                rersult+='<input type="checkbox" name="'+con.name+'" title="'+item[_name]+'" '+skin+'  value="'+item[_val]+'">';
-                                            });
-                                            _li.append($('<div class="' + divStyle + '">'+rersult+'</div>'));
-                                        },
-                                        error:function(){
-                                            layer.msg('checkbox server load fail');
-                                        }
-                                    });
-                                 })(con,_li);
-                             }
-                           ;
-                        }else if(inputType=='password'){
-                            //判断是否加载md5.js
-                            var md5flag=false;
-                            $('script').each(function(){
-                                if( $(this)[0].outerHTML.indexOf('md5.js')!==-1 ){
-                                    md5flag=true;
-                                    return false; 
-                                }
-                            });
-                            if(!md5flag){
-                                var _jsLoader=new YcyaLoader();
-                                _jsLoader.loadFileList([getContentPath()+'/res/dep/md5/md5.js'],function(){
-                                });
-                            }
-                            _li.append($('<div class="' + divStyle + '"><input type="password" name="'+con.name+'" lay-vertype="'+verType+' " lay-verify="' + verify + '" id="'+con.name+'_"></div>'));
-                            this.pwd.push(con.name);
+                case 'input':
+                    if(inputType=='text'){
+                        var formItem = new AQInput(con,cfg.verType); 
+                        if(formItem.date.length>0){
+                            this.dateList.push(formItem.date);
+                            this.dateCfgList.push(formItem.dateCfg);
                         }
+                        if(formItem.handle  || con.eventName){
+                            this.bindElm.push(formItem.id[0]);
+                            this.eventName.push(formItem.eventName);
+                            this.eventFn.push(formItem.handle || function(){});
+                            this.cfgFn.push(formItem.cfgFn);
+                        }
+                        formItem.switch && this.switchList.push(formItem.switch);
+                        formItem.radioInitVal && this.radioList.push(formItem.radioInitVal);
+                        formItem.checkInitVal && this.checkList.push(formItem.checkInitVal);
+                        if(formItem.html){
+                            _li.append($('<div class="' + divStyle + '">'+formItem.html+'</div>'));
+                        }else{
+                            (function(con,_li){
+                                var rersult='',
+                                    skin=con.cfg.skin?'lay-skin="primary"':'',
+                                    aliasCon=con.cfg.cfg;
+                                ycya.http.ajax(con.cfg.url,{
+                                    data:aliasCon.data,
+                                    type:aliasCon.type || 'post',
+                                    success:function(data){
+                                        var _name=aliasCon.keyName || 'name',
+                                            _val=aliasCon.keyVal || 'id';
+                                        var d=aliasCon.beforeSuccess?aliasCon.beforeSuccess(data):(data.data || []);
+                                        $.each(d,function(i,item){
+                                            rersult+='<input type="checkbox" name="'+con.name+'" title="'+item[_name]+'" '+skin+'  value="'+item[_val]+'">';
+                                        });
+                                        _li.append($('<div class="' + divStyle + '">'+rersult+'</div>'));
+                                    },
+                                    error:function(){
+                                        layer.msg('checkbox server load fail');
+                                    }
+                                });
+                            })(con,_li);
+                        }
+                    }else if(inputType=='password'){
+                        //判断是否加载md5.js
+                        var md5flag=false;
+                        $('script').each(function(){
+                            if( $(this)[0].outerHTML.indexOf('md5.js')!==-1 ){
+                                md5flag=true;
+                                return false; 
+                            }
+                        });
+                        if(!md5flag){
+                            var _jsLoader=new YcyaLoader();
+                            _jsLoader.loadFileList([getContentPath()+'/res/dep/md5/md5.js'],function(){
+                            });
+                        }
+                        _li.append($('<div class="' + divStyle + '"><input type="password" name="'+con.name+'" lay-vertype="'+verType+' " lay-verify="' + verify + '" id="'+con.name+'_"></div>'));
+                        this.pwd.push(con.name);
+                    }
                     break;
                     case 'select':
                     var optionStr = '',
@@ -567,31 +565,31 @@ var IFormItem = new Interface('IFormItem', ['get','getJson','getArray', 'set', '
                     mapBtn1=$('<button/>',{class:'layui-btn layui-btn-sm layui-btn-normal',text:'绘制',click:function(){
                         var sv=$('[name='+cfg.map.btnToElm+']','#'+cfg.id).val(),
                             t=cfg.map.btnElmJson[sv];
-                            if(!_this.points){
-                                if(t){
-                                   _this.drawRail(t);
-                                }
-                            }else{
-                                layer.msg('已绘制，请选择重汇');
+                        if(!_this.points){
+                            if(t){
+                                _this.drawRail(t);
                             }
+                        }else{
+                            layer.msg('已绘制，请选择重汇');
+                        }
                     }}),
                     mapBtn2=$('<button/>',{class:'layui-btn layui-btn-sm layui-btn-warm',text:'重汇',click:function(){
                         var sv=$('[name='+cfg.map.btnToElm+']','#'+cfg.id).val(),
-                        t=cfg.map.btnElmJson[sv] || 'circle';
+                            t=cfg.map.btnElmJson[sv] || 'circle';
                         if(_this.points){
-                            _this.points="";
+                            _this.points='';
                             _this.map && _this.map.clear();
-                           if(t){
+                            if(t){
                                 _this.drawRail(t);
-                           }
+                            }
                         }else{
                             layer.msg('未绘制，请先绘制');
                         }
                     }});
-                    mapBtn1.css('padding','0 15px');
-                    mapBtn2.css('padding','0 15px');
-                    mapDiv.append(mapBtn1).append(mapBtn2);
-                    mapLi.append(mapDiv);
+                mapBtn1.css('padding','0 15px');
+                mapBtn2.css('padding','0 15px');
+                mapDiv.append(mapBtn1).append(mapBtn2);
+                mapLi.append(mapDiv);
                 _ul.append(mapLi);
             }
             $('#'+cfg.id).append(_ul).append(_btnul);
@@ -645,7 +643,7 @@ var IFormItem = new Interface('IFormItem', ['get','getJson','getArray', 'set', '
                                 return false;
                             }else{
 
-                                 //预读本地文件示例，不支持ie8
+                                //预读本地文件示例，不支持ie8
                                 obj.preview(function(index, file, result){
                                     $('.yy-m-form-picview','#'+cfg.id).append('<span><img src="'+ result +'" alt="'+ file.name +'" class="layui-upload-img"><i class="layui-icon">&#x1006;</i></span>');
                                     //删除图片
@@ -672,7 +670,7 @@ var IFormItem = new Interface('IFormItem', ['get','getJson','getArray', 'set', '
                     done:function(res){
                         //如果上传失败
                         if(res.code > 0){
-                          return layer.msg('上传失败,请重新上传');
+                            return layer.msg('上传失败,请重新上传');
                         }
                         //上传成功
                         _this.pic[res["data"][0].oldName]=res["data"][0].uuid;
@@ -1178,10 +1176,10 @@ var IFormItem = new Interface('IFormItem', ['get','getJson','getArray', 'set', '
                 return ;
             }else{
                 $.each(aliasJson,function(i,item){
-                        var elm=$('[name='+i+']','#'+_this._cfg.id);
-                        if( elm.length>0){
-                            elm.val(valueJson[item]);
-                        }
+                    var elm=$('[name='+i+']','#'+_this._cfg.id);
+                    if( elm.length>0){
+                        elm.val(valueJson[item]);
+                    }
                 });
             }
             
@@ -1267,21 +1265,21 @@ var IFormItem = new Interface('IFormItem', ['get','getJson','getArray', 'set', '
             };
             var h = cfg.height || ($('#'+this._cfg.id).height()+40+43+2), //加上layer title以及btns高度，减去默认按钮组的高度，预留2像素
                 wh = $(window).height();
-                if(h<170){
-                    h=170;
-                }
-                if( h>wh){
-                    h=wh-60;
-                    initCfg.area=[w+'px',h+'px'];
-                }
-                if(cfg.height){
-                    initCfg.area=[w+'px',cfg.height+'px'];
-                }
+            if(h<170){
+                h=170;
+            }
+            if( h>wh){
+                h=wh-60;
+                initCfg.area=[w+'px',h+'px'];
+            }
+            if(cfg.height){
+                initCfg.area=[w+'px',cfg.height+'px'];
+            }
             this._cfg.index=layer.open($.extend(initCfg,btnEvt));
         },
         tree:function(cfg){
             if(!cfg ||!cfg.url ){
-                 return layer.msg('para error');
+                return layer.msg('para error');
             }
             this.treeIndex=layer.open({
                 type: 2, 
@@ -1313,7 +1311,7 @@ var IFormItem = new Interface('IFormItem', ['get','getJson','getArray', 'set', '
         },
         getPlace:function(cfg){
             if(!cfg ||!cfg.url ){
-               return layer.msg('para error');
+                return layer.msg('para error');
             }
             this.treeIndex=layer.open({
                 type: 2, 
@@ -1331,22 +1329,22 @@ var IFormItem = new Interface('IFormItem', ['get','getJson','getArray', 'set', '
         },
         createAdmin:function(){
             var aid='ycyaMapAdmin';
-                this.adminBoxId=aid;
-                this.adminTreeId='ycyaMapAdminTree';
+            this.adminBoxId=aid;
+            this.adminTreeId='ycyaMapAdminTree';
             if( $('#'+aid).length==0){
                 $('body').append( '<div id="'+aid+'" class="m-none"><div style="overflow-y: auto;height:300px"><ul id="'+this.adminTreeId+'" class="ztree"></ul></div></div>');
             }
             var ztreeflag=false;
-                $('script').each(function(){
-                    if( $(this)[0].outerHTML.indexOf('ztree.all.js')!==-1 ){
-                        ztreeflag=true;
-                        return false; 
-                    }
-                });
+            $('script').each(function(){
+                if( $(this)[0].outerHTML.indexOf('ztree.all.js')!==-1 ){
+                    ztreeflag=true;
+                    return false; 
+                }
+            });
             if(!ztreeflag){
                 var _jsLoader=new YcyaLoader();
                 _jsLoader.loadFileList([getContentPath()+'/res/dep/zTree/css/zTreeStyle/zTreeStyle.css',
-                getContentPath()+'/res/dep/zTree/js/jquery.ztree.all.js'],function(){});
+                    getContentPath()+'/res/dep/zTree/js/jquery.ztree.all.js'],function(){});
             }
         },
         openAdmin:function(){
@@ -1361,9 +1359,9 @@ var IFormItem = new Interface('IFormItem', ['get','getJson','getArray', 'set', '
                 btn: ['确定', '取消'],
                 yes: function () {
                     if (_this.adminTree.getSelectedNodes().length==0){
-                       return layer.msg('请选择行政区域', {
+                        return layer.msg('请选择行政区域', {
                             time: 1000
-                       });
+                        });
                     }
                     var node = _this.adminTree.getSelectedNodes()[0],
                         pNode = node.getParentNode(),
@@ -1384,7 +1382,7 @@ var IFormItem = new Interface('IFormItem', ['get','getJson','getArray', 'set', '
                         _this.map.clear(); //清除地图覆盖物
                         var count = rs.boundaries.length; //行政区域的点有多少个
                         if (count === 0) {
-                           return layer.msg('未能获取当前输入行政区域');
+                            return layer.msg('未能获取当前输入行政区域');
                         }
                         var pointArray = [];
                         for (var i = 0; i < count; i++) {
@@ -2546,8 +2544,8 @@ app.ui.echarts={
         this.blChart.hideLoading();
     },
     pieCfg:{
-       id:'yui-report-echart', 
-       valueJson:[],
+        id:'yui-report-echart', 
+        valueJson:[],
         //统计图颜色
         YMPcolorList :['#ffc000', '#00ad4e', '#0073c2', '#165868', '#e76f00', '#316194', '#723761', '#00b2f1', '#4d6022', '#4b83bf', '#f9c813', '#0176c0'],
         //统计图背景色
