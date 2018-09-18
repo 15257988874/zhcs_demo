@@ -1,3 +1,4 @@
+"use strict";
 var ycya=ycya || {};
 var app = ycya.page || {};
 app.ui = {
