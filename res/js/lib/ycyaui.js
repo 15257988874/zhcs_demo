@@ -2,7 +2,7 @@
 var ycya=ycya || {};
 var app = ycya.page || {};
 app.ui = {
-    version:'0.8.5',
+    version:'0.8.6',
     anim:4,
     formSelectsCfg:{
         type:'get',
