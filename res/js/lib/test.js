@@ -13,6 +13,10 @@ $(function(){
             body:{view:'tree',cfg:{
                 evtCode:'leftTreeLoad',//事件代码，应用自定义，在一个页面必须唯一
                 url:'',where:{},
+                open:true,
+                beforeSuccess:function(data){
+                    return data.data;
+                },
                 data:[
                     {id:1, pId:0, name: "父节点1"},
                     {id:11, pId:1, name: "子节点1"},
@@ -151,7 +155,8 @@ $(function(){
         alert(tree);
     }
     function treeClick(event, treeId, treeNode){
-        alert(treeId+','+treeNode.tId + ", " + treeNode.name);
+        // alert(treeId+','+treeNode.tId + ", " + treeNode.name);
+        page.getLeft().tree.reload();
     }
     function deptQryEvt1(){
         alert('left2');

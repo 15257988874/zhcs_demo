@@ -430,9 +430,9 @@ app.ui.page={};
                     itemBlcok=con.isBlock?'block-item layui-form-item':'layui-form-item',
                     _li=$('<li class="'+itemBlcok+'"><label>' + req + con.label + ': </label></li>'),
                     divStyle = 'm-inline-block w-all',
-                    inputType = con.inputType ? con.inputType : 'text';
-                elmType=con.elmType || 'input',
-                verType=cfg.verType?cfg.verType:'tips';
+                    inputType = con.inputType ? con.inputType : 'text',
+                    elmType=con.elmType || 'input',
+                    verType=cfg.verType?cfg.verType:'tips';
                 switch (elmType) {
                 case 'input':
                     if(inputType=='text'){
@@ -1683,30 +1683,18 @@ app.ui.tree = {
         var treeCfg = this._cfg,_this=this,loadFlag=0;
         this.loaded = false;
         var jsLoader = new YcyaLoader();
+        this.allCfg=cfg;
         jsLoader.loadFileList([getContentPath()+'/res/dep/zTree/css/zTreeStyle/zTreeStyle.css',
             getContentPath()+'/res/dep/zTree/js/jquery.ztree.all.js'],function(){
             if(!$("#yui-tree").hasClass("ztree"))$("#yui-tree").addClass("ztree");
             if(cfg.url && cfg.url!=''){
-                ycya.http.ajax(cfg.url,{
-                    data: cfg.where,
-                    type: cfg.type || 'post',
-                    success:function(data, textStatus, jqXHR){
-                        if(data && data.code==0){
-                            if(cfg.open){
-                                for(var i=0;i< data.data.length;i++){
-                                    data.data[i].open=true;
-                                }
-                            }
-                            var zTreeObj = $.fn.zTree.init($("#yui-tree"), treeCfg, data.data);
-                            _this.tree = zTreeObj;
-                            _this.loaded = true;
-                        }
-                    },
-                    error:function(jqXHR, textStatus, errorThrown){
-                        layer.msg('tree data load err:'+textStatus);
-                    }
-                 });
+               _this.request(cfg);
             }else{
+                if(cfg.open){
+                    $.each(cfg.data,function(i,val){
+                        val.open=true;
+                    });
+                }
                 var zTreeObj = $.fn.zTree.init($("#yui-tree"), treeCfg, cfg.data);
                 _this.tree = zTreeObj;
                 _this.loaded = true;
@@ -1716,6 +1704,46 @@ app.ui.tree = {
     },
     getTree:function(){
         return this.tree;
+    },
+    request:function(cfg){
+        var _this=this,
+            treeCfg=this._cfg;
+        ycya.http.ajax(cfg.url,{
+            data: cfg.where,
+            type: cfg.type || 'post',
+            success:function(data, textStatus, jqXHR){
+                if(data && data.code==0){
+                    var d= cfg.beforeSuccess ?cfg.beforeSuccess(data):data.data;
+                    if(cfg.open){
+                        for(var i=0;i< d.length;i++){
+                            d[i].open=true;
+                        }
+                    }
+                    var zTreeObj = $.fn.zTree.init($("#yui-tree"), treeCfg, d);
+                    _this.tree = zTreeObj;
+                    _this.loaded = true;
+                }
+            },
+            error:function(jqXHR, textStatus, errorThrown){
+                layer.msg('tree data load err:'+textStatus);
+            }
+         });
+    },
+    reload:function(){
+        var c=this.allCfg,
+            treeCfg=this._cfg;
+        if(c.url && c.url!=''){
+            this.request(c);
+        }else{
+            if(cfg.open){
+                $.each(c.data,function(i,val){
+                    val.open=true;
+                });
+            }
+            var zTreeObj = $.fn.zTree.init($("#yui-tree"), treeCfg, c.data);
+            this.tree = zTreeObj;
+            this.loaded = true;
+        }
     }
 };
 app.ui.left = {
