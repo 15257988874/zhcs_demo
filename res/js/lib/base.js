@@ -1,7 +1,7 @@
 var app = ycya.page;
 app.downloadUrl='http://192.168.0.160:8080/iot/';
 // app.url = 'http://192.168.0.160:8080/iot/service/';
-app.url = 'http://192.168.0.164:8086/iot/service/';
+app.url = 'http://192.168.0.160:8086/iot/service/';
 // app.url = 'http://127.0.0.1:8080/iot/service/';
 app.pageSize = 20;
 app.pageNo = 1;

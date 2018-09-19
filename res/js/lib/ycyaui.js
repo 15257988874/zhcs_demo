@@ -31,7 +31,7 @@ app.ui = {
 };
 app.ui.page={};
 //表单元素
-(function (win) {           
+(function (win) {                      
     var YInput = function (pdom,cfg) {
         this.pdom = pdom;
         this.cfg = cfg;
