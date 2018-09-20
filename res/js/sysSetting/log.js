@@ -45,7 +45,7 @@ $(function(){
                     return app.getDictName('logType',d.logType);
                 }}
                 ,{field: 'opt', width:400,title: '详细信息'}
-                ,{fixed: 'right', width: 400, align: 'center',templet:function(d){
+                ,{fixed: 'right', width: 300, align: 'center',templet:function(d){
                     return app.ui.grid.rowBtn({title:'修改',event:'modOne'})
                         + app.ui.grid.rowBtn({title:'删除',css:['layui-btn-danger'],event:'del'})+app.ui.grid.rowBtn({
                             title:'绑定围栏',css:['layui-btn-danger'],event:'rail'

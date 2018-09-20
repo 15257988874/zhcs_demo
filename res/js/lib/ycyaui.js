@@ -991,8 +991,8 @@ app.ui.page={};
                             var _j=item[j].name,
                                 elmId=_this._cfg.id+'_'+_j,
                                 testCfg=_this.selectMap[elmId]  || {};
-                            var cloneCfg=$.extend(true,{},app.ui.formSelectsCfg,{type:'post',searchUrl:!$.isEmptyObject(testCfg) && testCfg.url});
-                            formCfg=$.extend(true,cloneCfg,!$.isEmptyObject(testCfg) && testCfg.cfg);
+                            var cloneCfg=$.extend(true,{},app.ui.formSelectsCfg,{type:'post',searchUrl:!$.isEmptyObject(testCfg) && testCfg.url}),
+                                formCfg=$.extend(true,cloneCfg,!$.isEmptyObject(testCfg) && testCfg.cfg);
                             $.each(item[j].data,function(k,val){
                                 formCfg.data[k]=val;
                             });
