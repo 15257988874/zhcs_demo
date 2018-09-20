@@ -1878,6 +1878,23 @@ app.ui.left = {
                 this._cfg.done=function(res){
                     ycyaTableBtn(res,cfg.btns,cfg.parent);
                     cfg.hover && that.hoverOpenImg();
+                    //绑定tips提示
+                    $('.layui-table-view').on('hover','a[lay-tips]',function(){
+                        var othis=$(this);
+                        if(othis.parent().hasClass('layui-table-cell')){
+                            var tips = othis.attr('lay-tips'),
+                                direction = othis.attr('lay-direction'),
+                                background = othis.attr('lay-background') || '#fff',
+                                color = othis.attr('lay-color') || '#444',
+                                index= layer.tips('<span style="color:'+color+'">'+tips+'<span>', this, {
+                                tips: [direction || 1,background]
+                                ,time: -1
+                            });
+                            othis.data('index', index);
+                        }
+                    }).on('mouseleave', '*[lay-tips]', function(){
+                        layer.close($(this).data('index'));
+                    });
                 }
             }
             this.tableIns =table.render(this._cfg);
@@ -1891,9 +1908,34 @@ app.ui.left = {
             // table.render(aliasCfg);
             this.tableIns .reload(aliasCfg);
         },
+        rowBtnOne:function(cfg){
+            var cssArr = app.ui.util.cssMerge(cfg,['layui-btn','layui-btn-xs']),
+            // $a='<a class="'+cssArr.join(' ')+'" lay-event="'+rowBtnCfg.event+'">'+rowBtnCfg.title+'</a>';
+                ahtml=cfg.icon ?'<span class="iconfont '+cfg.icon+'"></span>':cfg.title,
+                $a=$('<a/>',{class:cssArr.join(' '),html:ahtml});
+            cfg.icon && $a.attr('lay-tips',cfg.title); 
+            cfg.event && $a.attr('lay-event',cfg.event);  
+            cfg.direction && $a.attr('lay-direction',cfg.direction);  
+            cfg.tipBg && $a.attr('lay-background',cfg.tipBg);  
+            cfg.tipColor && $a.attr('lay-color',cfg.tipColor);  
+            return $a[0].outerHTML;
+        },
+        /**
+         * @param {array/object} rowBtnCfg 
+         * @returns
+         */
         rowBtn:function(rowBtnCfg){
-            var cssArr = app.ui.util.cssMerge(rowBtnCfg,['layui-btn','layui-btn-xs']);
-            return '<a class="'+cssArr.join(' ')+'" lay-event="'+rowBtnCfg.event+'">'+rowBtnCfg.title+'</a>';
+            var cfgType=$.type(rowBtnCfg),
+                _this=this;
+            if(cfgType==='object'){
+                return this.rowBtnOne(rowBtnCfg);
+            }else if(cfgType==='array'){
+                var btnHtml='';
+                $.each(rowBtnCfg,function(i,item){
+                    btnHtml+=_this.rowBtnOne(item);
+                });
+                return btnHtml;
+            }
         },
         getRows:function(flag){//flag boolean ,true返回数据id集合
             if(!flag){
@@ -1944,6 +1986,7 @@ app.ui.left = {
     au.grid.getRows= Grid.prototype.getRows;
     au.grid.delRows= Grid.prototype.delRows;
     au.grid.hoverOpenImg= Grid.prototype.hoverOpenImg;
+    au.grid.rowBtnOne= Grid.prototype.rowBtnOne;
 })(app.ui);
 
 app.ui.page.list={
