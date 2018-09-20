@@ -6553,8 +6553,8 @@ layui.define(["laytpl", "laypage", "layer", "form"], function (e) {
         }), a.layBody.on("click", "td", function () {
             var e = t(this),
                 i = (e.data("field"), e.data("edit")),
-                o = e.children(h);
-                console.log(o.clone(true));
+                o = e.children(h),
+                ae=e;
             if (l.close(a.tipsIndex), !e.data("off"))
                 if (i)
                     if ("select" === i);
@@ -6564,7 +6564,7 @@ layui.define(["laytpl", "laypage", "layer", "form"], function (e) {
                     }
             else o.find(".layui-form-switch,.layui-form-checkbox")[0] || Math.round(o.prop("scrollWidth")) > Math.round(o.outerWidth()) && (a.tipsIndex = l.tips(['<div class="layui-table-tips-main" style="margin-top: -' + (o.height() + 16) + "px;" + function () {
                 return "sm" === n.size ? "padding: 4px 15px; font-size: 12px;" : "lg" === n.size ? "padding: 14px 15px;" : ""
-            }() + '">', o/* .html() */.clone(true).html(), "</div>", '<i class="layui-icon layui-table-tips-c">&#x1006;</i>'].join(""), o[0], {
+            }() + '">', o.html() , "</div>", '<i class="layui-icon layui-table-tips-c">&#x1006;</i>'].join(""), o[0], {
                 tips: [3, ""],
                 time: -1,
                 anim: -1,
@@ -6574,7 +6574,11 @@ layui.define(["laytpl", "laypage", "layer", "form"], function (e) {
                 success: function (e, t) {
                     e.find(".layui-table-tips-c").on("click", function () {
                         l.close(t)
-                    })
+                    });
+                    $('.layui-table-tips-main a[lay-event]').click(function(){
+                        var eventName=$(this).attr('lay-event');
+                        $('a[lay-event="'+eventName+'"]',ae).trigger('click');
+                    });
                 }
             }))
         }), a.layBody.on("click", "*[lay-event]", function () {
