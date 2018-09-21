@@ -1,0 +1,8 @@
+/* 用于解决多选下拉框不能溢出的问题 */
+.layui-layer-page .layui-layer-content{
+    overflow: inherit;
+}
+.layui-layer-content .yy-m-aq-popup{
+    max-height: initial ;
+    overflow-y: initial ;
+}

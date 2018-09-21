@@ -26,6 +26,7 @@ app.router = {
     'parkmonitor':"/res/js/lib/parkmonitor.js",
     "hbpage":"/res/js/lib/hbpage.js"
 };
+app.css=["logList"];//需要额外添加特殊样式的页面(使下拉框覆盖在弹窗之上),适用于表单元素较少的页面
 app.dict = {
     'logType': {1: '登陆日志'}
     ,'fcltStatus': {1: '闲置',2:'使用',3:'禁用或废弃'}//设施状态

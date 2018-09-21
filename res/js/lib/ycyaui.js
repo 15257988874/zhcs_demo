@@ -1964,10 +1964,10 @@ app.ui.left = {
         hoverOpenImg:function(){
             var img_show = null; // tips提示
             $('td img').hover(function(){
-                var img = "<img class='img_msg' src='"+$(this).attr('src')+"' style='width:130px;' />";
+                var img = "<img class='img_msg' src='"+$(this).attr('src')+"' style='width:130px;padding:5px 0' />";
                 img_show = layer.tips(img, this,{
                     tips:[2, 'rgba(41,41,41,.5)']
-                    ,area: ['160px']
+                    ,area: ['142px']
                     ,time:80000
                 });
             },function(){
@@ -2282,7 +2282,7 @@ app.ui.echarts={
         var bl=this.barlineCfg,
             _this=this;
         this.blChart = echarts.init( document.getElementById( bl.id) );
-            option = {
+        var option = {
             // 各统计注解
                 legend: {
                     show: bl.YMlegend.lshow,
@@ -2334,7 +2334,7 @@ app.ui.echarts={
                 formatter: function (params) {
                     {
                         var relVal = bl.YMTtooltip + params[0].name + "<br/>";
-                        for (j = 0; j < params.length; j++) {
+                        for (var j = 0; j < params.length; j++) {
                             relVal += params[j].seriesName + ' : ' + params[j].value + "<br/>";
                         }
                         return relVal+bl.YMBtooltip;
@@ -2496,47 +2496,6 @@ app.ui.echarts={
                         }
                     }              
             }
-                // 第三根坐标轴
-            //      {
-            //        show:bl.YMtyaxis.tyshow,
-            //        minInterval: bl.YMsyaxis.syminInterval,
-            //        type: bl.YMtyaxis.tyminInterval,
-            //        position:'right',
-            //        name:bl.YMtyaxis.tyname,
-            //        offset: 80,
-            //        axisLabel: {
-            //            margin: bl.YMtyaxis.tymargin,
-            //            rotate: bl.YMtyaxis.tyrotate,
-            //            textStyle: {
-            //                color: bl.yaxisClocr[0]
-            //            }
-    
-            //        },
-            //        axisTick: {
-            //            show: bl.YMtyaxis.tyaxisTick,
-            //            lineStyle: {
-            //                color: bl.yaxisClocr[1]
-            //            }
-            //        },
-            //        axisLine: {
-            //            show: bl.YMtyaxis.tyaxisLine,
-            //            lineStyle: {
-            //                color: bl.yaxisClocr[2]
-            //            },
-            //        },
-            //        splitLine: {
-            //            show: bl.YMtyaxis.tysplitLine,
-            //            lineStyle: {
-            //                color: bl.yaxisClocr[3]
-            //            },
-            //        },
-            //        splitArea: {
-            //             show: bl.YMtyaxis.tysplitArea,
-            //             areaStyle: {
-            //                 color: [bl.yaxisClocr[4],bl.yaxisClocr[5]]
-            //             }
-            //         } 
-            //    }
             ],
             // 具体数值
             series:[] //seriesList
@@ -2572,7 +2531,7 @@ app.ui.echarts={
             } else {
                 dataZoom_end = 90;
             }
-            var flag;
+        var flag;
         for(var i=0;i< bl.datalName.length;i++){
             var oneItem={
                 name: bl.datalName[i],
@@ -4276,8 +4235,10 @@ $(function(){
     if(page){
         var js = app.router[page];
         if(js){
-            var jsLoader = new YcyaLoader();
-            jsLoader.loadFile(getContentPath()+js,function(){});
+            var jsLoader = new YcyaLoader(),
+                fileList=[getContentPath()+js];
+            app.css &&  app.css.indexOf(page)!==-1 && fileList.push(getContentPath()+'/res/css/extend.css');
+            jsLoader.loadFileList(fileList,function(){});
         }else{
             alert('cfg error');
         }
