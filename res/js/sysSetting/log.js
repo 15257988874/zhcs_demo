@@ -223,7 +223,7 @@ $(function () {
                     name: 'yui-table-add3'
                 },
                 {
-                    title: '路线',
+                    title: '路线话',
                     handle: function () {
                         routepop.reset();
                         routepop.popup({

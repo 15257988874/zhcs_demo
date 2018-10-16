@@ -13,7 +13,11 @@
         var layPage = parentDom?parentDom.find('.layui-laypage'):$('.layui-laypage'),
             layPageBox = $('#layui-table-page1'),
             _box = $('<div style="margin-top:-2px;" class="layui-btn-group grid-btn" id="pageBtn"></div>'),//按钮默认有右边距，若要取消，layui-custom.less中取消
-            _more ;
+            _more ,
+            paddingList={
+                3:'0 14px',
+                5:'0 2px'
+            };
         if (!btnArray || $.type(btnArray) !== 'array') {
             throw new Error('参数格式错误');
             return;
@@ -36,16 +40,16 @@
                 if (!b.name) {
                     continue;
                 } else {
-                    if (b.name.length > 2) {
+                    if (b.name.length > 3) {
                         paddingVal = 10;
                         btnTotalWidth += paddingVal * 2 + 12 * b.title.length;
-                        moreBoxWidth = paddingVal * 2 + 12 * b.title.length;
+                        moreBoxWidth = (paddingVal-2) * 2 + 12 * b.title.length;
                     } else {
                         paddingVal=20;
                         btnTotalWidth += btnWidth;
                     }
                 }
-            }1
+            }
             btnAverageWidth=btnTotalWidth/btnArray.length;
         }
         //生成按钮    
@@ -54,7 +58,7 @@
             $('#gridBtns').remove();
             _box.html('');
             for(var i in btnArray){
-                if(layPageBox.width()-layPage.width()-(i-0+1)*btnAverageWidth<btnAverageWidth){
+                if(layPageBox.width()-layPage.width()-(i-0+1)*btnAverageWidth<btnAverageWidth+70){
                     var str='';
                     for(var k=i-0,l=btnArray.length;k<l;k++){
                         var _btn,
@@ -64,7 +68,10 @@
                         btnId = btnArray[k].name ? btnArray[k].name : '';
                         if(b /* && ycya.util.checkPrivilege(,b.code) */){
                             if (b.title.length > 2) {
-                                _btn = '<button class="' + c + 'more-font" id="' + btnId + '">' + b.title + '</button>';
+                                var lens=Object.keys(paddingList),
+                                    /* three=b.title.length == 3?'style="padding:'+paddingList[b.title.length]+';"':''; */
+                                    three=lens.indexOf(b.title.length+'')!==-1?'style="padding:'+paddingList[b.title.length]+';"':'';
+                                _btn = '<button class="' + c + 'more-font" id="' + btnId + '" '+three+'>' + b.title + '</button>';
                                 moreBoxWidth = paddingVal * 2 + 12 * b.title.length;
                             } else {
                                 _btn = '<button class="' + c + '" id="' + btnId + '">' + b.title + '</button>';
@@ -85,7 +92,10 @@
                     } else {
                         if(b /* && ycya.util.checkPrivilege(,b.code) */){
                             if (b.title.length > 2) {
-                                _btn = $('<button class="' + c + 'more-font" id="' + btnId + '">' + b.title + '</button>');
+                                var lens=Object.keys(paddingList),
+                                /* three=b.title.length == 3?'style="padding:'+paddingList[b.title.length]+';"':''; */
+                                three=lens.indexOf(b.title.lengt+'')!==-1?'style="padding:'+paddingList[b.title.length]+';"':'';
+                                _btn = $('<button class="' + c + 'more-font" id="' + btnId + '" '+three+'>' + b.title + '</button>');
                               
                             } else {
                                 _btn = $('<button class="' + c + '" id="' + btnId + '" lay-event="'+b.event+'">' + b.title + '</button>');

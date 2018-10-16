@@ -100,7 +100,7 @@ body .BMapLib_SearchInfoWindow .BMapLib_bubble_title{
 /* grid */
 .yy-m-grid .layui-laypage {float: right;}
 .yy-m-grid .layui-btn-sm {padding: 0 20px;}
-.yy-m-grid .layui-btn-sm.more-font {padding: 0 10px;}
+.yy-m-grid .layui-btn-sm.more-font {padding: 0 8px;}
 .yy-m-grid .layui-btn-small {height: 30px;line-height: 30px;padding: 0 10px;font-size: 12px;}
 .yy-m-grid .layui-btn-group .more-btn > button:first-child {border-left: 1px solid rgba(255, 255, 255, 0.5);}
 .yy-m-grid .layui-btn-group .more-btn > button:first-child ~ button {border-top: 1px solid rgba(255, 255, 255, 0.5);}
