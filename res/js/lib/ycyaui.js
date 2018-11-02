@@ -2044,7 +2044,7 @@ app.ui.left = {
             if (cfg.btns) {
                 //捕获done事件
                 this._cfg.done = function (res) {
-                    ycyaTableBtn(res, cfg.btns, cfg.parent);
+                    res &&  ycyaTableBtn(res, cfg.btns, cfg.parent);
                     cfg.hover && that.hoverOpenImg();
                     //绑定tips提示
                     $('.layui-table-view').on('hover', 'a[lay-tips]', function () {
@@ -2385,13 +2385,38 @@ app.ui.reportTitle = {
         $('#yui-report-title').attr('class', this._cfg.bgClass + ' ' + this._cfg.fClass + '  yy-m-report-title').html(titleArr.join(''));
         return this;
     },
-    set: function (cfg) {
+    set:function(cfg,extraPara){
+        /* 
+        * extraPara 预留参数对象
+        * {
+        *   animate:boolean 启动动画 
+        *   cfg:[{
+    *               speed : 1000,//动画速度
+                    num : "", //初始化值
+                    iniAnimate : true, //是否要初始化动画效果
+                    symbol : '',//默认的分割符号，千，万，千万
+                    dot : 0 //保留几位小数点
+        *       }..]  动画参数配置  
+        * }
+        */
         //注意 cfg数组顺序即为item数组顺序
-        if (!cfg || $.type(cfg) !== 'array') {
-            return layer.msg('report set para error');
+        if(!cfg || $.type(cfg)!=='array'){
+             return layer.msg('report set para error');
         }
-        $.each(this.elmId, function (i, item) {
-            $('#' + item).text(cfg[i]);
+        var that=this;
+        this.titleList=[];
+        $.each(this.elmId,function(i,item){
+            if(!extraPara || !extraPara.animate){
+                $('#'+item).text(cfg[i]);
+            }else{
+                that.titleList[i] && that.titleList[i] .resetData(0);
+                var _c=$.extend({
+                    num: cfg[i]-0,
+                    speed: 2000,
+                    symbol: ","
+                }, extraPara.cfg?  $.type(extraPara.cfg[i])==='object'?extraPara.cfg[i]:{} :{});
+                that.titleList[i] =$('#'+item).numberAnimate(_c);
+            }
         });
     }
 };

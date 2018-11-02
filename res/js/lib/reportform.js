@@ -120,7 +120,22 @@ $(function(){
             ]
         }
     });
-    report.getTitle().set([99,4,5]);
+    report.getTitle().set([5,5,5],{
+        animate:true
+    })
+    var n1=10,
+        n2=20,
+        n3=2;
+    setInterval(function(){
+        n1+=10;
+        n2+=20;
+        n3=   (n3+15>=100)?100:(n3+15) ;
+        report.getTitle().set([n1,n2,n3],{
+            animate:true,
+            cfg:[{dot:2}]
+        });
+    },3000)
+
     layui.table.on('tool(yui-grid-filter)', function(obj){
         if(obj.event=="evtUser"){
             //获取弹窗表格的配置
