@@ -83,6 +83,10 @@ $(function () {
             url: 'backJson.js',
             method: 'get',
             hover: true,
+            toolbar:'default',
+            defaultToolbar:['filter', 'print', 'exports'],
+            totalRow:true,
+
             cols: [
                 [ //表头
                     {
@@ -98,7 +102,8 @@ $(function () {
                         width: 100,
                         align: 'center',
                         fixed: 'left',
-                        event: 'evtUser'
+                        event: 'evtUser',
+                        totalRowText:'合计:'
                     }, {
                         field: 'optTime',
                         title: '操作时间',
@@ -138,7 +143,8 @@ $(function () {
                     }, {
                         field: 'opt',
                         width: 400,
-                        title: '详细信息'
+                        title: '详细信息',
+                        totalRow:true
                     }, {
                         fixed: 'right',
                         width: 300,
