@@ -26,9 +26,7 @@ strong{font-weight: normal}
 .yy-titles>div{height: 100%;border-radius: 2px;float:left; box-sizing: border-box;-o-box-sizing: border-box;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;padding-right:8px;}
 .yy-titles>div>div{position: relative;box-sizing: border-box;-o-box-sizing: border-box;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;padding:10px 24px 20px 20px;
 }
-.yy-titles p+p{
-  margin-top: 20px;
-}
+.yy-titles p+p{margin-top: 20px;}
 .yy-title-bg-gradient-blue{ 
   background: -webkit-gradient(linear, left top, right top, from(#1f84eb) , to(#01a2ff)); 
   background: linear-gradient(to right, #1f84eb , #01a2ff); 
@@ -59,6 +57,25 @@ strong{font-weight: normal}
 .yy-no0{background: url('../css/ycyauiImg/no1.png') no-repeat 0 0;}
 .yy-no1{background: url('../css/ycyauiImg/no2.png') no-repeat 0 0;}
 .yy-no2{background: url('../css/ycyauiImg/no3.png') no-repeat 0 0;}
+/* list page */
+.yy-list-body > .layui-fluid{padding: 8px;}
+.list-left{
+  float:left;
+  position: relative;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  width:300px;
+}
+.list-right{
+  position: relative;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  margin-left: 300px;
+}
+@media screen and (max-width: 1366px) {
+  .list-left{width:150px;}
+  .list-right{margin-left: 150px;}
+}
 /* map reset */
 body .BMapLib_SearchInfoWindow{border:none ;}
 body .BMapLib_SearchInfoWindow .BMapLib_bubble_top{border-color:#eee;}
@@ -183,7 +200,7 @@ border-bottom: 1px solid #0c7fc9;}
 .yui-selected .item{position: relative;display: inline-block;padding: 0 5px;height: 26px;line-height: 26px;text-align: center;background-color: #0bb795;font-size: 12px;color: #fff;margin: 4px 4px 4px 0;}
 .yui-selected .item i{position: absolute;top: -6px;right: 0;width: 12px;height: 12px;background: url('../../res/img/map_tab_delete.png') no-repeat;cursor: pointer;}
 /* screen */
-.yy-exit{position: absolute;top:0;left: 0;z-index: 50;top: 24px;left: 24px;background: #fff;padding: 8px;box-shadow: 1px 2px 4px #ccc;cursor: pointer;}
+.yy-exit{position: absolute;top:0;left: 0;z-index: 50;top: 24px;left: 24px;background: #fff;padding: 8px;-webkit-box-shadow: 1px 2px 4px #ccc;box-shadow: 1px 2px 4px #ccc;cursor: pointer;}
 /* parking  css */
 .yy-p-parking-padding15{padding: 15px;}
 .yy-p-parking-marginBottom15{margin-bottom: 8px;}

@@ -239,11 +239,11 @@ $(function () {
                 {
                     title: '导出',
                     handle: function () {
-                        layui.table.exportFile(['名字', '性别', '年龄'], [
+                       /*  layui.table.exportFile(['名字', '性别', '年龄'], [
                             ['张三', '男', '20'],
                             ['李四', '女', '18'],
                             ['王五', '女', '19']
-                        ], 'xls'); //data 为该实例中的任意数量的数据
+                        ], 'xls'); */ //data 为该实例中的任意数量的数据
                     },
                     css: ['layui-btn-danger'],
                     name: 'yui-table-add5'
@@ -508,6 +508,22 @@ $(function () {
                             '2': '女',
                             '3': '保密',
                             '4': '你好'
+                        },
+                        count: 0,
+                        values: '1',
+                        search: true
+                    }
+                },
+                {
+                    label: '图标',
+                    elmType: 'select',
+                    name: 'icon',
+                    qt: 'eq',
+                    isBlock: true,
+                    verify: 'required',
+                    cfg: {
+                        data: {
+                            'layui-icon-set': '<a class="layui-icon layui-icon-set"></a>'
                         },
                         count: 0,
                         values: '1',

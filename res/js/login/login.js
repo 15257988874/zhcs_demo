@@ -22,18 +22,22 @@ layui.config({
             url:'sys/login',
             data:obj.field,
             success:function(data){
-               
-                 ycya.http.setToken(data.data.token,app.url +'sys/token',data.data);
-                 layer.msg('登入成功', {
-                    offset: '15px',
-                    icon: 1,
-                    time: 500
-                }, function () {
-                    $("#bar").animate({right: 0},1000, 'swing',function(){
+                ycya.http.setToken(data.data.token,app.url +'sys/token',data.data);
+                    layer.msg('登入成功', {
+                        offset: '15px',
+                        icon: 1,
+                        time: 500
+                    },function () {
+                        $("#bar").animate({right: 0},1000, 'swing',function(){
                         location.href = 'page/default/main/main.html'; //后台主页
-                    });	 
-                   
+                    });	    
                 });
+            },
+            // 测试
+            error:function(){
+                $("#bar").animate({right: 0},1000, 'swing',function(){
+                    location.href = 'page/default/main/main.html'; //后台主页
+                });	
             }
         })
     });

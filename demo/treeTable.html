@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../res/dep/layui/css/layui.css" />
+    <style type="text/css">
+        body {
+            padding: 10px 30px;
+        }
+
+        .hide {
+            display: none
+        }
+    </style>
+</head>
+
+<body>
+    <button class="layui-btn layui-btn-primary up-all">全部收起</button>
+    <button class="layui-btn layui-btn-primary down-all">全部展开</button>
+
+    <div class="test-tree-table" lay-filter="test1"></div>
+
+    <script type="text/javascript" src="../res/dep/layui/layui.all.js"></script>
+    <script type="text/javascript">
+        layui.config({
+            base: '../res/dep/layui/',
+        })
+        layui.use(['treetable', 'form'], function () {
+            var data = [{
+                    "id": 1,
+                    "pid": 0,
+                    "title": "系统管理",
+                    remark:'测试'
+                },
+                {
+                    "id": 2,
+                    "pid": 1,
+                    "title": "组织管理"
+                },
+                {
+                    "id": 3,
+                    "pid": 1,
+                    "title": "权限管理"
+                },
+                {
+                    "id": 4,
+                    "pid": 1,
+                    "title": "系统设置"
+                },
+                {
+                    "id": 5,
+                    "pid": 1,
+                    "title": "系统监控"
+                },
+                {
+                    "id": 6,
+                    "pid": 1,
+                    "title": "消息推送"
+                },
+                {
+                    "id": 7,
+                    "pid": 1,
+                    "title": "研发工具"
+                }
+
+            ];
+            var o = layui.$,
+                treetable = layui.treetable;
+            treetable.render({
+                elem: '.test-tree-table',
+                data: data,
+                field: 'title',
+                cols: [{
+                        field: 'title',
+                        title: '标题',
+                        width: '30%',
+                    },
+                    {
+                        field: 'id',
+                        title: 'ID',
+                        width: '20%',
+                    },
+                    {
+                        field: 'pid',
+                        title: '父ID',
+                        width: '20%',
+                    },
+                    {
+                        field: 'actions',
+                        title: '操作',
+                        width: '30%',
+                        data: [
+                            '<a lay-filter="add" >添加</a>',
+                            '<a lay-filter="edit">编辑</a>',
+                        ],
+                    },
+                ]
+            });
+
+            treetable.on('treetable(test1)', function (data) {
+                // console.dir(o(data.elem).html());
+                var _o=data.elem[0].outerHTML;
+                if(_o.indexOf('td')==-1){
+                    if(_o.indexOf('edit')>0){
+                        layer.msg('编辑');
+                    }else if(_o.indexOf('add')>0){
+                        layer.msg('添加');
+                    }
+                }
+            })
+
+            // treetable.on('treetable(add)', function (data) {
+            //     console.dir(data);
+            // })
+
+            // treetable.on('treetable(edit)', function (data) {
+            //     console.dir(data);
+            // })
+
+            o('.up-all').click(function () {
+                treetable.all('up');
+            })
+
+            o('.down-all').click(function () {
+                treetable.all('down');
+            })
+        })
+    </script>
+</body>
+
+</html>

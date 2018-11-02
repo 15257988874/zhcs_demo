@@ -173,10 +173,14 @@ app.ycyaAjax=function (opt) {
         }
       },
       error: function (e) {
-        layer.closeAll();
-        layer.msg('服务器链接异常，请稍后再试', {
-          time: 1000
-        });
+        if( opt.error){
+          opt.error();
+        }else{
+          layer.closeAll();
+          layer.msg('服务器链接异常，请稍后再试', {
+            time: 1000
+          });
+        }
       }
     })
 }

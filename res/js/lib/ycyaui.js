@@ -997,8 +997,8 @@ app.ui.page = {};
                             $(checkboxs[k]).prop('checked', false);
                         }
                     }
-                    for (var k1 = 0, l1 = checkboxs.length; k1 < l1; k++) {
-                        $(checkboxs[k1]).prop('checked', $.inArray($(checkboxs[k1]).attr('value'), item.checked) != -1 ? true : false);
+                    for (var k = 0, l = checkboxs.length; k < l; k++) {
+                        $(checkboxs[k]).prop('checked', $.inArray($(checkboxs[k]).attr('value'), item.checked) != -1 ? true : false);
                     }
                 });
                 layui.form.render('checkbox');
@@ -1195,8 +1195,8 @@ app.ui.page = {};
                         }
                     }
                     if (this.pic) {
-                        for (var key1 in this.pic) {
-                            delete this.pic[key1];
+                        for (var key in this.pic) {
+                            delete this.pic[key];
                         }
                     }
                 }
@@ -1229,9 +1229,9 @@ app.ui.page = {};
                                 delete _this.files[k];
                             }
                         }
-                        for (var k1 in _this.pic) {
-                            if (_this.pic[k1] === imgid) {
-                                delete _this.pic[k1];
+                        for (var k in _this.pic) {
+                            if (_this.pic[k] === imgid) {
+                                delete _this.pic[k];
                             }
                         }
                         $(this).parent().remove();
@@ -1273,7 +1273,6 @@ app.ui.page = {};
                     }
                 });
             }
-
         },
         disabled: function (disArr, bool) {
             bool = bool !== undefined ? bool : false;
@@ -1811,8 +1810,8 @@ app.ui.search = {
             $.extend(result, fvs[fieldName]);
         }
         if (!this._cfg.allowEmpty) {
-            for (var fieldName1 in result) {
-                if (null == result[fieldName1] || result[fieldName1] == '') delete result[fieldName1];
+            for (var fieldName in result) {
+                if (null == result[fieldName] || result[fieldName] == '') delete result[fieldName];
             }
         }
         return result;
@@ -1984,8 +1983,8 @@ app.ui.left = {
             $.extend(result, fvs[fieldName]);
         }
         if (!this._cfg.allowEmpty) {
-            for (var fieldName1 in result) {
-                if (null == result[fieldName1] || result[fieldName1] == '') delete result[fieldName1];
+            for (var fieldName in result) {
+                if (null == result[fieldName] || result[fieldName] == '') delete result[fieldName];
             }
         }
         return result;
@@ -2396,162 +2395,162 @@ app.ui.reportTitle = {
         });
     }
 };
-(function (au) {
-    var Echarts = function (cfg) {
-        this.barlineCfg = {
-            id: 'yui-report-echart', //容器ID
-            type: 'line', //图标类型 line bar
-            maxBarWidth: 40,
-            minBarWidth: 12,
-            colorList: ['#ff2600', '#ffc000', '#00ad4e', '#0073c2', '#165868', '#e76f00', '#316194', '#723761', '#00b2f1', '#4d6022', '#4b83bf', '#f9c813', '#0176c0'], //统计图颜色
-            stbackgrond: ['#fff'], //统计图背景色
-            datalName: [], //数据题目
-            valueJson: {}, //显示数值 {'接入率':[1,,2,3]}
-            YMlegend: {
-                lshow: true, //是否显示
-                lalign: "center", //注解位置 center：居中  left：左 right：右
+(function(au){
+    var Echarts=function(cfg){
+        this.barlineCfg={
+            id:'yui-report-echart',              //容器ID
+            type:'line',        //图标类型 line bar
+            maxBarWidth:40,
+            minBarWidth:12,
+            colorList:['#ff2600', '#ffc000', '#00ad4e', '#0073c2', '#165868', '#e76f00', '#316194', '#723761', '#00b2f1', '#4d6022', '#4b83bf', '#f9c813', '#0176c0'], //统计图颜色
+            stbackgrond:['#fff'], //统计图背景色
+            datalName:[],  //数据题目
+            valueJson:{},  //显示数值 {'接入率':[1,,2,3]}
+            YMlegend:{
+                lshow: true,//是否显示
+                lalign: "center",//注解位置 center：居中  left：左 right：右
                 lcolor: '#444', //字体颜色
-                lorient: 'horizontal', //注解显示格式 horizontal,水平分布 vertical，垂直分布
-                licon: 'circle', //注解前面图形 circle：园，triangle：三角形，diamond：菱形，rect：矩形,roundRect:圆角矩形
+                lorient: 'horizontal',//注解显示格式 horizontal,水平分布 vertical，垂直分布
+                licon: 'circle',//注解前面图形 circle：园，triangle：三角形，diamond：菱形，rect：矩形,roundRect:圆角矩形
             },
-            YMtitle: { //标题
-                tshow: true, // 是否显示
-                ttext: '', //一级标题
-                ttcolor: '#000', //一级标题颜色
-                ttfontsize: 16, //一级标题大小
-                tsubtext: '', //二级标题
+            YMtitle:{      //标题
+                tshow: true,      // 是否显示
+                ttext: '',        //一级标题
+                ttcolor: '#000',  //一级标题颜色
+                ttfontsize: 16,   //一级标题大小
+                tsubtext: '',     //二级标题
                 tstcolor: '#333', //二级标题颜色
-                tstfontsize: 14, //二级标题字号
-                txalign: 'left' //位置 center 居中 left 局左 right 局右
-            },
-            dataxName: [], //x轴name
-            YMTtooltip: "", //鼠标提示,加在头部
-            YMBtooltip: "", //鼠标提示,加在尾部
-            xaxisClocr: ['#333', '#666', '#444', '#f6f6f6', '#f6f6f6', '#fff'], //x轴线颜色 顺序为: 坐标轴、坐标轴小标记、具体数值、分割区域线 、间隔颜色
-            yaxisClocr: ['#333', '#666', '#444', '#f6f6f6', '#f6f6f6', '#fff'], //y轴线颜色 顺序为: 具体数值、坐标轴小标记、坐标轴、分割区域线 、间隔颜色
-            YMxaxis: { //X轴设置
-                xrotate: 30, //字体倾斜角度
-                xaxisLine: true, //坐标轴线
-                xaxisTick: false, //坐标轴小标记
-                xsplitLine: false, //分割区域线
+                tstfontsize: 14,  //二级标题字号
+                txalign: 'left'   //位置 center 居中 left 局左 right 局右
+            }, 
+            dataxName:[],         //x轴name
+            YMTtooltip:"",        //鼠标提示,加在头部
+            YMBtooltip:"",        //鼠标提示,加在尾部
+            xaxisClocr:['#333', '#666', '#444', '#f6f6f6', '#f6f6f6', '#fff'], //x轴线颜色 顺序为: 坐标轴、坐标轴小标记、具体数值、分割区域线 、间隔颜色
+            yaxisClocr:['#333', '#666', '#444', '#f6f6f6', '#f6f6f6', '#fff'], //y轴线颜色 顺序为: 具体数值、坐标轴小标记、坐标轴、分割区域线 、间隔颜色
+            YMxaxis : {  //X轴设置
+                xrotate: 30,//字体倾斜角度
+                xaxisLine: true,//坐标轴线
+                xaxisTick: false,//坐标轴小标记
+                xsplitLine: false,//分割区域线
                 xaxisLabel: true, //y轴具体数值
-                xmargin: 10, //标题与轴线距离
-                xsplitArea: false, //间隔区域
+                xmargin: 10,//标题与轴线距离
+                xsplitArea: false,//间隔区域
             },
-            YMyaxis: { //Y轴设置
+            YMyaxis :{ //Y轴设置
                 yminInterval: 20, //最小刻度值
-                yrotate: 60, //字体倾斜角度
-                yaxisLine: true, //坐标轴线
-                yaxisTick: false, //坐标轴小标记
-                ysplitLine: false, //分割区域线
+                yrotate: 60,//字体倾斜角度
+                yaxisLine: true,//坐标轴线
+                yaxisTick: false,//坐标轴小标记
+                ysplitLine: false,//分割区域线
                 yaxisLabel: true, //y轴具体数值
-                ytextStyle: '#666', //y轴数值颜色
-                yvalue: 'value', //y轴值
-                ysplitArea: false, //间隔区域
-                ymargin: 10, //标题与轴线距离
-                yname: '', //y轴提示
+                ytextStyle: '#666',//y轴数值颜色
+                yvalue: 'value',//y轴值
+                ysplitArea: false,//间隔区域
+                ymargin: 10,//标题与轴线距离
+                yname:'',//y轴提示
             },
             // 多个y轴情况下（最多3个）第二根y轴
-            YMsyaxis: {
-                syshow: false, //是否显示
+            YMsyaxis :{
+                syshow:false,//是否显示
                 syminInterval: 40, //最小刻度值
-                syrotate: 60, //字体倾斜角度
-                syaxisLine: true, //坐标轴线
-                syaxisTick: true, //坐标轴小标记
-                sysplitLine: false, //分割区域线
+                syrotate: 60,//字体倾斜角度
+                syaxisLine: true,//坐标轴线
+                syaxisTick: true,//坐标轴小标记
+                sysplitLine: false,//分割区域线
                 syaxisLabel: true, //y轴具体数值
-                sytextStyle: '#444', //y轴数值颜色
-                syvalue: 'value', //y轴值
-                sysplitArea: false, //间隔区域
-                symargin: 10, //标题与轴线距离
-                syname: '', //y轴提示
+                sytextStyle: '#444',//y轴数值颜色
+                syvalue: 'value',//y轴值
+                sysplitArea: false,//间隔区域
+                symargin: 10,//标题与轴线距离
+                syname:'',//y轴提示
             },
             // 多个y轴情况下（最多3个）第三根y轴
-            YMtyaxis: {
-                tyshow: false, //是否显示
+            YMtyaxis : {
+                tyshow:false,//是否显示
                 tyminInterval: 20, //最小刻度值
-                tyrotate: 60, //字体倾斜角度
-                tyaxisLine: true, //坐标轴线
-                tyaxisTick: false, //坐标轴小标记
-                tysplitLine: false, //分割区域线
+                tyrotate: 60,//字体倾斜角度
+                tyaxisLine: true,//坐标轴线
+                tyaxisTick: false,//坐标轴小标记
+                tysplitLine: false,//分割区域线
                 tyaxisLabel: true, //y轴具体数值
-                tytextStyle: '#444', //y轴数值颜色
-                tyvalue: 'value', //y轴值
-                tysplitArea: false, //间隔区域
-                tymargin: 10, //标题与轴线距离
-                tyname: '', //y轴提示
-            },
-            YMgrid: { //统计图位置
+                tytextStyle: '#444',//y轴数值颜色
+                tyvalue: 'value',//y轴值
+                tysplitArea: false,//间隔区域
+                tymargin: 10,//标题与轴线距离
+                tyname:'',//y轴提示
+            } ,
+            YMgrid:{   //统计图位置
                 // 左、右、下、上 值可取0~100% 也可直接取数字
                 gleft: '4%',
                 gright: '4%',
                 gbottom: 0,
-                gtop: '10%',
+                gtop:'10%',
             },
-            YMtoolbar: { // 工具栏
-                itemSize: 14, // 工具栏图标大小
+            YMtoolbar:{  // 工具栏
+                itemSize: 14,   // 工具栏图标大小
                 toorshow: true, //工具栏是否显示 true  false
                 magicType: true, //统计类型切换是否显示 true false
-                restore: true, //刷新是否显示  true false
+                restore: true,    //刷新是否显示  true false
                 saveAsImage: true, //保存是否显示 true false
                 dataView: true, //是否显示数据视图
-                type: ['line', 'bar', 'stack', 'tiled'] //统计图切换类型 line：折线  bar 柱状图 stack：堆砌显示 tited：分类显示 必须在magicType为true时使用
+                type: ['line', 'bar', 'stack', 'tiled']  //统计图切换类型 line：折线  bar 柱状图 stack：堆砌显示 tited：分类显示 必须在magicType为true时使用
             },
-            YMdataZoom: {
-                dzshow: false, //是否出现
-                dzend: 90, //滑块开始位置
-                dzheight: 26, //高度
-                dzfillerColor: 'rgba(167,183,204,0.4)', //选中区域颜色
-                dzbackgroundColor: 'rgba(47,69,84,0)', //整体的背景色 
+            YMdataZoom:{
+                dzshow:false, //是否出现
+                dzend:90,//滑块开始位置
+                dzheight:26,//高度
+                dzfillerColor:'rgba(167,183,204,0.4)',//选中区域颜色
+                dzbackgroundColor:'rgba(47,69,84,0)',//整体的背景色 
             }
         };
-        this.pieCfg = {
-            id: 'yui-report-echart',
-            valueJson: [],
+        this.pieCfg={
+            id:'yui-report-echart', 
+            valueJson:[],
             //统计图颜色
-            YMPcolorList: ['#ffc000', '#00ad4e', '#0073c2', '#165868', '#e76f00', '#316194', '#723761', '#00b2f1', '#4d6022', '#4b83bf', '#f9c813', '#0176c0'],
+            YMPcolorList :['#ffc000', '#00ad4e', '#0073c2', '#165868', '#e76f00', '#316194', '#723761', '#00b2f1', '#4d6022', '#4b83bf', '#f9c813', '#0176c0'],
             //统计图背景色
-            YMPstbackgrond: ['#fff'],
+            YMPstbackgrond : ['#fff'],
             // 各统计注解
-            YMPlegend: {
-                lshow: true, //是否显示
-                lalign: 'center', //注解位置 center：居中  left：左 right：右
+            YMPlegend :{
+                lshow: true,//是否显示
+                lalign: 'center',//注解位置 center：居中  left：左 right：右
                 lcolor: '#444', //字体颜色
-                lorient: 'vertical', //注解显示格式 horizontal,水平分布 vertical，垂直分布
-                licon: 'circle', //注解前面图形 circle：园，triangle：三角形，diamond：菱形，rect：矩形,roundRect:圆角矩形
-                ldata: [],
-                lyalign: 'center' //垂直位置
+                lorient: 'vertical',//注解显示格式 horizontal,水平分布 vertical，垂直分布
+                licon: 'circle',//注解前面图形 circle：园，triangle：三角形，diamond：菱形，rect：矩形,roundRect:圆角矩形
+                ldata:[],
+                lyalign: 'center'//垂直位置
             },
             //题目
-            YMPtitle: {
-                tshow: true, // 是否显示
-                ttext: '', //一级标题
-                ttcolor: '#444', //一级标题颜色
-                ttfontsize: 16, //一级标题大小
-                tsubtext: '', //二级标题
-                tstcolor: '#666', //二级标题颜色
-                tstfontsize: 14, //二级标题字号
-                txalign: 'left' //位置 center 居中 left 局左 right 局右
+            YMPtitle : {
+                tshow: true,// 是否显示
+                ttext: '',//一级标题
+                ttcolor: '#444',//一级标题颜色
+                ttfontsize: 16,//一级标题大小
+                tsubtext: '',//二级标题
+                tstcolor: '#666',//二级标题颜色
+                tstfontsize: 14,//二级标题字号
+                txalign: 'left'//位置 center 居中 left 局左 right 局右
             },
-
+    
             // 需要居中显示具体数据与题目 环形图可以使用 饼状图不建议使用
-            YMPtotaltitle: {
+            YMPtotaltitle :{
                 totalshow: false,
                 totalnshow: false,
-                totaltext: '', //题目
+                totaltext: '',  //题目
                 totaltextsize: 14, //题目大小
                 totalnumber: '', //总数值
                 totalnumbersize: 26, //数值大小
                 totalColor: ["#999", '#333'] //居中值颜色设置 前为标题 后为数值
             },
             //鼠标提示
-            YMPtooltip: {
-                YMPTtooltip: "", //加在头部
-                YMPBtooltip: "", //加在尾部
+            YMPtooltip :{
+                YMPTtooltip: "",//加在头部
+                YMPBtooltip: "",//加在尾部
                 YMPcontent: '{b}:{c}({d}%)'
             },
             //控制图形
-            YMPseries: {
+            YMPseries : {
                 sname: '',
                 sradius: ["0%", "70%"], //控制图形类型 取值0~100%（控制0~80%） 当前值为0%时 为饼状图 其他为环形图（推荐取值在前后差20）页可为具体数值
                 slabelshow: false, //是否需要外部显示
@@ -2561,37 +2560,37 @@ app.ui.reportTitle = {
                 scontent: '{a}{c}{a|{d}%}\n{b|{b}}' //外围显示值'{c}{a|{d}%}\n{b|{b}}' c 选项具体数值 d 百分比 b 选项 a 为标题(sname)
             },
             // 工具栏
-            YMPtoolbar: {
-                itemSize: 14, // 工具栏图标大小
+            YMPtoolbar : {
+                itemSize: 14,   // 工具栏图标大小
                 toorshow: true, //工具栏是否显示 true  false
-                restore: true, //刷新是否显示  true false
+                restore: true,    //刷新是否显示  true false
                 saveAsImage: true, //保存是否显示 true false
                 dataView: true //是否显示数据视图
             }
         };
-    };
-    Echarts.prototype = {
-        barlineInit: function (cfg) {
-            $.extend(true, this.barlineCfg, cfg);
-            var bl = this.barlineCfg,
-                _this = this;
-            this.blChart = echarts.init(document.getElementById(bl.id));
-            var option = {
+    }
+    Echarts.prototype={
+        barlineInit:function(cfg){
+            $.extend(true,this.barlineCfg,cfg);
+            var bl=this.barlineCfg,
+                _this=this;
+            this.blChart = echarts.init( document.getElementById( bl.id) );
+            this.option = {
                 // 各统计注解
-                legend: {
-                    show: bl.YMlegend.lshow,
-                    type: 'scroll',
-                    orient: bl.YMlegend.lorient,
-                    icon: bl.YMlegend.licon,
-                    data: bl.datalName,
-                    align: 'left',
-                    x: bl.YMlegend.lalign,
-                    textStyle: {
+                    legend: {
+                        show: bl.YMlegend.lshow,
+                        type: 'scroll',
+                        orient: bl.YMlegend.lorient,
+                        icon:  bl.YMlegend.licon,
+                        data: bl.datalName,
+                        align: 'left',
+                        x:bl.YMlegend.lalign,
+                        textStyle: {
                         color: bl.YMlegend.lcolor,
                         fontSize: 14,
-                    },
-                    itemWidth: 20,
-                    itemHeight: 10
+                        },
+                        itemWidth: 20,
+                        itemHeight: 10
                 },
                 // 统计图背景色
                 backgroundColor: bl.stbackgrond,
@@ -2631,7 +2630,7 @@ app.ui.reportTitle = {
                             for (var j = 0; j < params.length; j++) {
                                 relVal += params[j].seriesName + ' : ' + params[j].value + "<br/>";
                             }
-                            return relVal + bl.YMBtooltip;
+                            return relVal+bl.YMBtooltip;
                         }
                     }
                 },
@@ -2639,15 +2638,13 @@ app.ui.reportTitle = {
                 toolbox: {
                     itemSize: bl.YMtoolbar.itemSize,
                     feature: {
-                        dataView: {
-                            show: bl.YMtoolbar.dataView
-                        },
+                        dataView: { show: bl. YMtoolbar.dataView },
                         magicType: {
                             show: bl.YMtoolbar.magicType,
                             type: bl.YMtoolbar.type //折线图与柱状图转化 堆砌与分散
                         },
                         restore: {
-                            show: bl.YMtoolbar.restore //刷新
+                            show: bl.YMtoolbar.restore  //刷新
                         },
                         saveAsImage: {
                             show: bl.YMtoolbar.saveAsImage //保存
@@ -2655,16 +2652,18 @@ app.ui.reportTitle = {
                     }
                 },
                 // 控制显示个数
-                dataZoom: [{
-                    height: bl.YMdataZoom.dzheight,
-                    type: 'slider',
-                    show: bl.YMdataZoom.dzshow,
-                    fillerColor: bl.YMdataZoom.dzfillerColor,
-                    start: 0,
-                    end: bl.YMdataZoom.dzend,
-                    handleSize: 0,
-                    backgroundColor: bl.YMdataZoom.dzbackgroundColor //背景色
-                }],
+                dataZoom: [
+                    {
+                        height:bl.YMdataZoom.dzheight,
+                        type: 'slider',
+                        show:bl.YMdataZoom .dzshow,
+                        fillerColor:bl.YMdataZoom.dzfillerColor,
+                        start: 0,
+                        end: bl.YMdataZoom.dzend,
+                        handleSize: 0,
+                        backgroundColor:bl.YMdataZoom.dzbackgroundColor//背景色
+                    }
+                ],
                 //统计图位置
                 grid: {
                     left: bl.YMgrid.gleft,
@@ -2673,8 +2672,8 @@ app.ui.reportTitle = {
                     top: bl.YMgrid.gtop,
                     containLabel: true
                 },
-                xAxis: [{
-                    show: true,
+                xAxis:[{
+                    show:true,
                     type: 'category',
                     data: [], //bl.dataxName
                     axisLine: {
@@ -2708,15 +2707,16 @@ app.ui.reportTitle = {
                     splitArea: {
                         show: bl.YMxaxis.xsplitArea,
                         areaStyle: {
-                            color: [bl.xaxisClocr[4], bl.xaxisClocr[5]]
+                            color: [bl.xaxisClocr[4],bl.xaxisClocr[5]]
                         }
                     }
                 }],
-                yAxis: [{
+                yAxis: [
+                    {
                     min: 0,
                     minInterval: bl.YMyaxis.yminInterval,
-                    type: bl.YMyaxis.yvalue,
-                    name: bl.YMyaxis.yname,
+                        type:bl.YMyaxis.yvalue,
+                    name:bl.YMyaxis.yname,
                     axisLabel: {
                         margin: bl.YMyaxis.ymargin,
                         rotate: bl.YMyaxis.yrotate,
@@ -2743,20 +2743,20 @@ app.ui.reportTitle = {
                         }
                     },
                     splitArea: {
-                        show: bl.YMyaxis.ysplitArea,
-                        areaStyle: {
-                            color: [bl.yaxisClocr[4], bl.yaxisClocr[5]]
-                        }
-                    }
+                            show: bl.YMyaxis.ysplitArea,
+                            areaStyle: {
+                                color:[ bl.yaxisClocr[4], bl.yaxisClocr[5]]
+                            }
+                        }  
                 },
                 // 第二根坐标轴
                 {
-                    show: bl.YMsyaxis.syshow,
-                    name: bl.YMsyaxis.syname,
+                    show:bl.YMsyaxis.syshow,
+                    name:bl.YMsyaxis.syname,
                     min: 0,
-                    minInterval: bl.YMsyaxis.syminInterval,
+                    minInterval: bl. YMsyaxis.syminInterval,
                     type: bl.YMsyaxis.syvalue,
-                    position: 'right',
+                    position:'right',
                     axisLabel: {
                         margin: bl.YMsyaxis.symargin,
                         rotate: bl.YMsyaxis.syrotate,
@@ -2783,98 +2783,105 @@ app.ui.reportTitle = {
                         },
                     },
                     splitArea: {
-                        show: bl.YMsyaxis.sysplitArea,
-                        areaStyle: {
-                            color: [bl.yaxisClocr[4], bl.yaxisClocr[5]]
-                        }
-                    }
+                            show: bl.YMsyaxis.sysplitArea,
+                            areaStyle: {
+                                color: [bl.yaxisClocr[4], bl.yaxisClocr[5]]
+                            }
+                        }              
                 }
                 ],
                 // 具体数值
-                series: [] //seriesList
-            };
-            this.blChart.setOption(option);
-            this.blChart.showLoading();
-            $(window).resize(function () {
-                _this.blChart.resize();
+                series:[] //seriesList
+                };
+            this.blChart .setOption(this.option);
+            // this.blChart .showLoading();
+            $(window).resize(function(){
+                _this.blChart .resize();
             }).resize();
             return this;
         },
-        barlineSet: function (dName, valJson) {
-            var bl = this.barlineCfg;
-            //处理数据，展示题目
-            valJson && (bl.datalName.length = 0);
-            for (var key in valJson) {
+        barlineSet:function(dName,valJson){
+            var bl=this.barlineCfg;
+             //处理数据，展示题目
+             valJson && ( bl.datalName.length=0);
+             for(var key in valJson){
                 bl.datalName.push(key);
             }
             //处理数据成echart格式
-            var seriesList = [];
+            var seriesList=[];
             //处理barWidth
-            var viewWh = $('#' + bl.id).width() * (1 - parseInt(bl.YMgrid.gleft) / 100 - parseInt(bl.YMgrid.gright) / 100) /* -160 */ , //160为默认间距
-                oneWh = viewWh / dName.length,
+            var viewWh=$('#'+bl.id).width()*(1-parseInt( bl.YMgrid.gleft)/100- parseInt(bl.YMgrid.gright)/100 )/* -160 */,//160为默认间距
+                oneWh=viewWh/ dName.length,
                 // oneBarWh=(oneWh-40)/bl.datalName.length; 
-                oneBarWh = (oneWh / bl.datalName.length - 0.9) / 2.9;
-            // var bwh=Math.ceil(bl.minBarWidth*1.3)*bl.datalName.length,
-            var bwh = Math.ceil(bl.minBarWidth * 1.3 * bl.datalName.length + bl.minBarWidth * 0.3),
-                bbnumber = parseInt(viewWh / bwh),
-                dataZoom_end,
-                bwh_max = Math.ceil(bl.maxBarWidth * 1.3 * bl.datalName.length + bl.minBarWidth * 0.3);
-            if (dName.length > bbnumber) {
-                dataZoom_end = 100 - ((dName.length - bbnumber + 1) / dName.length) * 100;
-            } else {
-                dataZoom_end = 90;
-            }
-            var flag;
-            for (var i = 0; i < bl.datalName.length; i++) {
-                var oneItem = {
-                    name: bl.datalName[i],
-                    type: bl.type,
-                    data: valJson[bl.datalName[i]]
-                };
-                if (bl.type == "line") {
-                    oneItem.symbol = 'circle'; //拐点样式
-                    oneItem.symbolSize = 6; //拐点大小
-                    oneItem.smooth = true; //设置平滑
-                }
-                if (oneBarWh < bl.minBarWidth) {
-                    oneItem.barWidth = bl.minBarWidth;
-                    flag = true;
-                } else if (oneBarWh > bl.maxBarWidth) {
-                    oneItem.barWidth = bl.maxBarWidth;
+                oneBarWh=(oneWh/bl.datalName.length-0.9)/2.9; 
+                // var bwh=Math.ceil(bl.minBarWidth*1.3)*bl.datalName.length,
+                var bwh=Math.ceil(bl.minBarWidth*1.3*bl.datalName.length+bl.minBarWidth*0.3),
+                    bbnumber=parseInt(viewWh/bwh),
+                    dataZoom_end,
+                    bwh_max=Math.ceil(bl.maxBarWidth*1.3*bl.datalName.length+bl.minBarWidth*0.3);
+                if (dName.length > bbnumber) {
+                    dataZoom_end = 100 - ((dName.length -bbnumber+1) / dName.length) * 100;
                 } else {
-                    oneItem.barWidth = Math.ceil(oneBarWh);
+                    dataZoom_end = 90;
+                }
+            var flag;
+            for(var i=0;i< bl.datalName.length;i++){
+                var oneItem={
+                    name: bl.datalName[i],
+                    type:bl.type,
+                    data:valJson[bl.datalName[i]]
+                };
+                if(bl.type=="line"){
+                    oneItem.symbol='circle';//拐点样式
+                    oneItem.symbolSize= 6;//拐点大小
+                    oneItem.smooth=true;  //设置平滑
+                }
+                if(oneBarWh<bl.minBarWidth){
+                    oneItem.barWidth=bl.minBarWidth;
+                    flag=true;
+                }else if(oneBarWh>bl.maxBarWidth){
+                    oneItem.barWidth=bl.maxBarWidth;
+                }else{
+                    oneItem.barWidth=Math.ceil(oneBarWh);
                 }
                 seriesList.push(oneItem);
             }
-            var op = {
-                xAxis: [{
-                    data: dName
+            var op=$.extend(true,this.option,{
+                xAxis:[{
+                    data:dName
                 }],
-                dataZoom: [{
-                    show: bl.YMdataZoom.dzshow,
-                    end: 100
-                }],
-                series: seriesList
-            };
-            if (bwh > oneWh) {
-                op.dataZoom[0].show = true;
-                op.dataZoom[0].end = dataZoom_end;
+                dataZoom:[{
+                    show:bl.YMdataZoom .dzshow,
+                    end:100
+                }]
+            });
+            op.series=seriesList;
+            // var op={
+            //     xAxis:[{
+            //         data:dName
+            //     }],
+            //     dataZoom:[{
+            //         show:bl.YMdataZoom .dzshow,
+            //         end:100
+            //     }],
+            //     series:seriesList
+            // };
+            if(bwh>oneWh){
+                op.dataZoom[0].show=true;
+                op.dataZoom[0].end=dataZoom_end;
             }
-            // if(bwh>oneWh){
-            //     op.dataZoom[0].show=true;
-            //     op.dataZoom[0].end=dataZoom_end;
-            // }
-            this.blChart.setOption(op);
+            // var _olds=this.blChart.getOption()['series'];
+            this.blChart.setOption(op,true);
             this.blChart.hideLoading();
         },
-        pieInit: function (cfg) {
-            var _this = this;
-            $.extend(true, this.pieCfg, cfg);
-            var pie = this.pieCfg;
-            this.pieChart = echarts.init(document.getElementById(pie.id));
+        pieInit:function(cfg){
+            var _this=this;
+            $.extend(true,this.pieCfg,cfg);
+            var pie=this.pieCfg;
+            this.pieChart = echarts.init( document.getElementById( pie.id) );
             var option = {
                 color: pie.YMPcolorList, // 各统计颜色
-                legend: { // 各统计注解
+                legend: {// 各统计注解
                     show: pie.YMPlegend.lshow,
                     type: 'scroll',
                     orient: pie.YMPlegend.lorient,
@@ -2891,7 +2898,7 @@ app.ui.reportTitle = {
                     itemHeight: 10
                 },
                 backgroundColor: pie.YMPstbackgrond, // 统计图背景色
-                title: [ //统计图名称
+                title: [  //统计图名称
                     {
                         show: pie.YMPtitle.tshow,
                         x: pie.YMPtitle.txalign,
@@ -2936,7 +2943,7 @@ app.ui.reportTitle = {
                 ],
                 // 鼠标移入显示
                 tooltip: {
-                    // trigger: 'axis',
+                    trigger: 'axis',
                     backgroundColor: '#fff',
                     borderWidth: 1,
                     borderColor: '#ccc',
@@ -2954,18 +2961,17 @@ app.ui.reportTitle = {
                 toolbox: {
                     itemSize: pie.YMPtoolbar.itemSize,
                     feature: {
-                        dataView: {
-                            show: pie.YMPtoolbar.dataView
-                        },
+                        dataView: { show: pie.YMPtoolbar.dataView },
                         restore: {
-                            show: pie.YMPtoolbar.restore //刷新
+                            show: pie.YMPtoolbar.restore  //刷新
                         },
                         saveAsImage: {
                             show: pie.YMPtoolbar.saveAsImage //保存
                         }
                     }
                 },
-                series: [{
+                series:[
+                    {
                     name: pie.YMPseries.sname,
                     type: 'pie',
                     radius: pie.YMPseries.sradius,
@@ -3003,27 +3009,29 @@ app.ui.reportTitle = {
                             }
                         }
                     },
-                    data: [] //pie.valueJson 
-                }]
+                    data:[]//pie.valueJson 
+                }
+                ] 
             };
             this.pieChart.setOption(option);
             this.pieChart.showLoading();
-            $(window).resize(function () {
+            $(window).resize(function(){
                 _this.pieChart.resize();
             }).resize();
             return this;
         },
-        pieSet: function (vJson) {
-            var pie = this.pieCfg,
-                dataNumberkey = [];
-            for (var key in vJson) {
+        pieSet:function(vJson){
+            var pie=this.pieCfg,
+                dataNumberkey=[];
+            for(var key in vJson){
                 dataNumberkey.push(vJson[key].name);
-            }
+            } 
             this.pieChart.setOption({
-                legend: {
-                    data: dataNumberkey
+                legend:{
+                    data:dataNumberkey
                 },
-                series: [{
+                series:[
+                    {
                     name: pie.YMPseries.sname,
                     type: 'pie',
                     radius: pie.YMPseries.sradius,
@@ -3061,19 +3069,20 @@ app.ui.reportTitle = {
                             }
                         }
                     },
-                    data: vJson
-                }]
+                    data:vJson
+                }
+                ] 
             });
             this.pieChart.hideLoading();
         }
-    };
-    au.echarts = {};
-    au.echarts.barlineInit = function (cfg) {
-        return new Echarts().barlineInit(cfg);
-    };
-    au.echarts.pieInit = function (cfg) {
-        return new Echarts().pieInit(cfg);
-    };
+    }
+    au.echarts={};
+    au.echarts.barlineInit=function(cfg){
+        return new  Echarts().barlineInit(cfg);
+    }
+    au.echarts.pieInit=function(cfg){
+        return new  Echarts().pieInit(cfg);
+    }
 })(app.ui);
 app.ui.reportSearch = {
     _cfg: {
@@ -3447,6 +3456,10 @@ app.ui.reportSearch = {
             stime = this.activeY + '-' + this.activeM + '-01 ' + this._cfg.start;
             etime = this.activeY + '-' + this.activeM + '-' + this.getMonthDays(this.activeY, this.activeM) + ' ' + this._cfg.end;
         }
+        this.timeOpt={
+            start:stime,
+            end:etime
+        }
         //获取事件字段名
         var s = (this.timeArr && this.timeArr[0]) || 'stime',
             e = (this.timeArr && this.timeArr[1]) || 'etime',
@@ -3599,7 +3612,7 @@ app.ui.report = {
                 id: boxid,
                 class: 'yy-hide',
                 /* height:cfg.gridHandle.height || 300, */ width: w || 400,
-                html: '<table style="width:' + w + 'px;" id="yui-grid-popup-table"><table>'
+                html: '<table style="width:' + w + 'px;" id="yui-grid-popup-table" lay-filter="yui-grid-popup-filter"><table>'
             }));
             $.extend(cfg.gridHandle, {
                 elem: '#yui-grid-popup-table',
