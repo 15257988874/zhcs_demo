@@ -12,6 +12,8 @@ layui.define(["form"], function(exports) {
 				open: "&#xe623;",
 				close: "&#xe625;"
 			},
+			row_icon_lib:"layui-icon",//TODO  新增单行字体图标库前缀,默认layui-icon
+			row_icon_class:'rowIcon',//TODO  新增单行前图标字段
 			space: 4,
 			new_data: [],
 			childs: [],
@@ -39,10 +41,14 @@ layui.define(["form"], function(exports) {
 				if(obj.field == t.c.field) {
 					tr += ("&nbsp;".repeat(level[item.id] * t.c.space));
 					if(t.c.childs[item.id]) {
-						tr += '<i class="layui-icon ' + t.c.icon_class + '">' + (item.id == t.cache(item.id) || t.c.is_open ? t.c.icon_val.close : t.c.icon_val.open) + "</i>"
+						tr += '<i class="layui-icon ' + t.c.icon_class + '">' + (item.id == t.cache(item.id) || t.c.is_open ? t.c.icon_val.close : t.c.icon_val.open) + "</i>";
 					}
+					//TODO 单行图标
+					var rc=t.c.row_icon_lib +" "+ item[t.c.row_icon_class] || "";
+					tr+='<span class="'+rc+'"></span>';
 				}
 				/* tr += ( item[obj.field] !== undefined ? item[obj.field] : (obj.template ? obj.template(item) : "") ) + "</td>" */
+				//TODO 修改
 				tr += (  obj.template ? obj.template(item) :( item[obj.field] ===undefined?'':item[obj.field] ) ) + "</td>"
 			});
 			tbody += tr + "</tr>";

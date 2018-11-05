@@ -65,6 +65,9 @@ app.openLayer = function (opt) {
         success: function () { //层弹出后的成功回调方法
         },
         cancel: function () { //右上角关闭按钮触发的回调
+        },
+        end:function(){
+          opt.content.hide();
         }
     }
     var newOpt = $.extend({}, defaultOpt, opt);
