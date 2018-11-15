@@ -149,26 +149,35 @@ app.createSearchObj=function (obj, dom, filterArr,cfg) {
  *    data:{},  //发送给后台的数据
  *    success:fn //成功的回调--默认code=0
  *    error:fn   //请求失败 
+ *    flag:boolean //是否处理code码，默认true
  * }
  */
 app.ycyaAjax=function (opt) {
+    if(typeof(opt.flag)==='undefined'){
+      opt.flag=true;
+    }
     ycya.http.ajax(this.url + opt.url, {
       data: opt.data,
       success: function (data, textStatus, jqXHR) {
         if (data) {
-          if (data.code == 0) {
+          if(!opt.flag){
             opt.success && opt.success(data, textStatus, jqXHR);
-          } else {
-            if (layer) {
-              if (data.code == 25) {
-                window.top.location.href = getContentPath() + "/index.html";
-              } else {
-                layer.msg(data.msg, {
-                  time: 1000
-                });
+          }else{
+            if (data.code == 0) {
+              opt.success && opt.success(data, textStatus, jqXHR);
+            } else {
+              if (layer) {
+                if (data.code == 25) {
+                  window.top.location.href = getContentPath() + "/index.html";
+                } else {
+                  layer.msg(data.msg, {
+                    time: 1000
+                  });
+                }
               }
             }
           }
+          
         } else {
           layer.msg('数据异常', {
             time: 1000

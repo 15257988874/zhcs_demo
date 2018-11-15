@@ -6947,9 +6947,8 @@ layui.define(["laytpl", "laypage", "layer", "form", "util"], function (e) {
             var r = {};
             r[l.pageName] = e, r[l.limitName] = a.limit;
             var d = t.extend(r, a.where);
-            a.contentType && 0 == a.contentType.indexOf("application/json") && (d = JSON.stringify(d)), ycya.http.ajax({
+            a.contentType && 0 == a.contentType.indexOf("application/json") && (d = JSON.stringify(d)), ycya.http.ajax(a.url,{
                 type: a.method || "get",
-                url: a.url,
                 contentType: a.contentType,
                 data: d,
                 dataType: "json",

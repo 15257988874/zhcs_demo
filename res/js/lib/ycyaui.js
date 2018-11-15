@@ -484,6 +484,9 @@ app.ui.page = {};
                                     data: aliasCon.data,
                                     type: aliasCon.type || 'post',
                                     success: function (data) {
+                                        if(!data){
+                                            return layer.msg('数据异常');
+                                        }
                                         var _name = aliasCon.keyName || 'name',
                                             _val = aliasCon.keyVal || 'id';
                                         var d = aliasCon.beforeSuccess ? aliasCon.beforeSuccess(data) : (data.data || []);
@@ -2044,7 +2047,7 @@ app.ui.left = {
             if (cfg.btns) {
                 //捕获done事件
                 this._cfg.done = function (res) {
-                    res &&  ycyaTableBtn(res, cfg.btns, cfg.parent);
+                    res && ycyaTableBtn(res, cfg.btns, cfg.parent);
                     cfg.hover && that.hoverOpenImg();
                     //绑定tips提示
                     $('.layui-table-view').on('hover', 'a[lay-tips]', function () {
@@ -3254,12 +3257,17 @@ app.ui.reportSearch = {
                             type: e.cfg.type || 'post',
                             data: e.cfg.where,
                             success: function (data) {
+                                if(!data){
+                                    return layer.msg('数据异常');
+                                }
                                 var d = e.cfg.beforeSuccess ? e.cfg.beforeSuccess(data) : data.data,
-                                    keyName = e.cfg.keyName ? e.cfg.keyName : 'name',
-                                    valName = e.cfg.valName ? e.cfg.valName : 'id';
+                                keyName = e.cfg.keyName ? e.cfg.keyName : 'name',
+                                valName = e.cfg.valName ? e.cfg.valName : 'id';
                                 for (var key in d) {
                                     _select.append($('<option value=' + d[key][valName] + '>' + d[key][keyName] + '</option>'));
                                 }
+                                
+                               
                             }
                         });
                     })(e);
@@ -3589,6 +3597,9 @@ app.ui.reportSearch = {
                 type: selectCfg.type || 'post',
                 data: _data,
                 success: function (data) {
+                    if(!data){
+                        return layer.msg('数据异常');
+                    }
                     var html = '',
                         d = selectCfg.beforeSuccess ? selectCfg.beforeSuccess(data) : data.data,
                         keyName = selectCfg.keyName ? selectCfg.keyName : 'name',
@@ -4572,6 +4583,9 @@ app.ui.devRun = {
             data: cfg.cfg.data,
             type: cfg.cfg.type || 'post',
             success: function (data) {
+                if(!data){
+                    return layer.msg('数据异常');
+                }
                 var d = cfg.cfg.beforeSuccess ? cfg.cfg.beforeSuccess(data) : (data.data || []);
                 $.each(d, function (i, item) {
                     var _tr = $('<tr/>');
@@ -4629,6 +4643,9 @@ app.ui.parkRank = {
             data: cfg.data,
             type: cfg.type || 'post',
             success: function (data) {
+                if(!data){
+                    return layer.msg('数据异常');
+                }
                 var d = cfg.beforeSuccess ? cfg.beforeSuccess(data) : (data.data || []);
                 $.each(d, function (i, item) {
                     if (i < 7) {
