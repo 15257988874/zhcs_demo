@@ -218,3 +218,35 @@ app.exportFile=function(opt,callback){
       }
   });
 }
+
+
+app.checkPagePower=function(pageHref){
+  var power=$.parseJSON(ycya.wls.get('locationList'));    
+  if(!power || $.inArray(pageHref,power) < 0){
+    location.href=location.origin + location.pathname.slice(0, location.pathname.indexOf('/', 1))+'/index.html'
+  }
+}
+
+/**
+ *
+ *
+ * @param {*} btns 按钮数组
+ */
+app.returnGridBtn=function(btns,isGrid){
+ 
+  if( $.type(btns)!=='array'){
+    return layer.msg('error');
+  }
+  isGrid = typeof(isGrid)==='undefined' ? true:false;
+  var bpower=$.parseJSON(ycya.wls.get('buttonPower')),
+      copyList=[];
+  $.each(btns,function(i,item){
+    if($.inArray(item.code,bpower) > 0 ){
+      copyList.push(item);
+    }
+  });
+  if(isGrid){
+    copyList.length == 0 && (copyList=[]);
+  }
+  return copyList;
+}

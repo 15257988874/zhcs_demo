@@ -4747,7 +4747,18 @@ app.ui.page.parking = {
     }
 };
 $(function () {
-    var page = GetQueryString('p');
+    var page = GetQueryString('p'),
+        ll=$.parseJSON(ycya.wls.get('locationList')),
+        hasPower=false;
+    // $.each(ll,function(i,item){
+    //     if(item.indexOf(page) < 0 ){
+    //         hasPower=true;
+    //         return false;
+    //     }
+    // });
+    // if(!hasPower){
+    //     window.top.location.href=location.origin + location.pathname.slice(0, location.pathname.indexOf('/', 1))+'/index.html';
+    // }
     if (page) {
         var js = app.router[page];
         if (js) {

@@ -99,8 +99,8 @@ ul.ztree.zTreeDragUL {margin:0; padding:0; position:absolute; width:auto; height
 
 /*2018-10-17添加图标 start*/
 .ztree li span.button.ico_open,
-.ztree li span.button.roots_open,
-.ztree li span.button.roots_close{
+/* .ztree li span.button.roots_open,
+.ztree li span.button.roots_close */{
 	background-image:url("./img/treeIcon.png");
 	background-position:-1px -22px;
 }
