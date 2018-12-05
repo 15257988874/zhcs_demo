@@ -4,7 +4,9 @@
     ,"count": "100"
     ,"data": [ {
           "id": 111
-          ,"userName": "admin"
+          ,"userName":{
+            "in":1111
+          }
           ,"userSex": "1,2"
           ,"logType":1
           ,"remark": "这是一段测试"

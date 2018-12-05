@@ -97,7 +97,7 @@ $(function () {
                         align: 'center',
                         fixed: 'left'
                     }, {
-                        field: 'userName',
+                        field: 'userName.in',
                         title: '用户名',
                         width: 100,
                         align: 'center',

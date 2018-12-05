@@ -6986,6 +6986,12 @@ layui.define(["laytpl", "laypage", "layer", "form", "util"], function (e) {
                         var c = r.field || n,
                             h = s.index + "-" + r.key,
                             p = l[c];
+                            if(typeof(c)==="string" && c.indexOf('.') > 0){
+                                p=l[c.split('.')[0]][c.split('.')[1]]
+                                c=c.split('.')[0]+c.split('.')[1];
+                            }else{
+                                p= l[c];
+                            }
                         if (void 0 !== p && null !== p || (p = ""), !r.colGroup) {
                             var v = ['<td data-field="' + c + '" data-key="' + h + '" ' + function () {
                                 var e = [];
@@ -7393,7 +7399,10 @@ layui.define(["laytpl", "laypage", "layer", "form", "util"], function (e) {
                 success: function (e, t) {
                     e.find(".layui-table-tips-c").on("click", function () {
                         l.close(t)
-                    })
+                    });
+                    $(".layui-table-tips-main a[lay-event]").click(function(){
+                        $('a[lay-event="'+$(this).attr('lay-event')+'"]',d).trigger('click');
+                    });
                 }
             }), layui.stope(e)
         }), a.layBody.on("click", "*[lay-event]", function () {
