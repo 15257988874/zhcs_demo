@@ -1,4 +1,5 @@
-var ctx = "../../../res/img";
+// var ctx = "../../../res/img";
+var ctx = "../../../res/css/build";
 var YcyaMapCfg = { 	
 	_mapType:'baidu',//地图类型，'gaode'
 	_autoZoom:false,//是否自动缩放，默认为false，不自动缩放
@@ -8,6 +9,7 @@ var YcyaMapCfg = {
 		_urlLib:["TextIconOverlay.js","MarkerClusterer.js",
             "http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.js",
 			"http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.css",
+			"http://api.map.baidu.com/library/TrafficControl/1.4/src/TrafficControl_min.js",
 			"minfo.js","info.css","distanceTool.js"],
 		_lng:104.078659,
 		_lat:30.652591
@@ -15,18 +17,8 @@ var YcyaMapCfg = {
 	_measure:$('#measure'),
 	_gaodeCfg:{},
 	icons:{
-		// 'car_blue':{"url":ctx+"/car_blue.png",size:[24,24]},
-		// 'car_green':{"url":ctx+"/car_green.png",size:[24,24]},
-		// 'car_red':{"url":ctx+"/car_red.png",size:[24,24]},
-		// 'car_gray':{"url":ctx+"/car_gray.png",size:[24,24]},
-		// 'che':{"url":ctx+"/default_car.png",size:[48,32]},
-		// 'start':{"url":ctx+"/start_point.png",size:[24,32]},
-		// 'end':{"url":ctx+"/end_point.png",size:[24,32]},
-		// 'stop':{"url":ctx+"/stop_point.png",size:[24,32]},
-		// 'speed':{"url":ctx+"/speed_point.png",size:[24,32]},
-		// 'test1':{"url":ctx+"/test.png",size:[26,26],'offset':[0,0]},
-		// 'test2':{"url":ctx+"/test.png",size:[26,26],'offset':[-31,0]},
-		test:{"url":ctx+"/mapIcon.png",size:[28,28],'offset':[0,0]}
+		build:{"url":ctx+"/map_buildicon.svg",size:[80,80],'offset':[0,0]},
+		abuild:{"url":ctx+"/map_abuildicon.svg",size:[80,80],'offset':[0,0]}
 	},
 	lines:{
 		"line1":{"color":"#ff6600","width":8,"opacity":0.8,"style":"solid"/*实线，或虚线dashed*/},

@@ -2,7 +2,7 @@
 var IYcyaMap = new Interface('IYcyaMap', ['addPoint', 'getZoom', 'setZoom', 'trace', 'route', 'openWin', 'center', 'clear',
 	'clearById', 'draw', 'createPoint', 'createOverlay', 'openZoomendEvent', 'openMoveendEvent', 'addRoutePoint',
 	'getBoundary', 'setViewport', 'getMapZoom', 'setMapZoom', 'getBounds', 'setCity','openSearchWin','getLocation','setMapStyle',
-	'zoomIn','zoomOut'
+	'zoomIn','zoomOut','trafficFn'
 ]);
 
 (function (ycya) {
@@ -259,6 +259,9 @@ var IYcyaMap = new Interface('IYcyaMap', ['addPoint', 'getZoom', 'setZoom', 'tra
 		},
 		zoomOut:function(){
 			return this._MapClient.zoomOut();
+		},
+		trafficFn:function(flag){
+			return this._MapClient.trafficFn(flag);
 		}
 	};
 	ycya.YcyaMap = YcyaMap;
@@ -282,6 +285,12 @@ var IYcyaMap = new Interface('IYcyaMap', ['addPoint', 'getZoom', 'setZoom', 'tra
 		cfg['_measure'].on('click',function(){
 			myDis.open();  //开启鼠标测距
 		});
+		try{
+			this.traffic= new BMapLib.TrafficControl();//实时路况  
+			this.map.addControl( this.traffic ); 
+		}catch(e){
+
+		}
 	};
 	_BaiduMap.prototype = {
 		center: function (point, zoom) {
@@ -913,6 +922,16 @@ var IYcyaMap = new Interface('IYcyaMap', ['addPoint', 'getZoom', 'setZoom', 'tra
 		},
 		zoomOut:function(){
 			this.map.zoomOut();
+		},
+		trafficFn:function(flag){
+			if(this.traffic){
+				if( !flag ){// 没有实时路况  
+					this.traffic.hideTraffic();  
+				}else{  
+					this.traffic.showTraffic({predictDate:{hour:15, weekday: 5}});  
+				} 
+			}
+			 
 		}
 	};
 	ycya._BaiduMap = _BaiduMap;

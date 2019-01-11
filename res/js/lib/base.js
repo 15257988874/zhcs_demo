@@ -20,6 +20,7 @@ app.router = {
     'reportform':"/res/js/lib/reportform.js",
     'address':"/res/js/lib/address.js",
     'monitoring':"/res/js/lib/monitoring.js",
+    'build':"/res/js/lib/build.js",
     'bindRail':"/res/js/lib/bindRail.js",
     'bindFalt':"/res/js/lib/bindFalt.js",
     'parkingLot':"/res/js/lib/parkingLot.js",

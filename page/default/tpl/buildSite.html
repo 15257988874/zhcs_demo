@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html class="height-all">
+<head>
+  <meta charset="utf-8">
+  <title>监控管理</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="stylesheet" href="../../../res/dep/layer/layuiadmin/layui/css/layui.css" media="all">
+  <link rel="stylesheet" href="../../../res/dep/layer/layuiadmin/style/admin.css" media="all">
+  <link rel="stylesheet" href="../../../res/css/reset/reset.css">
+  <link rel="stylesheet" href="../../../res/dep/fontIcon/iconfont.css">
+  <link rel="stylesheet" href="../../../res/css/sysSetting/setting.css" media="all">
+  <link rel="stylesheet" href="../../../res/css/monitor/monitor.css">
+  <link rel="stylesheet" href="../../../res/dep/zTree/css/zTreeStyle/zTreeStyle.css">
+  <link rel="stylesheet" href="../../../res/css/ycyaui.css">
+  <link rel="stylesheet" href="../../../res/css/build/build.css">
+  <script src="../../../res/js/lib/jquery-1.8.0.min.js"></script>
+  <script src="../../../res/dep/layui/layui.all.js"></script>
+  <script src="../../../res/js/lib/ycya.js"></script>
+  <script src="../../../res/js/lib/base.js"></script>
+  <script src="../../../res/js/lib/ycyaui.js"></script>
+  <script src="../../../res/dep/ycyaMap/YcyaMap.js"></script>
+  <script src="../../../res/dep/zTree/js/jquery.ztree.core.min.js"></script>
+  <script src="../../../res/dep/echart/echarts.min.js"></script>
+      
+  </style>
+</head>
+<body class="height-all">
+  <ul class="layui-fluid height-all box-sizing p-bottom-15">
+      <div class="map-wrap" id="mapWrap">
+          <div class="map-input-search">
+            <span><input type="text"></span><a href="javascript:void(0)"><i class="iconfont icon-sousuo"></i></a>
+          </div>
+          <!-- 地图 -->
+          <div id="ycyaMap" class="height-all width-all"></div>
+          <!-- 快捷块 -->
+          <div class="quick-block" id="quickBlock">
+            <div class="icon1" id="questionIcon" title="问题反馈"></div>
+            <div class="icon2"></div>
+            <div class="icon3"  title="路况"></div>
+            <div class="icon4" id="top10Icon" title="当日top10"></div>
+          </div>
+          <!-- 左下角数量块 -->
+          <ul class="num-block">
+            <li>
+                <i class="icon5"></i>
+                <p class="title">车辆总数</p>
+                <p><span class="font">3254</span>/辆</p>
+            </li>
+            <li>
+                <i class="icon6"></i>
+                <p class="title">人员数量</p>
+                <p><span class="font">3254</span>/人</p>
+            </li>
+            <li>
+                <i class="icon7"></i>
+                <p class="title">建筑工地</p>
+                <p><span class="font">3254</span>/个</p>
+            </li>
+            <li>
+                <i class="icon8"></i>
+                <p class="title">填埋场</p>
+                <p><span class="font">3254</span>/个</p>
+            </li>
+          </ul>
+      </div>
+  </div>
+
+  <!--详情弹窗 -->
+  <div class="yy-hide" id="detail">
+    <div class="detail-popup box-sizing">
+        <div class="shadow"></div>
+        <i class="iconfont icon-guanbi yy-rt  close"></i>
+        <div class="detail-popup-top">
+            <img src="../../../res/css/build/build_default.jpg" alt="">
+        </div>
+        <div class="title-info">
+            <p>房屋建筑</p>
+            <p>城南保利庄园2期</p>
+            <p><i class="iconfont icon-dingwei"></i><span>成都市高新区锦城湖旁50米</span></p>
+        </div>
+        <div class="tabs" >
+            <ul class="tabs-title">
+                <li class="active" onclick="detailClick(this,0)"><i class="iconfont icon-jiankong"></i>环境监测</li>
+                <li onclick="detailClick(this,1)"><i class="iconfont icon-dingdan"></i>基础信息</li>
+                <li onmouseover="detailClick(this,2)" onmouseout="detailClick(this,3)"><i class="iconfont icon-jiankong"></i>视频查看
+                    <ul class="video-channel">
+                        <li><i class="iconfont icon-liebiao"></i>全部显示</li>
+                        <li><i class="iconfont icon-celan"></i>通道一</li>
+                        <li><i class="iconfont icon-celan"></i>通道二</li>
+                        <li><i class="iconfont icon-celan"></i>通道三</li>
+                        <li><i class="iconfont icon-celan"></i>通道四</li>
+                    </ul>
+                </li>
+                <li onclick="detailClick(this,4)"><i class="iconfont icon-jiankong"></i>实时监控</li>
+                <li onclick="detailClick(this,5)"><i class="iconfont icon-tongji"></i>当日运行</li>
+            </ul>
+            <div class="tabs-content box-sizing">
+                <div>
+                    <ul class="tabs-content-table">
+                        <li>
+                            <span><strong>工程名字：</strong><em>城南保利花园2期</em></span>
+                            <span><strong>建筑类型：</strong><em>房屋建筑</em></span>
+                            <span><strong>监督人：</strong><em>张河</em></span>
+                        </li>
+                        <li>
+                            <span><strong>建设单位：</strong><em>城南保利花园2期</em></span>
+                            <span><strong>责任人：</strong><em>房屋建筑</em></span>
+                            <span><strong>联系电话：</strong><em>13858952096</em></span>
+                        </li>
+                        <li>
+                            <span><strong>建设单位：</strong><em>城南保利花园2期</em></span>
+                            <span><strong>责任人：</strong><em>房屋建筑</em></span>
+                            <span><strong>联系电话：</strong><em>13858952096</em></span>
+                        </li>
+                        <li>
+                            <span><strong>建设单位：</strong><em>城南保利花园2期</em></span>
+                            <span><strong>责任人：</strong><em>房屋建筑</em></span>
+                            <span><strong>联系电话：</strong><em>13858952096</em></span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="active">
+                    <dl>
+                        <dd>
+                            <p>扬尘</p>
+                            <p><i class="iconfont icon-yangchen green"></i></p>
+                            <p class="green">36</p>
+                        </dd>
+                        <dd>
+                            <p>噪音</p>
+                            <p><i class="iconfont icon-zaoyin green"></i></p>
+                            <p class="green">36</p>
+                        </dd>
+                        <dd>
+                            <p>温度</p>
+                            <p><i class="iconfont icon-wendu green"></i></p>
+                            <p class="green">36</p>
+                        </dd>
+                        <dd>
+                            <p>湿度</p>
+                            <p><i class="iconfont icon-shidu1 red"></i></p>
+                            <p class="red">36</p>
+                        </dd>
+                        <dd>
+                            <p>风向</p>
+                            <p><i class="iconfont icon-fengxiang"></i></p>
+                            <p>36</p>
+                        </dd>
+
+                    </dl>
+                </div>
+            </div>
+        </div> 
+        
+    </div>
+  </div>
+  <!-- 当日运行情况 -->
+  <div id="todayRun" class="yy-hide">
+    <div class="popup-title line-height-46">
+        <div><span>当日运行情况</span><i class="iconfont icon-guanbi close"></i></div>
+    </div>
+    <div class="popup-echarts">
+        <div id="popup-echarts1"></div>
+        <div id="popup-echarts2"></div>
+    </div>
+  </div>
+  <!-- 当日运行top10  -->
+  <div id="today10" class="yy-hide">
+      <div class="popup-title">
+        <div class="popup-title-top"><span>当日运行TOP10</span> <i class="iconfont icon-guanbi close"></i></div>
+        <div class="popup-title-bottom">
+            <div id="area"><span>区域选择</span> <i class="iconfont icon-gengduozhankai"></i>
+               <ul class="ztree" id="areaChooose">
+
+               </ul>
+            </div>
+            <div id="toggleNo"><span>最优排名</span> <i class="iconfont icon-gengduozhankai"></i>
+                <dl class="toggle-No" >
+                    <dd>最优排名</dd>
+                    <dd>最差排名</dd>
+                </dl>
+            </div>
+        </div>
+      </div>
+      <div class="popup-tabs today-run-bottom">
+          <div class="popup-tabs-title">
+              <div class="popup-tabs-title-item popup-tabs-title-5 active">扬尘</div>
+              <div class="popup-tabs-title-item popup-tabs-title-5">噪音</div>
+              <div class="popup-tabs-title-item popup-tabs-title-5">报警</div>
+              <div class="popup-tabs-title-item popup-tabs-title-5">上报</div>
+              <div class="popup-tabs-title-item popup-tabs-title-5">举报</div>
+          </div>
+          <div class="popup-tabs-content today-run-content">
+              <div class="today-run-content-item active">
+                  <ul id="topItem1">
+                      <li><i class="item-No icon9"></i><span class="item-name">城南建筑1期</span><em class="item-num red">56</em></li>
+                      <li><i class="item-No icon10"></i><span class="item-name">城南建筑1期</span><em class="item-num yellow">56</em></li>
+                      <li><i class="item-No icon11"></i><span class="item-name">城南建筑1期</span><em class="item-num">56</em></li>
+                      <li><i class="item-No notop">4</i><span class="item-name">城南建筑1期</span><em class="item-num">56</em></li>
+                  </ul>
+              </div>
+              <div class="today-run-content-item">
+                    <ul id="topItem1">
+                        <li><i class="item-No icon9"></i><span class="item-name">城南建筑2期</span><em class="item-num red">56</em></li>
+                        <li><i class="item-No icon10"></i><span class="item-name">城南建筑2期</span><em class="item-num yellow">56</em></li>
+                        <li><i class="item-No icon11"></i><span class="item-name">城南建筑2期</span><em class="item-num">56</em></li>
+                        <li><i class="item-No notop">4</i><span class="item-name">城南建筑2期</span><em class="item-num">56</em></li>
+                    </ul>
+              </div>
+              <div class="today-run-content-item"></div>
+              <div class="today-run-content-item"></div>
+              <div class="today-run-content-item"></div>
+          </div>
+      </div>
+  </div>
+   <!-- 问题反馈  -->
+   <div id="questionBack" class="yy-hide">
+        <div class="popup-title line-height-46">
+            <div><span><i class="iconfont icon-baojing"></i>问题反馈</span><i class="iconfont icon-guanbi close"></i></div>
+        </div>
+        <div class="popup-tabs question-bottom ">
+            <div class="popup-tabs-title">
+                <div class="popup-tabs-title-item popup-tabs-title-3 active">报警(<em>24</em>)</div>
+                <div class="popup-tabs-title-item popup-tabs-title-3">上报(<em>242</em>)</div>
+                <div class="popup-tabs-title-item popup-tabs-title-3">举报(<em>24</em>)</div>
+            </div>
+            <div class="popup-tabs-content question-content">
+                <div class="question-content-item active">
+                    <div class="question">
+                        <div class="question-item">
+                            <div class="item-icon icon13"></div>
+                            <div class="question-item-right">
+                                <div class="question-item-right-btn"></div>
+                            </div>
+                            <div>
+                                <div class="question-item-top">
+                                    <div class="question-item-img"></div>
+                                    <div>
+                                        <p><span>建筑工地</span></p>
+                                        <p><i></i><span>2012-05-01 14:33</span></p>
+                                    </div>
+                                </div>
+                                <div class="question-item-bottom">
+                                    <p>报警内容(格式为:报警类型+报警时长)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="question">
+                        <div class="question-item">
+                            <div class="item-icon icon13"></div>
+                            <div class="question-item-right">
+                                <div class="question-item-right-btn"></div>
+                            </div>
+                            <div>
+                                <div class="question-item-top">
+                                    <div class="question-item-img"></div>
+                                    <div>
+                                        <p><span>建筑工地</span></p>
+                                        <p><i></i><span>2012-05-01 14:33</span></p>
+                                    </div>
+                                </div>
+                                <div class="question-item-bottom">
+                                    <p>报警内容(格式为:报警类型+报警时长)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="question">
+                        <div class="question-item">
+                            <div class="item-icon icon13"></div>
+                            <div class="question-item-right">
+                                <div class="question-item-right-btn"></div>
+                            </div>
+                            <div>
+                                <div class="question-item-top">
+                                    <div class="question-item-img"></div>
+                                    <div>
+                                        <p><span>建筑工地</span></p>
+                                        <p><i></i><span>2012-05-01 14:33</span></p>
+                                    </div>
+                                </div>
+                                <div class="question-item-bottom">
+                                    <p>报警内容(格式为:报警类型+报警时长)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="question">
+                        <div class="question-item">
+                            <div class="item-icon icon13"></div>
+                            <div class="question-item-right">
+                                <div class="question-item-right-btn"></div>
+                            </div>
+                            <div>
+                                <div class="question-item-top">
+                                    <div class="question-item-img"></div>
+                                    <div>
+                                        <p><span>建筑工地</span></p>
+                                        <p><i></i><span>2012-05-01 14:33</span></p>
+                                    </div>
+                                </div>
+                                <div class="question-item-bottom">
+                                    <p>报警内容(格式为:报警类型+报警时长)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="question">
+                        <div class="question-item">
+                            <div class="item-icon icon13"></div>
+                            <div class="question-item-right">
+                                <div class="question-item-right-btn"></div>
+                            </div>
+                            <div>
+                                <div class="question-item-top">
+                                    <div class="question-item-img"></div>
+                                    <div>
+                                        <p><span>建筑工地</span></p>
+                                        <p><i></i><span>2012-05-01 14:33</span></p>
+                                    </div>
+                                </div>
+                                <div class="question-item-bottom">
+                                    <p>报警内容(格式为:报警类型+报警时长)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="question">
+                        <div class="question-item">
+                            <div class="item-icon icon13"></div>
+                            <div class="question-item-right">
+                                <div class="question-item-right-btn"></div>
+                            </div>
+                            <div>
+                                <div class="question-item-top">
+                                    <div class="question-item-img"></div>
+                                    <div>
+                                        <p><span>建筑工地</span></p>
+                                        <p><i></i><span>2012-05-01 14:33</span></p>
+                                    </div>
+                                </div>
+                                <div class="question-item-bottom">
+                                    <p>报警内容(格式为:报警类型+报警时长)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="question-content-item">
+                    <div class="question">
+                        <div class="question-item">
+                            <div class="item-icon icon12"></div>
+                            <div class="question-item-right">
+                                <div class="question-item-right-btn"></div>
+                            </div>
+                            <div>
+                                <div class="question-item-top">
+                                    <div class="question-item-img"></div>
+                                    <div>
+                                        <p><span>建筑工地</span></p>
+                                        <p><i></i><span>2012-05-01 14:33</span></p>
+                                    </div>
+                                </div>
+                                <div class="question-item-bottom">
+                                    <p>报警内容(格式为:报警类型+报警时长)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="question-content-item">
+                    <div class="question">
+                        <div class="question-item">
+                            <div class="item-icon icon14"></div>
+                            <div class="question-item-right">
+                                <div class="question-item-right-btn"></div>
+                            </div>
+                            <div>
+                                <div class="question-item-top">
+                                    <div class="question-item-img"></div>
+                                    <div>
+                                        <p><span>建筑工地</span></p>
+                                        <p><i></i><span>2012-05-01 14:33</span></p>
+                                    </div>
+                                </div>
+                                <div class="question-item-bottom">
+                                    <p>报警内容(格式为:报警类型+报警时长)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="page">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -3887,6 +3887,14 @@ app.ui.tool = {
         });
         this.ulshow();
         this.customEvent();
+        $(document).keyup(function(event){
+            switch(event.keyCode) {
+                case 27:
+                $('#yyExit').length > 0 && $('#yyExit').hide();
+                case 96:
+                $('#yyExit').length > 0 && $('#yyExit').hide();
+            }
+        });
         return this;
     },
     ulshow: function () {
@@ -4444,11 +4452,11 @@ app.ui.page.monitor = {
     init: function (cfg) {
         var _this = this;
         this.map = app.ui.map.init(cfg.map);
-        _this.status = app.ui.status.init(cfg.status); //提前执行
+        cfg.status && (_this.status = app.ui.status.init(cfg.status)); //提前执行
         _this.tool = app.ui.tool.init(cfg.tool); //提前执行
         this.map.ready(function () { //地图加载完进行的操作
             _this.zoom = app.ui.zoom.init(_this.map, cfg.zoom);
-            _this.master = app.ui.master.init(cfg.master);
+            cfg.master && (_this.master = app.ui.master.init(cfg.master));
             cfg.ready && cfg.ready(_this);
         });
         return this;
