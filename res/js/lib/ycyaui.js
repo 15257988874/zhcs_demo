@@ -3385,7 +3385,7 @@ app.ui.reportSearch = {
             var _m = $('.yy-m-report-monthQuery'),
                 ind = $(this).index();
             $(_this.year[0]).parent().fadeIn(100);
-            if (ind === 2) { //年
+            if (ind === 1) { //年
                 _this.clickFlag = 'year';
                 if (_m.length > 0) {
                     _m.fadeOut(100, function () {
