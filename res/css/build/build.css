@@ -42,6 +42,9 @@ body .BMapLib_SearchInfoWindow .BMapLib_bubble_title,.BMapLib_SearchInfoWindow .
 #page{
     margin-left: 16px;
 }
+.layui-layer{
+    background-color: transparent !important;
+}
 /* 图标 */
 .icon1{
     background: url('map_feedbackbtn.png') no-repeat 0 0;

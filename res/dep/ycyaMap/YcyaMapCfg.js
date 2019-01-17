@@ -17,8 +17,8 @@ var YcyaMapCfg = {
 	_measure:$('#measure'),
 	_gaodeCfg:{},
 	icons:{
-		build:{"url":ctx+"/map_buildicon.svg",size:[80,80],'offset':[0,0]},
-		abuild:{"url":ctx+"/map_abuildicon.svg",size:[80,80],'offset':[0,0]}
+		build:{"url":ctx+"/map_buildicon.svg",size:[40,40],'offset':[0,0]},
+		abuild:{"url":ctx+"/map_abuildicon.svg",size:[40,40],'offset':[0,0]}
 	},
 	lines:{
 		"line1":{"color":"#ff6600","width":8,"opacity":0.8,"style":"solid"/*实线，或虚线dashed*/},
